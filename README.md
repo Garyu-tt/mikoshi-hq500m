@@ -1,5 +1,39 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Fusion R04 — recurrent neural events and controlled associative learning
+
+The **optional** paged CPU engine now supports an experimental
+--threshold (0.25..2.0, default 1.0) and --plasticity-scope all_exc
+(positive local C5 plasticity; default remote-only). No synthetic C5
+topology changes, GPU dependency or pretrained weights have been added.
+
+- In a 25-case sweep, original C5 recurrence remained active on tick 24
+  in 0/5 source modules at threshold 1.0, 3/5 at 0.35 and 5/5 at 0.25.
+  Four selected cases continued to tick 72 without fresh input.
+  These repeated spikes are **not** validated cognition or useful learning.
+- In an 11-eligible-module, topology-conditioned cue/teacher experiment,
+  **5/11** learned a cue-alone target spike after 25 pairings. Four
+  matched control conditions achieved **0/11**. All five successful
+  readouts were retained after 256 silent ticks, checkpoint restoration,
+  and a separate distractor test.
+- Distinct counters now separate updated / spiking / unforced neurons
+  and spiking outside the originally stimulated pages. Expired causal
+  traces are garbage-collected; old default-mode checkpoints remain
+  readable. The 500M neurons remain virtual addressable IDs.
+
+~~~sh
+python3 -m hq500m demo --engine paged --max-pages 128 --threshold 0.35
+python3 -m hq500m demo --engine paged --max-pages 128 --plasticity-scope all_exc
+python3 assays/fusion_r04_assay.py
+python3 assays/fusion_r04_criticality.py
+python3 -m unittest discover -s tests -v
+~~~
+
+**Research mode, not a recommended permanent threshold of 0.25:**
+near-critical reverberation can drive expensive repetitive loops.
+[Full Fusion R04 report and limitations](docs/FUSION_R04.md).
+28/28 unit/integration tests passed on mirbi-linux.
+
 ## Fusion R03 — faster exact-C5 paging and measured intrinsic activity
 
 **Optional CPU mode, no CUDA requirement.** Fusion R03 reduces repeated
