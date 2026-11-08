@@ -22,7 +22,21 @@ card.innerHTML=
 '<div class="gap"><button class="primary" id="npeRun">Найти / выделить</button><button id="npeClear">Очистить</button></div>'+
 '<div id="npeResult" role="status" aria-live="polite" style="font-size:10px;line-height:1.5;color:#f3b9c2;margin:7px 0;overflow-wrap:anywhere">Поиск пока не запущен.</div>'+
 '<div style="font-size:9px;color:#a594a0">Важно: ID-граф действительно вычисляется по алгоритму Q0.8, но отображаемые координаты ID пока только стабильные пространственные прокси. Реконструированных аксонов, отдельных синапсов, карты 86 млрд и подтверждённых анатомических трактов здесь нет.</div>';
+card.hidden=true;
+const launcher=document.createElement("button");
+launcher.id="npeLauncher";launcher.type="button";launcher.className="primary";
+launcher.style.cssText="width:100%;margin-bottom:10px;padding:10px 8px;font-weight:800;font-size:12px";
+launcher.textContent="Нейронные пути · открыть Explorer";
+launcher.setAttribute("aria-expanded","false");
+launcher.setAttribute("aria-controls","neuralPathExplorer");
+ctl.insertBefore(launcher,ctl.firstChild);
 ctl.appendChild(card);
+launcher.onclick=()=>{
+ card.hidden=!card.hidden;
+ launcher.setAttribute("aria-expanded",String(!card.hidden));
+ launcher.textContent=card.hidden?"Нейронные пути · открыть Explorer":"Нейронные пути · скрыть Explorer";
+ if(!card.hidden)card.scrollIntoView({behavior:"smooth",block:"nearest"});
+};
 const $=id=>document.getElementById(id), result=$("npeResult");
 const mod=$("npeMode"),from=$("npeRegionFrom"),to=$("npeRegionTo");
 from.value="0";to.value="4";
