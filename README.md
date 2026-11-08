@@ -117,4 +117,4 @@ The **historical CUDA implementation** is not needed for the public CPU entrypoi
 
 ## License
 
-MIT; see [LICENSE](LICENSE). Contributions, alternative adapters, games and experiments are welcome.
+GPL-3.0-or-later (see [LICENSE](LICENSE) and [AUTHORS.md](AUTHORS.md)). Contributions, alternative adapters, games and experiments are welcome.
