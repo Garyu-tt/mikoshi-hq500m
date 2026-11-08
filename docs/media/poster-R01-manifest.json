@@ -1,0 +1,35 @@
+{
+  "render": "HQ500M-Q08 sparse graph projection / R01",
+  "source": "genesis_hq500m_q08.cu (original research source, SHA-256 verified)",
+  "source_sha256": "dc59ea8018876189c9e16f3f9169a9383a5154fffb4ef8432e901bab0f110d95",
+  "anatomy_glb": "HQ500M-Anatomy-WholeBody-R02.glb",
+  "seed": 37421,
+  "virtual_neuron_addresses": 500000000,
+  "potential_edges_per_neuron": 32,
+  "sampled_source_neurons": 5040,
+  "sampled_local_edges": 30240,
+  "sampled_projected_edges": 20160,
+  "sampled_edges_total": 50400,
+  "point_vertices": 5040,
+  "sample_sha256": "875f1a3a7e6dea99db5aec9c27e88fe2d78185c26d554915bf2dd4aa698b8114",
+  "positions": "synthetic per-region 3D projection, NOT measured neural positions",
+  "source_connectivity": "deterministically computed from the model's genuine Q0.8 edge() mapping, NOT a FlyWire human connectome",
+  "image_files": [
+    {
+      "path": "HQ500M-connectivity-R01.png",
+      "sha256": "5c5815a9f5fb16f168722b365f702a00773f49619d1275c2a571689fb0b58ad0",
+      "size_px": [
+        1600,
+        1100
+      ]
+    },
+    {
+      "path": "HQ500M-anatomy-R01.png",
+      "sha256": "a5d8090ca7841726ac6164554839fe101906af8a25ac2fcf6daf46fa580fda40",
+      "size_px": [
+        1600,
+        1100
+      ]
+    }
+  ]
+}
