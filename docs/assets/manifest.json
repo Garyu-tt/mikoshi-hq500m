@@ -1,0 +1,31 @@
+{
+  "schema": "HQ500M-SURFACE-VOXEL-R10",
+  "source": "Brain Point Cloud by Terrie",
+  "source_url": "https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb",
+  "license": "CC BY 4.0",
+  "original_points": 1192673,
+  "source_groups": 19,
+  "virtual_neurons": 500000000,
+  "potential_edges": 16000000000,
+  "rendered_neurons_not_simulated": true,
+  "rendered_potential_edges": 0,
+  "surface_only": true,
+  "depth_test": true,
+  "lods": [
+    {
+      "grid": 96,
+      "exterior_voxels": 25445,
+      "file": "assets/hq500m_surface_shell_96.vox.gz",
+      "compressed_bytes": 15452,
+      "sha256": "a4da4e4d3815a0a646130ad100d4223806d3b4487635e03209654ef21c47ba3f"
+    },
+    {
+      "grid": 160,
+      "exterior_voxels": 74932,
+      "file": "assets/hq500m_surface_shell_160.vox.gz",
+      "compressed_bytes": 56542,
+      "sha256": "4d36e30e4478b06ad6ae59aab1484dd58deedc2d54c218e6bccb6c6dfb1d4d33"
+    }
+  ],
+  "note": "Exterior shell derived from cloud voxel occupancy; neither anatomical neuron locations nor 500M resident nodes"
+}

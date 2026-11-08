@@ -2,6 +2,10 @@
 
 [![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)](docs/images/hq500m-r08-deep-ruby.webp)
 
+**[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · [Viewer source](docs/index.html) · [Voxel data & attribution](docs/CREDITS.md)
+
+The interactive model uses an **exterior voxel shell** derived from the 1.19M-point source cloud (25,445 / 74,932 exterior voxels for mobile/desktop) with GPU depth occlusion. 500 million neuron IDs and 16 billion potential edges describe the **virtual HQ500M architecture**, not the number of rendered voxels or measured biological connections. The site becomes accessible once GitHub Pages is enabled for `main` → `/docs`.
+
 *HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization of the 500-million-address HQ500M architecture. This is **not** a measured human connectome or a simulation of 500 million simultaneously active neurons. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
 
 **A tiny, hackable neural sandbox with 500,000,000 virtual neuron addresses, named sensory/motor ports, and zero GPU requirements.**
