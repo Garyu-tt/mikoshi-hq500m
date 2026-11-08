@@ -12,3 +12,6 @@ brain-state.json
 *.zip
 *.tar.gz
 .DS_Store
+
+# Build locally; never commit platform-specific shared libraries.
+hq500m/native/*.so
