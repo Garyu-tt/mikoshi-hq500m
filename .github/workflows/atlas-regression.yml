@@ -1,0 +1,50 @@
+name: Neural Atlas R23 regression checks
+
+on:
+  push:
+    paths:
+      - ".github/workflows/atlas-regression.yml"
+      - "docs/procedural/**"
+      - "docs/assets/manifest_r22_triangles.json"
+      - "docs/assets/hra_triangle_stencil_r22.part*"
+      - "tools/test_r1*.py"
+      - "tools/test_r2*.py"
+      - "tools/qa_r23_node.cjs"
+  pull_request:
+    paths:
+      - ".github/workflows/atlas-regression.yml"
+      - "docs/procedural/**"
+      - "docs/assets/manifest_r22_triangles.json"
+      - "docs/assets/hra_triangle_stencil_r22.part*"
+      - "tools/test_r1*.py"
+      - "tools/test_r2*.py"
+      - "tools/qa_r23_node.cjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  procedural-atlas:
+    name: HRA invariants and Node WebGL2 mock
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out source and HRA artifacts
+        uses: actions/checkout@v4
+      - name: Prepare Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify JavaScript syntax
+        run: node --check docs/procedural/procedural_r23.js
+      - name: Check R18-R23 atlas sources and fingerprints
+        run: |
+          for v in 18 19 20 21 22 23; do
+            python3 "tools/test_r${v}.py"
+          done
+      - name: Run full-scale synthetic-fiber logic regression
+        run: node --max-old-space-size=2048 tools/qa_r23_node.cjs
+
+# Browser/SwiftShader integration is separately tested with tools/qa_r23_browser.py.
+# The Node mock checks topology logic but does not validate real GPU rendering.
