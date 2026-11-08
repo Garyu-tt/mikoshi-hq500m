@@ -17,15 +17,16 @@ def create_brain(args):
                            plasticity_scope=args.plasticity_scope, kernel=args.kernel,
                            lab_max_pulses=args.lab_max_pulses,
                            event_kernel=args.event_kernel, lif_kernel=args.lif_kernel,
-                           dendrites=args.dendrites)
+                           dendrites=args.dendrites,
+                           dendrite_tail_ticks=args.dendrite_tail_ticks)
     elif args.engine == "bitweave":
-        if args.dendrites:
-            raise ValueError("--dendrites is currently supported only for --engine paged")
+        if args.dendrites or args.dendrite_tail_ticks:
+            raise ValueError("--dendrites and --dendrite-tail require --engine paged")
         brain = BitWeaveBrain(pages=args.pages, ticks=args.ticks,
                              learning=not args.no_learning, fanout=args.fanout)
     else:
-        if args.dendrites:
-            raise ValueError("--dendrites is currently supported only for --engine paged")
+        if args.dendrites or args.dendrite_tail_ticks:
+            raise ValueError("--dendrites and --dendrite-tail require --engine paged")
         brain = Brain(cells=args.cells, ticks=args.ticks, learning=not args.no_learning)
     if args.state_file and Path(args.state_file).exists():
         brain.load(args.state_file)
@@ -160,6 +161,9 @@ def main(argv=None):
                         default="python", help="paged: LIF backend for dense pages")
         sp.add_argument("--dendrites", action="store_true",
                         help="paged only: optional synthetic four-branch dendritic integration")
+        sp.add_argument("--dendrite-tail", dest="dendrite_tail_ticks", type=int,
+                        choices=tuple(range(9)), default=0,
+                        help="paged+dendrites: extra CPU wake ticks after branch input (0..8, default 0)")
         sp.add_argument("--lab-max-pulses", type=int, choices=(8192,32768),
                         default=8192, help="lab-only CPU pulse count limit (default 8192)")
         sp.add_argument("--fanout", type=int, default=16,
