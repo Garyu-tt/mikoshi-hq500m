@@ -5,7 +5,10 @@ throughput extrapolation. Repeat runs as separate OS processes.
 """
 import argparse
 import json
-import resource
+try:
+    import resource
+except ImportError:  # Windows: resource module is unavailable
+    resource = None
 import statistics
 import time
 import sys
@@ -44,7 +47,9 @@ def run(sources=512, tail=0, trials=2, ticks=3):
             r["driven_seconds"] for r in results), 6),
         "median_silent_seconds": round(statistics.median(
             r["silent_seconds"] for r in results), 6),
-        "maxrss_kib_process": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+        "maxrss_kib_process_linux": (resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                                      if resource is not None and sys.platform.startswith("linux")
+                                      else None),
         "results": results,
         "no_gpu_used": True, "virtual_neurons_not_fully_active": True,
         "real_human_dendrites": False
