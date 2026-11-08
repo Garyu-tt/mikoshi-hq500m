@@ -30,4 +30,5 @@ jobs:
           python -m hq500m demo --engine paged --max-pages 8 --ticks 2 --threshold 0.35
           python -m hq500m demo --engine paged --max-pages 8 --ticks 2 --plasticity-scope all_exc
           python -m hq500m demo --engine paged --dendrites --max-pages 8 --ticks 3
+          python -m hq500m demo --engine paged --dendrites --dendrite-tail 4 --max-pages 8 --ticks 3
           python -m hq500m demo --engine bitweave --pages 1 --fanout 0 --ticks 2
