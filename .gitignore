@@ -1,0 +1,32 @@
+# CUDA builds
+*.o
+*.a
+*.so
+*.out
+hq500m_q08_assay
+hq500m_q09_batch
+genesis_hq500m_q08
+
+# Python and local environment
+__pycache__/
+*.py[cod]
+.venv/
+.env*
+*.log
+
+# Generated experiments and checkpoint states
+q08_*.json
+q08_*.chk
+q09_cohort/
+*.chk
+*.chk.gz
+*.tar.gz
+*.zip
+tmp/
+build/
+
+# GPU/host data, binaries and medical-derived datasets
+*.glb
+*.vox
+*.nii
+*.nii.gz
