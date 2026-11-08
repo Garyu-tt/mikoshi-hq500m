@@ -13,7 +13,8 @@ from .page_engine import PagedBrain
 def create_brain(args):
     if args.engine == "paged":
         brain = PagedBrain(max_pages=args.max_pages, ticks=args.ticks,
-                           learning=not args.no_learning)
+                           learning=not args.no_learning, threshold=args.threshold,
+                           plasticity_scope=args.plasticity_scope)
     elif args.engine == "bitweave":
         brain = BitWeaveBrain(pages=args.pages, ticks=args.ticks,
                              learning=not args.no_learning, fanout=args.fanout)
@@ -138,6 +139,11 @@ def main(argv=None):
                         help="bitweave: resident pages of 1024 neurons per region (1..128)")
         sp.add_argument("--max-pages", type=int, default=128,
                         help="paged: maximum resident 1024-neuron pages, 8..1024")
+        sp.add_argument("--threshold", type=float, default=1.0,
+                        help="paged: experimental LIF spike threshold (0.25..2.0; default 1.0)")
+        sp.add_argument("--plasticity-scope", choices=("remote", "all_exc"),
+                        default="remote",
+                        help="paged: remote-only original plasticity, or all excitatory C5")
         sp.add_argument("--fanout", type=int, default=16,
                         help="bitweave: synthetic sensory broadcast lanes per resident page (0..64)")
         sp.add_argument("--state-file", help="optional persistent toy neural state")
