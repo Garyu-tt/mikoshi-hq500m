@@ -32,7 +32,7 @@ def run():
     js=(P/'docs/viewer_r14.js').read_text()
     assert 'gl.drawArraysInstanced' in js and 'biologicalRatio' in js
     assert 'regionCtl.onchange' in js and 'hq500m_region_density_r14.bin.gz' in js
-    assert any(x in (P/'docs/index.html').read_text() for x in ('viewer_r14.js','viewer_r15.js'))
+    assert any(x in (P/'docs/index.html').read_text() for x in ('viewer_r14.js','viewer_r15.js','viewer_r16.js'))
     assert 'gl_PointSize=clamp' in js and 'pow(cellPressure' in js
     assert sum(x['illustrative_human_neurons'] for x in cur['regions'])==86100000000
     print('PASS R14:',dict(count),'source point XYZ/seed and Q0.8 fibers unchanged; annotations match lite stride')

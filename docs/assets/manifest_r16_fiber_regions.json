@@ -1,0 +1,11 @@
+{
+  "format": "HQE6, u32 local count, u32 long count, 4 u8 per sampled directed segment: from_region,to_region,from_weight,to_weight",
+  "total_edges": 520150,
+  "local_edges": 364105,
+  "long_edges": 156045,
+  "sha256": "8cdf0a034eca35ea54d6f5c946868b1f9e769eb4fa6721c26475fad3918b70e0",
+  "compressed_bytes": 612486,
+  "derived_from_R11_sampled_geometry_only": true,
+  "anatomical_verified": false,
+  "note": "Direct sampled segments projected to R16 schematic regions; no assertions of continuous synaptic paths"
+}

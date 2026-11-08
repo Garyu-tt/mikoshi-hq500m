@@ -40,7 +40,7 @@ def run():
                   'hq500m_region_stability_r15.bin.gz','gl.drawArrays(gl.POINTS,0,numPoints)',
                   'const cp=new Uint8Array(count*8)']:
         assert token in js, token
-    assert (P/'docs/index.html').read_text().count('viewer_r15.js')==1
+    assert any(x in (P/'docs/index.html').read_text() for x in ('viewer_r15.js','viewer_r16.js'))
     assert (P/'docs/viewer_r14.js').exists()
     print('PASS R15',n,'original points;',r15['full']['bytes'],'compressed annotation bytes; Q0.8 fibers preserved')
 if __name__=='__main__':run()

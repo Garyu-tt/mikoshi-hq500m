@@ -1,0 +1,101 @@
+{
+  "version": "R16",
+  "generated_at": "2026-11-08T17:58:20.450174+00:00",
+  "geometry": "Terrie Brain Point Cloud CC BY 4.0",
+  "source_points": 1192673,
+  "original_R13_sha256": "d1ac4c919d4ea99961bea86de58199e6bdcabd8ce5c7e87b013432e21927079c",
+  "original_R11_Q08_sha256": "31c32a4be3c7b650eda1d3a20f6b4df8e26e2be82a3523a83edb43aabeb0a2ef",
+  "original_geometry_modified": false,
+  "fiber_geometry_modified": false,
+  "atlas_registration": "NOT_REGISTERED",
+  "annotation_kind": "continuous schematic spatial candidate weights, not validated anatomical labels",
+  "assumed_axes": "x midline, y vertical, z posterior; all unverified",
+  "format": "HQW6 little-endian u32 N + 8 uint8 weights per point; bytes sum to 255",
+  "regions": [
+    {
+      "id": 0,
+      "key": "frontal_lobe_candidate",
+      "ru": "Лобная зона",
+      "dominant_points": 303930,
+      "mean_weight": 0.19844,
+      "anatomical_verified": false
+    },
+    {
+      "id": 1,
+      "key": "parietal_lobe_candidate",
+      "ru": "Теменная зона",
+      "dominant_points": 287717,
+      "mean_weight": 0.19728,
+      "anatomical_verified": false
+    },
+    {
+      "id": 2,
+      "key": "temporal_lobe_candidate",
+      "ru": "Височная зона",
+      "dominant_points": 204766,
+      "mean_weight": 0.17824,
+      "anatomical_verified": false
+    },
+    {
+      "id": 3,
+      "key": "occipital_lobe_candidate",
+      "ru": "Затылочная зона",
+      "dominant_points": 181954,
+      "mean_weight": 0.13371,
+      "anatomical_verified": false
+    },
+    {
+      "id": 4,
+      "key": "cerebellum_candidate",
+      "ru": "Мозжечковая зона",
+      "dominant_points": 168129,
+      "mean_weight": 0.09009,
+      "anatomical_verified": false
+    },
+    {
+      "id": 5,
+      "key": "brainstem_candidate",
+      "ru": "Стволовая зона",
+      "dominant_points": 36094,
+      "mean_weight": 0.04192,
+      "anatomical_verified": false
+    },
+    {
+      "id": 6,
+      "key": "deep_structures_candidate",
+      "ru": "Глубинные структуры",
+      "dominant_points": 10083,
+      "mean_weight": 0.10069,
+      "anatomical_verified": false
+    },
+    {
+      "id": 7,
+      "key": "insula_candidate",
+      "ru": "Островковая зона",
+      "dominant_points": 0,
+      "mean_weight": 0.05963,
+      "anatomical_verified": false
+    }
+  ],
+  "source_neurons_simulated": false,
+  "cerebellar_density": "approx 69B/86B as literature guidance ONLY; neither instances nor glyphs are true neurons",
+  "full": {
+    "file": "assets/hq500m_soft_regions_r16.bin.gz",
+    "bytes": 3072361,
+    "raw_bytes": 9541392,
+    "sha256": "ca46a2f5cb877bb51ffa53932ce315d8d57c24dd72f6bd2959b087ea1dd539b1",
+    "points": 1192673
+  },
+  "lite": {
+    "file": "assets/hq500m_soft_regions_lite_r16.bin.gz",
+    "bytes": 1229637,
+    "raw_bytes": 2385360,
+    "sha256": "ed660004f2e7ac3637bd4ed963de69aaaf97f74656b8a5351b60d5333f5c916f",
+    "points": 298169
+  },
+  "notes": "Smoothly varying spatial kernels remove the fixed R14 y=0.36 plane; no source points moved. Source may lack separately identifiable cerebellum. Do not infer from high weights that an anatomical region exists.",
+  "references": [
+    "https://pubmed.ncbi.nlm.nih.gov/19226510/",
+    "https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb"
+  ]
+}

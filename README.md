@@ -16,6 +16,27 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 <!-- HQ500M_README_HERO_END -->
 
 
+## R16 — Smooth region candidates and Neural Path Explorer
+
+The R14-R15 flat cerebellar-region boundary was replaced with eight
+continuously blended spatial **candidate** regions. Geometry, Q0.8
+fiber sample and original neuron IDs remain unchanged. The viewer
+includes a working experimental **Neural Path Explorer** with directed
+Q0.8 ID neighbors, bounded ID-to-ID path search, and sampled R11
+region-to-region projection filtering. You can hide, dim or show
+the rest of the 3D model while examining the chosen segments.
+
+**Important:** the eight zones are heuristic, NOT validated anatomical
+segmentation. For searched Q0.8 IDs, line endpoints use stable
+*display proxies* until true ID-to-XYZ mapping is available. The region
+mode groups *sampled synthetic edges*, not proven continuous neuronal
+tracts. There are no measured human axons, synapses or SWC skeletons.
+
+[Implementation, assumptions, file formats and tests](docs/R16_SMOOTH_REGIONS_AND_PATH_EXPLORER.md).
+
+
+
+
 ## R15 — boundary-stable density preview (source geometry preserved)
 
 The interactive 3D viewer now layers *geometric boundary stability* over
