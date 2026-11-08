@@ -1,3 +1,20 @@
+# Mikoshi HQ500M — CPU Playground
+
+<!-- HQ500M_README_HERO_START -->
+<!-- Keep the atlas image and viewer links directly below the project title. Never prepend release notes above this pinned block. -->
+
+[![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)](docs/images/hq500m-r08-deep-ruby.webp)
+
+**[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · **[Full-size atlas image](docs/images/hq500m-r08-deep-ruby.webp)** · [Viewer source](docs/index.html) · [Geometry credits](docs/CREDITS.md)
+
+The interactive R13 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
+
+*HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization, **not** a measured human connectome. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
+
+**Atlas details:** [R13 sulcal-depth manifest](docs/assets/manifest_r13.json) · [Sulcal-depth method](docs/R13_SULCI.md).
+
+<!-- HQ500M_README_HERO_END -->
+
 ## Fusion R08 — CPU dendritic residual activity (experimental)
 
 This CPU-only patch adds an optional, **bounded sparse wake map** for
@@ -30,8 +47,6 @@ not compartment-aware and is rejected in dendrite mode. The synthetic
 C5 slot-to-branch mapping is **not human neuron morphology** and this
 does not convert the toy network into a human connectome.
 [Design, limits and validation](docs/FUSION_R07_DENDRITES.md).
-
-# Mikoshi HQ500M — CPU Playground
 
 ## Fusion R06 — million real CPU membrane integrations (experimental)
 
@@ -188,20 +203,6 @@ On a 32-vCPU Xeon E5-2660 v4 host, a single three-tick step with one food input 
 
 See [full engine explanation, limitations and reproducible measurements](docs/BITWEAVE_CPU.md). 14 original and new unit/integration tests passed locally.
 
-
-[![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)](docs/images/hq500m-r08-deep-ruby.webp)
-
-**[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · [Viewer source](docs/index.html) · [Geometry credits](docs/CREDITS.md)
-
-The interactive R13 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
-
-*HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization of the 500-million-address HQ500M architecture. This is **not** a measured human connectome or a simulation of 500 million simultaneously active neurons. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
-
-## Interactive 3D atlas — R13
-
-**[Open HQ500M in 3D · rotate, zoom and inspect computed Q0.8 fibers](https://garyu-tt.github.io/mikoshi-hq500m/)**
-
-The viewer loads **1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs** (not all 16 billion potential connections). Depth testing hides occluded fibers. The spatial neuron ID mapping and line paths are **synthetic**; this is not a measured human connectome. See the [R13 sulcal-depth manifest](docs/assets/manifest_r13.json) · [Sulcal-depth method](docs/R13_SULCI.md) and [source credit](docs/CREDITS.md).
 
 **A tiny, hackable neural sandbox with 500,000,000 virtual neuron addresses, named sensory/motor ports, and zero GPU requirements.**
 
