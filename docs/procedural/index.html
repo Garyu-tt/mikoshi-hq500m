@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HQ500M R18 · Procedural Neural Atlas</title>
+<meta name="theme-color" content="#101010">
+<meta name="description" content="Anatomy-stencilled procedural synthetic neuron viewer, with 283 named HRA regions, dynamic target neuron counts and GPU level-of-detail.">
+<style>
+:root{font-family:Inter,system-ui,Arial,sans-serif;color-scheme:dark;background:#0b0b0d;color:#f1edf0;--red:#e00018;--muted:#b8aab1}
+*{box-sizing:border-box}body{margin:0;overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
+#heading{position:fixed;left:clamp(12px,3vw,45px);top:clamp(14px,4vw,35px);pointer-events:none;max-width:490px}
+#heading h1{font-size:clamp(23px,3vw,42px);margin:0;font-weight:800;letter-spacing:-.045em}
+#heading h1 span{color:#ff2845}
+#heading p{font-size:clamp(10px,1vw,12px);color:#bbb0b8;line-height:1.5;max-width:410px}
+#status{color:#ffaabd;font-size:12px}
+#panel{position:fixed;right:clamp(8px,2vw,26px);top:clamp(8px,2vw,26px);bottom:18px;width:335px;max-width:calc(100vw - 18px);overflow:auto;background:#171619ed;border:1px solid #443039;backdrop-filter:blur(16px);border-radius:14px;padding:18px;box-shadow:0 17px 46px #000b;scrollbar-color:#6a3440 #1c1b1e;z-index:5}
+.mini{display:block;margin:12px 0 5px;font-size:10px;text-transform:uppercase;color:#c8a1ad;letter-spacing:.09em;font-weight:700}
+h2{font-size:15px;margin:0 0 9px;font-weight:800}h3{font-size:12px;margin:14px 0 7px;color:#ffa2b4}
+p.note{font-size:10px;color:#aaa0a6;line-height:1.45}
+input,select,button{font:inherit;color:#fff;background:#242124;border:1px solid #593642;border-radius:8px;padding:8px;width:100%;min-height:35px}
+input[type=range]{padding:1px;min-height:22px;accent-color:#ee1838}
+button{cursor:pointer;font-size:11px;font-weight:700}button:hover{border-color:#e71b3b;background:#3e222d}
+button.main{background:#a80b29;border-color:#fa1e42}
+button[aria-pressed=true]{background:#c51336;border-color:#ff5068}
+.row{display:flex;gap:6px}.row>*{flex:1;min-width:0}
+#readouts{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 0}
+#readouts div{background:#211e22;border:1px solid #3b3138;border-radius:8px;padding:9px;font-size:10px;color:#b7aab0}
+#readouts strong{display:block;font-size:16px;color:#f5e7ec;margin-top:3px;font-variant-numeric:tabular-nums}
+#split{font-size:11px;line-height:1.85;color:#e7ccd6}
+#split span{float:right;font-variant-numeric:tabular-nums;color:#fff}
+#areaInfo{font-size:11px;color:#e5bbc9;line-height:1.6;overflow-wrap:anywhere}
+#copyright{position:fixed;bottom:12px;left:clamp(10px,3vw,45px);color:#968b92;font-size:10px;max-width:50vw;line-height:1.5}
+a{color:#ed9eb1}
+#togglePanel{display:none}
+#sceneModeBadge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;font-size:12px;color:#ffc0d0}
+@media(max-width:760px){
+#heading{max-width:55vw}#heading h1{font-size:22px}#heading p{max-width:50vw}
+#panel{top:auto;bottom:57px;right:9px;width:min(280px,85vw);max-height:calc(100dvh - 118px);padding:13px}
+#panel.collapsed{display:none}
+#togglePanel{display:block;position:fixed;bottom:10px;right:10px;z-index:10;width:165px;background:#ae0f2b}
+#copyright{max-width:51vw;font-size:8px}
+}
+</style>
+</head>
+<body>
+<canvas id="scene" aria-label="3D-anatomical procedural neural model"></canvas>
+<header id="heading">
+<h1>MIKOSHI <span>NEURAL ATLAS</span></h1>
+<p>R18 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
+<div id="status" role="status">Загрузка компактного трафарета…</div>
+</header>
+<aside id="panel">
+<h2>Procedural Neural Atlas</h2>
+<div id="readouts"><div>Виртуальные нейроны<strong id="virtualCount">—</strong></div><div>Показано точек<strong id="gpuCount">—</strong></div></div>
+<span class="mini">Количество нейронов во всём мозге</span>
+<div class="row"><button id="preset500" class="main">500 млн</button><button id="preset86">8,6 млрд</button><button id="preset861">86,1 млрд</button></div>
+<input id="target" inputmode="numeric" type="number" value="500000000" step="1000000" min="1000" max="1000000000000" aria-label="Точное количество виртуальных нейронов" style="margin-top:7px">
+<span class="mini">GPU-детализация (бюджет точек)</span>
+<input id="lod" type="range" min="8000" max="220000" step="4000" value="130000">
+<div id="lodValue" class="note">60 000 отображаемых точек</div>
+<h3>Распределение по крупным зонам</h3><div id="split"></div>
+<span class="mini">Анатомическая область (283 структуры)</span>
+<input id="regionSearch" type="search" placeholder="cerebell, gyrus, thalamus..." aria-label="Поиск области">
+<select id="region" aria-label="Выделить анатомическую область"><option value="-1">Весь мозг · только наружные области</option></select>
+<div id="areaInfo" style="margin-top:5px">Внутренние точки скрыты до выбора области.</div>
+<span class="mini">Остальные области</span>
+<select id="background"><option value="dim" selected>Приглушить наружные области</option><option value="hide">Полностью скрыть</option><option value="all">Показывать наружные области</option></select>
+<span class="mini">Связи</span>
+<div class="row"><button id="linkOff" aria-pressed="true">Без связей</button><button id="linkOn" aria-pressed="false">Синтетические связи</button></div>
+<span class="mini">Режим проводящих трактов</span>
+<select id="tract"><option value="-1">Не выделять тракт</option></select>
+<p class="note">Трактовые линии — условные трассы через пространственные ячейки HRA, не реконструированные аксоны. Белое вещество не получает фиктивных тел нейронов.</p>
+<div class="row" style="margin-top:12px"><button id="reset" class="main">Сбросить камеру</button><button id="export">CSV квот</button></div>
+<p class="note">Нейронные квоты 283 областей — модельные оценки. Опорные ~69 млрд мозжечковых, ~16 млрд корковых и ~0,73 млрд других нейронов взяты из литературы; детализация внутри групп распределена по приблизительным геометрическим объёмам NeutralLab V5, не по экспериментальным подсчётам каждой области.</p>
+<a href="../" style="display:block;margin-top:9px">Старый просмотрщик HQ500M / Neural Path Explorer</a>
+<a href="https://neutrallab.infracare-it.com/viewer/" target="_blank" rel="noopener" style="display:block;margin-top:5px">Исходный HRA в NeutralLab</a>
+</aside>
+<button id="togglePanel">Управление мозгом</button>
+<div id="copyright">HRA/Allen v1.3 · CC BY 4.0 · 110 404 V5 пространственных шаблонов и 78 091 точка анатомических поверхностей · синтетическая визуализация, не измеренный коннектом</div>
+<script src="./procedural_r18.js" defer></script>
+</body>
+</html>

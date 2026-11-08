@@ -16,6 +16,26 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 <!-- HQ500M_README_HERO_END -->
 
 
+## R18 - Procedural Neural Atlas, scalable 500M / 8.6B / 86.1B
+
+[Open the procedural 3D atlas](https://garyu-tt.github.io/mikoshi-hq500m/procedural/).
+
+All 283 HRA/Allen anatomical regions provide compact, invisible
+geometric stencils for on-demand neuron proxies. Enter a virtual
+neuron count and obtain scaled estimated per-region counts; only
+bounded LOD samples are materialized on the GPU. Exterior regions
+remain visible, and interiors are revealed only on selection.
+Synthetic links and named white matter tract previews are optional.
+
+Region counts are **model estimates**, not measured per-region
+neuron or synapse measurements. Underlying HQ500M/Q0.8, Terrie
+and HRA source geometries are unchanged.
+
+[Method and source provenance](docs/R18_PROCEDURAL_NEURAL_ATLAS.md) · [R18 screenshot](docs/images/r18_procedural_smoke.png).
+
+
+
+
 ## R17 - Anatomical HRA reference from NeutralLab (283 structures)
 
 [Open the source human brain anatomy viewer](https://neutrallab.infracare-it.com/viewer/).
