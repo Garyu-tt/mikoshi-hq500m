@@ -14,7 +14,9 @@ def create_brain(args):
     if args.engine == "paged":
         brain = PagedBrain(max_pages=args.max_pages, ticks=args.ticks,
                            learning=not args.no_learning, threshold=args.threshold,
-                           plasticity_scope=args.plasticity_scope, kernel=args.kernel)
+                           plasticity_scope=args.plasticity_scope, kernel=args.kernel,
+                           lab_max_pulses=args.lab_max_pulses,
+                           event_kernel=args.event_kernel, lif_kernel=args.lif_kernel)
     elif args.engine == "bitweave":
         brain = BitWeaveBrain(pages=args.pages, ticks=args.ticks,
                              learning=not args.no_learning, fanout=args.fanout)
@@ -147,6 +149,12 @@ def main(argv=None):
         sp.add_argument("--kernel", choices=("python", "native", "auto"),
                         default="python",
                         help="paged: exact C5 generator backend; default Python")
+        sp.add_argument("--event-kernel", choices=("python", "native"),
+                        default="python", help="paged: event reduction backend")
+        sp.add_argument("--lif-kernel", choices=("python", "native"),
+                        default="python", help="paged: LIF backend for dense pages")
+        sp.add_argument("--lab-max-pulses", type=int, choices=(8192,32768),
+                        default=8192, help="lab-only CPU pulse count limit (default 8192)")
         sp.add_argument("--fanout", type=int, default=16,
                         help="bitweave: synthetic sensory broadcast lanes per resident page (0..64)")
         sp.add_argument("--state-file", help="optional persistent toy neural state")
