@@ -1,5 +1,39 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Fusion R06 — million real CPU membrane integrations (experimental)
+
+**Measured, not extrapolated:** a bounded CPU test with 32,768
+one-time externally driven source neurons delivered 1,048,576
+original C5 synaptic events, including 262,144 remote, and genuinely
+integrated **1,080,623 distinct neuron IDs** over two ticks.
+Only **32,768** of those distinct neurons fired; the remainder
+received currents and updated their membranes. This is NOT a
+million autonomous firing neurons, a trained LLM or biological brain.
+
+- Standard library CPU engine now supports opt-in
+  **--lab-max-pulses 32768** (default remains 8192) for research.
+- New native C99 event reduction and dense-page lazy LIF math are
+  available via **--event-kernel native** and
+  **--lif-kernel native**. All default to Python.
+- Native and Python event/LIF versions match exactly in independent
+  tests, including plasticity and checkpoint continuation.
+- On the real ~1M-updated sparse workload, C event-array packing
+  adds overhead; **native is not yet faster**, and native LIF stays
+  disabled for sparse pages. The next optimization is native
+  page-state ownership with zero Python tuple round-trips.
+
+~~~sh
+sh hq500m/native/build.sh # optional native kernel build on Linux with C99 compiler
+python3 -m hq500m demo --engine paged --kernel native --event-kernel native --lif-kernel native
+python3 benchmarks/fusion_r06_bench.py --large --repeats 2
+python3 -m unittest discover -s tests -v
+~~~
+
+The large benchmark is **optional** and may require significant
+time and RAM on slower machines. No service or existing model was
+overwritten. [Fusion R06 validation, raw numbers, design and
+limits](docs/FUSION_R06.md).
+
 ## Fusion R05 — optional native C99 exact C5 generator
 
 The optional paged CPU engine can use a **compiled C99 batch generator** for
