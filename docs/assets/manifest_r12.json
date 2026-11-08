@@ -1,0 +1,33 @@
+{
+  "version": "R12",
+  "source_sha256": "86fb8cfcb35d116ffe9e76c8d2016233d2da9018db288ecd4d10ce76c6538e8f",
+  "source_points": 1192673,
+  "groups": 19,
+  "source_coordinates_preserved_at_16bit_quantization": true,
+  "coordinate_displacement_stored": false,
+  "shader_displacement": "deterministic adjustable jitter (no model data changes)",
+  "model_edges": "unchanged R11 exact Q0.8 endpoint sample",
+  "blue_accents": {
+    "shell_voxels": 74932,
+    "k_neighbors": 28,
+    "method": "local PCA convexity smoothed over neighbors, modulated by surface exposure",
+    "blue_nonzero": 17683,
+    "blue_strong": 4179,
+    "strong_percent_of_source": 0.35038941939659907,
+    "coordinate_atlas": "source point-cloud synthetic, not annotated gyri"
+  },
+  "source_colors": "replaced with procedural ruby + geometry-selected azure highlights",
+  "full_points": {
+    "file": "assets/hq500m_source_points_r12.bin.gz",
+    "bytes": 4530971,
+    "sha256": "cb02e277a1266fe4761295ce2b0dbea56a5ca4abf70d9102b33ba4e0d110b9a8"
+  },
+  "lite_points": {
+    "file": "assets/hq500m_source_points_lite_r12.bin.gz",
+    "bytes": 1225968,
+    "sha256": "cc77d8d4856308e5217c220e1759902a696ac8f3681554a55712d2ce8816ca2e"
+  },
+  "author": "Garyu-tt",
+  "source_point_cloud_attribution": "Terrie / Brain Point Cloud / CC BY 4.0",
+  "note": "Ridge score is geometry-derived curvature/exposure proxy; not ground-truth gyral anatomical labels."
+}
