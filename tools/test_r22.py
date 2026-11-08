@@ -48,7 +48,7 @@ def run():
  assert (vertices_total,triangles_total)==(324855,656268)
  js=(P/'docs/procedural/procedural_r22.js').read_text()
  html=(P/'docs/procedural/index.html').read_text()
- assert html.count('procedural_r22.js')==1
+ assert html.count('procedural_r23.js')==1
  assert html.count('id="occludeBack"')==1
  for token in (
   'function ensureFrontShell','function ensureVisibleTriangles',
@@ -63,7 +63,7 @@ def run():
  assert (P/'docs/images/r22_occluded_dense.png').is_file()
  assert (P/'docs/images/r22_occluded_default.png').is_file()
  assert (P/'docs/images/r22_unoccluded_comparison.png').is_file()
- assert 'R22 · Только видимые нейроны' in (P/'docs/index.html').read_text()
+ assert 'R23 · Видимые нейроны и связи' in (P/'docs/index.html').read_text()
  print('PASS R22:',len(m['regions']),'HRA region meshes,',
        m['triangle_count'],'source triangles and',
        m['vertex_count'],'vertices; HST8/R13/Q0.8 untouched')

@@ -12,6 +12,6 @@ for v in ('function localFiber','function syntheticEdges','maxSpan=selected>=0?.
 assert 'if(src.region_id!==dst.region_id)continue;' in s
 assert 'if(d>maxSpan)continue;' in s
 assert 'gl.depthMask(false);common(L)' in s
-assert any(x in (P/'docs/procedural/index.html').read_text() for x in ('procedural_r21.js','procedural_r22.js'))
+assert any(x in (P/'docs/procedural/index.html').read_text() for x in ('procedural_r21.js','procedural_r22.js','procedural_r23.js'))
 assert (P/'docs/images/r21_local_fibers.png').is_file()
 print('PASS R21: local segment filtering, curve subdivision, depth handling, HRA geometry unchanged')

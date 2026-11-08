@@ -57,7 +57,7 @@ def run():
  assert sha(AS/'hq500m_exact_fibers_r11.bin.gz')==r11['edge_geometry']['sha256']
  html=(P/'docs/procedural/index.html').read_text()
  js=(P/'docs/procedural/procedural_r18.js').read_text()
- assert any(x in html for x in ('procedural_r18.js','procedural_r19.js','procedural_r20.js','procedural_r21.js','procedural_r22.js'))
+ assert any(x in html for x in ('procedural_r18.js','procedural_r19.js','procedural_r20.js','procedural_r21.js','procedural_r22.js','procedural_r23.js'))
  for token in ('new DataView','getQuota','setTotal','setRegion','setTract','getStats','links','tractEdges','volumePosition'):
   assert token in js,token
  assert './procedural/' in (P/'docs/index.html').read_text()

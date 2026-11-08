@@ -20,7 +20,7 @@ def run():
  assert sum(x['neuron_quota_86_1b'] for x in m['regions'])==86100000000
  assert all(x['neuron_quota_86_1b']==0 for x in m['regions'] if x['type'] in ('tract','cavity'))
  page=(P/'docs/procedural/index.html').read_text()
- assert any(v in page for v in ('procedural_r19.js','procedural_r20.js','procedural_r21.js','procedural_r22.js'))
+ assert any(v in page for v in ('procedural_r19.js','procedural_r20.js','procedural_r21.js','procedural_r22.js','procedural_r23.js'))
  assert 'procedural_r18.js' not in page
  for k in ('sourceNeuronR19','targetNeuronR19','neuronClearR19','graphDepthR19','neuronRunR19'):
   assert page.count('id="'+k+'"')==1,k
@@ -34,7 +34,7 @@ def run():
  assert 'graphVersion:"R19 procedural directed synthetic ID connections' in js
  assert 'realSynapses:false' in js
  assert 'quotaFor' not in js
- assert any(x in (P/'docs/index.html').read_text() for x in ('R19 · Нейроны и связи по ID','R20 · Плотный нейронный мозг','R21 · Локальные нервные связи','R22 · Только видимые нейроны'))
+ assert any(x in (P/'docs/index.html').read_text() for x in ('R19 · Нейроны и связи по ID','R20 · Плотный нейронный мозг','R21 · Локальные нервные связи','R22 · Только видимые нейроны','R23 · Видимые нейроны и связи'))
  assert (P/'docs/images/r19_graph_tree_demo.png').exists()
  assert (P/'docs/images/r19_neuron_pair_demo.png').exists()
  print('PASS R19: HRA 283-region template + all original R18/R11/R13 checksums preserved; deterministic ID graph and browser UI sources ready')
