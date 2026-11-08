@@ -14,7 +14,7 @@ def create_brain(args):
     if args.engine == "paged":
         brain = PagedBrain(max_pages=args.max_pages, ticks=args.ticks,
                            learning=not args.no_learning, threshold=args.threshold,
-                           plasticity_scope=args.plasticity_scope)
+                           plasticity_scope=args.plasticity_scope, kernel=args.kernel)
     elif args.engine == "bitweave":
         brain = BitWeaveBrain(pages=args.pages, ticks=args.ticks,
                              learning=not args.no_learning, fanout=args.fanout)
@@ -144,6 +144,9 @@ def main(argv=None):
         sp.add_argument("--plasticity-scope", choices=("remote", "all_exc"),
                         default="remote",
                         help="paged: remote-only original plasticity, or all excitatory C5")
+        sp.add_argument("--kernel", choices=("python", "native", "auto"),
+                        default="python",
+                        help="paged: exact C5 generator backend; default Python")
         sp.add_argument("--fanout", type=int, default=16,
                         help="bitweave: synthetic sensory broadcast lanes per resident page (0..64)")
         sp.add_argument("--state-file", help="optional persistent toy neural state")
