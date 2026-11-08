@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mikoshi HQ500M — Deep Ruby 3D Surface</title>
+<meta name="theme-color" content="#101010">
+<meta name="description" content="HQ500M synthetic spatial atlas — interactive Deep Ruby 3D voxel-surface viewer, derived from Terrie's Brain Point Cloud (CC BY 4.0).">
+<style>
+:root{font-family:Inter,'Segoe UI',Arial,sans-serif;color-scheme:dark;--black:#0b0b0e;--pane:#151518;--border:#323038;--rub:#f31238;--text:#f7f0f2;--muted:#a29b9f}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--black);color:var(--text)}
+body{background:radial-gradient(ellipse at 47% 39%,#211015 0%,#100c10 42%,#09090b 80%)}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;outline:none}canvas:active{cursor:grabbing}
+#splash{position:fixed;left:clamp(20px,4vw,70px);top:clamp(18px,5vw,52px);pointer-events:none;max-width:min(540px,84vw)}
+#brand{font-size:clamp(33px,4.4vw,62px);font-weight:850;line-height:.98;letter-spacing:-.06em;text-shadow:0 2px 35px #000e}#brand span{color:#ff173e}
+#kicker{margin-top:10px;color:#ec7890;font-size:11px;font-weight:700;letter-spacing:.25em}
+#desc{margin-top:13px;font-size:12px;line-height:1.55;max-width:455px;color:#aaa0a7}
+#status{margin-top:14px;font-size:12px;color:#ffb2c0}
+#control{position:fixed;right:clamp(10px,2.7vw,42px);top:clamp(10px,3vw,40px);min-width:208px;padding:20px 18px 17px;border:1px solid #442b34;background:#141316e8;border-radius:14px;box-shadow:0 25px 65px #000a;backdrop-filter:blur(20px)}
+.mini{color:#b08e98;font-size:10px;letter-spacing:.17em;text-transform:uppercase;font-weight:700}
+.stat{margin:6px 0 16px;font-size:26px;line-height:1.1;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+#rendered{font-size:23px}
+hr{border:0;border-top:1px solid #393038;margin:18px 0}button,select{border:1px solid #56343e;background:#21191f;color:#faf4f5;font:600 12px Inter,'Segoe UI',Arial;border-radius:8px;min-height:37px;padding:7px 11px;cursor:pointer}button:hover,select:hover{background:#41202b;border-color:#ab2d44}
+button.primary{background:#d2082c;border-color:#ee1740}button.primary:hover{background:#ff1b44}
+.gap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.gap>*{width:100%}
+select{display:block;width:100%;margin-top:8px;margin-bottom:8px}
+#footer{position:fixed;bottom:21px;left:clamp(20px,4vw,70px);max-width:min(790px,90vw);font-size:10px;line-height:1.6;color:#a89da4;letter-spacing:.015em;pointer-events:none}#footer a{color:#f09db1;pointer-events:auto}
+#bottom{position:fixed;bottom:25px;right:clamp(10px,2.7vw,42px);font-size:10px;color:#d3798b;letter-spacing:.12em;pointer-events:none}
+#bar{position:fixed;bottom:0;left:0;width:100%;height:3px;background:#190b10}#progress{height:100%;width:0;background:#ff1942;box-shadow:0 0 16px #ff1638;transition:width .35s}
+@media(max-width:700px){#control{top:auto;bottom:66px;right:12px;min-width:155px;padding:12px 13px;width:164px;border-radius:11px}#control hr{margin:10px 0}#control .stat{margin:4px 0 6px;font-size:18px}#control #rendered{font-size:18px}#control .mini{font-size:8px}#kicker{font-size:9px}#desc{font-size:10px;max-width:190px}#status{max-width:210px;font-size:10px}#footer{font-size:8px;bottom:16px;max-width:50vw}#bottom{display:none}button,select{font-size:10px;min-height:32px;padding:4px 6px}.gap{gap:4px}}
+@media(max-height:560px){#control{top:8px;right:8px;bottom:auto;padding:9px}#control .stat{font-size:18px;margin:0 0 6px}#control hr{margin:7px 0}}
+</style>
+</head>
+<body>
+<canvas id="brain" aria-label="Интерактивная 3D-модель мозга" tabindex="0"></canvas>
+<div id="splash"><div id="brand">MIKOSHI <span>HQ500M</span></div><div id="kicker">DEEP RUBY / SPATIAL SURFACE · R10</div><div id="desc">Воксельная оболочка исходного 3D-облака. Скрытая внутренняя геометрия исключена. Виртуальные нейронные адреса и связи HQ500M не являются реконструкцией коннектома человека.</div><div id="status" role="status">Подготовка WebGL…</div></div>
+<aside id="control"><div class="mini">Виртуальные адреса</div><div class="stat">500 000 000</div><div class="mini">Внешние воксели на GPU</div><div class="stat" id="rendered">—</div><div class="mini">Качество поверхности</div><select id="quality"><option value="auto">Авто · устройство</option><option value="96">Быстро · 96³</option><option value="160">Детально · 160³</option></select><div class="gap"><button class="primary" id="orbit">Автовращение</button><button id="reset">Сбросить вид</button></div><button style="width:100%" id="snap">Сохранить кадр</button><hr><div class="mini">Вычислительная топология</div><div style="font-size:12px;margin-top:7px;color:#ddd">16 млрд потенциальных связей</div><div style="font-size:10px;line-height:1.45;color:#8e8c92;margin-top:5px">Связи не прорисованы; это интерактивная внешняя оболочка геометрии HQ500M.</div></aside>
+<div id="footer">Вращать: мышь / палец · Масштаб: колесо / жест двумя пальцами<br>Исходное облако: <a href="https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb" target="_blank" rel="noopener">Terrie · Brain Point Cloud</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>) · HQ500M: <a href="https://github.com/Garyu-tt/mikoshi-hq500m">Garyu-tt</a></div>
+<div id="bottom">NO INTERIOR VOXELS · DEPTH OCCLUSION ON</div><div id="bar"><div id="progress"></div></div>
+<script>
+'use strict';
+const N=500000000, canvas=document.getElementById('brain'),status=document.getElementById('status');
+const btn=document.getElementById('orbit'),quality=document.getElementById('quality'),count=document.getElementById('rendered'),progress=document.getElementById('progress');
+let gl=canvas.getContext('webgl2',{alpha:false,antialias:true,depth:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+if(!gl){status.textContent='Нужен WebGL2: открой страницу в Chrome, Firefox, Safari или Edge.';}else{start();}
+function start(){
+const VS=`#version 300 es
+precision highp float;
+layout(location=0) in vec3 aVoxel;
+layout(location=1) in float aBlue;
+layout(location=2) in vec2 aOct;
+layout(location=3) in float aGroup;
+uniform float uGrid,uYaw,uPitch,uCam,uAspect,uHeight,uSize,uGlow;
+out vec3 vRGB;out float vAlpha;
+vec3 octNormal(vec2 enc){vec2 p=enc*2.0-1.0;vec3 n=vec3(p.x,p.y,1.0-abs(p.x)-abs(p.y));if(n.z<0.0)n.xy=(1.0-abs(n.yx))*sign(n.xy);return normalize(n);}
+void main(){
+ vec3 p=(aVoxel/(uGrid-1.0)-vec3(0.5))*vec3(2.08,1.61,1.69);
+ vec3 normal=octNormal(aOct);
+ float cy=cos(uYaw),sy=sin(uYaw),cx=cos(uPitch),sx=sin(uPitch);
+ mat3 Y=mat3(cy,0.0,-sy, 0.0,1.0,0.0, sy,0.0,cy);
+ mat3 X=mat3(1.0,0.0,0.0, 0.0,cx,sx, 0.0,-sx,cx);
+ vec3 q=X*Y*p;vec3 nn=X*Y*normal;
+ float depth=max(.4,uCam-q.z);float f=2.41421356237;
+ gl_Position=vec4(q.x*f/uAspect,q.y*f,depth*1.004008-0.4008,depth);
+ gl_PointSize=clamp(uSize*(uHeight*f*2.08/(2.0*(uGrid-1.0)*depth)),1.1,20.0);
+ float illumination=clamp(dot(nn,normalize(vec3(-.30,.55,1.0)))*.52+.67,.24,1.4);
+ float wave=.60+.20*sin(19.0*p.y+8.0*p.x)+.19*sin(28.0*p.z-7.0*p.y);
+ float modulator=fract(sin(dot(aVoxel,vec3(12.9898,78.233,39.346)))*43758.5453);
+ vec3 red=mix(vec3(.25,.006,.031),vec3(1.0,.036,.105),clamp(wave+.13*modulator,0.0,1.0));
+ red*=illumination;
+ vec3 blue=vec3(.035,.18,1.0)*(.7+illumination*.35);
+ float blueMix=smoothstep(.48,.88,aBlue)*.91;
+ vRGB=mix(red,blue,blueMix);
+ vAlpha=1.0;
+ if(uGlow>0.5){vRGB*=1.6;vAlpha=.065;}
+}`;
+const FS=`#version 300 es
+precision highp float;
+in vec3 vRGB;in float vAlpha;out vec4 outColor;
+void main(){float radius=length(gl_PointCoord-vec2(.5))*2.0;if(radius>1.0)discard;
+ float core=1.0-smoothstep(.75,1.02,radius);
+ outColor=vec4(vRGB,core*vAlpha);
+}`;
+function shader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s}
+const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,VS));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,FS));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));
+const loc={};for(const n of ['uGrid','uYaw','uPitch','uCam','uAspect','uHeight','uSize','uGlow'])loc[n]=gl.getUniformLocation(program,n);
+const buffer=gl.createBuffer(),vao=gl.createVertexArray();gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+function attrib(index,size,normalized,offset){gl.enableVertexAttribArray(index);gl.vertexAttribPointer(index,size,gl.UNSIGNED_BYTE,normalized,7,offset)}
+attrib(0,3,false,0);attrib(1,1,true,3);attrib(2,2,true,4);attrib(3,1,false,6);
+let grid=160,points=0,spin=false,yaw=.66,pitch=.10,distance=3.45,panning=false,lastX=0,lastY=0,lastT=0,needs=true;
+const isPhone=matchMedia('(max-width:760px), (pointer:coarse)').matches;
+async function load(mode){const n=mode==='auto'?(isPhone?96:160):Number(mode);status.textContent='Загрузка внешней оболочки '+n+'³…';progress.style.width='18%';
+ try{const r=await fetch('./assets/hq500m_surface_voxels_'+n+'.bin',{cache:'force-cache'});if(!r.ok)throw Error('HTTP '+r.status);
+ const b=await r.arrayBuffer(),d=new DataView(b);if(b.byteLength<12||String.fromCharCode(...new Uint8Array(b,0,4))!=='HQS1')throw Error('Bad surface header');
+ grid=d.getUint32(4,true);points=d.getUint32(8,true);if(grid!==n||b.byteLength!==12+7*points)throw Error('Wrong surface data length');
+ gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Uint8Array(b,12),gl.STATIC_DRAW);
+ count.textContent=points.toLocaleString('ru-RU');status.textContent='Готово · внешние воксели '+points.toLocaleString('ru-RU')+' · внутренние удалены';progress.style.width='100%';needs=true;
+ }catch(e){console.error(e);status.textContent='Не удалось загрузить поверхность: '+e.message;progress.style.width='0';}}
+function frame(t){const dpr=Math.min(window.devicePixelRatio||1,isPhone?1.5:2),w=Math.max(1,Math.round(canvas.clientWidth*dpr)),h=Math.max(1,Math.round(canvas.clientHeight*dpr));
+ if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;needs=true;}
+ if(spin){yaw+=(lastT?Math.min(.03,(t-lastT)*.00017):0);needs=true}lastT=t;
+ if(needs&&points){needs=false;gl.viewport(0,0,w,h);gl.clearColor(.022,.012,.019,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);
+ gl.useProgram(program);gl.bindVertexArray(vao);
+ gl.uniform1f(loc.uGrid,grid);gl.uniform1f(loc.uYaw,yaw);gl.uniform1f(loc.uPitch,pitch);gl.uniform1f(loc.uCam,distance);gl.uniform1f(loc.uAspect,w/h);gl.uniform1f(loc.uHeight,h);
+ gl.uniform1f(loc.uSize,1.24);gl.uniform1f(loc.uGlow,0);gl.disable(gl.BLEND);gl.drawArrays(gl.POINTS,0,points);
+ gl.depthMask(false);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.uniform1f(loc.uGlow,1);gl.uniform1f(loc.uSize,1.60);gl.drawArrays(gl.POINTS,0,points);gl.disable(gl.BLEND);gl.depthMask(true);
+ }
+ requestAnimationFrame(frame)}
+requestAnimationFrame(frame);load('auto');
+quality.addEventListener('change',()=>load(quality.value));
+btn.onclick=()=>{spin=!spin;btn.textContent=spin?'Остановить':'Автовращение';btn.classList.toggle('primary',!spin);needs=true};
+document.getElementById('reset').onclick=()=>{yaw=.66;pitch=.10;distance=3.45;needs=true};
+document.getElementById('snap').onclick=()=>{needs=true;gl.finish();setTimeout(()=>{const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='HQ500M-R10-Deep-Ruby-3D.png';a.click()},40)};
+let touches=new Map(), pinch=0;
+canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);lastX=e.clientX;lastY=e.clientY});
+canvas.addEventListener('pointermove',e=>{if(!touches.has(e.pointerId))return;
+ const prior=touches.get(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);
+ if(touches.size>=2){let arr=Array.from(touches.values());let dd=Math.hypot(arr[0][0]-arr[1][0],arr[0][1]-arr[1][1]);
+ if(pinch>0)distance=Math.max(1.55,Math.min(9.0,distance*pinch/dd));pinch=dd;
+ }else{const dx=e.clientX-prior[0],dy=e.clientY-prior[1];yaw+=dx*.008;pitch=Math.max(-1.49,Math.min(1.49,pitch+dy*.008));}needs=true});
+function release(e){touches.delete(e.pointerId);pinch=0}canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+canvas.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(1.55,Math.min(9.0,distance*Math.exp(e.deltaY*.0011)));needs=true},{passive:false});
+window.addEventListener('resize',()=>needs=true);
+}
+</script>
+</body>
+</html>
