@@ -1,0 +1,415 @@
+{
+  "format": "GENESIS-HQ500M-GENOME-Q0.2",
+  "chromosomes": {
+    "C0": [
+      {
+        "id": "C0G01",
+        "name": "seed",
+        "value": 37421,
+        "status": "implemented"
+      },
+      {
+        "id": "C0G02",
+        "name": "species",
+        "value": "Genesis neuralis",
+        "status": "metadata"
+      },
+      {
+        "id": "C0G03",
+        "name": "ploidy",
+        "value": 1,
+        "status": "metadata"
+      },
+      {
+        "id": "C0G04",
+        "name": "asexual",
+        "value": true,
+        "status": "metadata"
+      },
+      {
+        "id": "C0G05",
+        "name": "chromosomes",
+        "value": 8,
+        "status": "metadata"
+      },
+      {
+        "id": "C0G06",
+        "name": "genome_version",
+        "value": "HQ500M-Q0.2",
+        "status": "metadata"
+      },
+      {
+        "id": "C0G07",
+        "name": "random_core",
+        "value": "splitmix64",
+        "status": "implemented"
+      },
+      {
+        "id": "C0G08",
+        "name": "address_width_bits",
+        "value": 32,
+        "status": "implemented"
+      }
+    ],
+    "C1": [
+      {
+        "id": "C1G01",
+        "name": "neurons",
+        "value": 500000000,
+        "status": "implemented"
+      },
+      {
+        "id": "C1G02",
+        "name": "module_size",
+        "value": 1024,
+        "status": "implemented"
+      },
+      {
+        "id": "C1G03",
+        "name": "region_count",
+        "value": 7,
+        "status": "implemented"
+      },
+      {
+        "id": "C1G04",
+        "name": "regional_percent",
+        "value": [
+          45,
+          14,
+          10,
+          10,
+          8,
+          7,
+          6
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "C1G05",
+        "name": "boundary_alignment",
+        "value": 1024,
+        "status": "implemented"
+      },
+      {
+        "id": "C1G06",
+        "name": "local_module_wrap",
+        "value": true,
+        "status": "implemented"
+      },
+      {
+        "id": "C1G07",
+        "name": "allow_dormant_regions",
+        "value": true,
+        "status": "design"
+      },
+      {
+        "id": "C1G08",
+        "name": "development_epoch",
+        "value": 0,
+        "status": "metadata"
+      }
+    ],
+    "C2": [
+      {
+        "id": "C2G01",
+        "name": "excitatory_fraction",
+        "value": 0.8,
+        "status": "implemented"
+      },
+      {
+        "id": "C2G02",
+        "name": "inhibitory_fraction",
+        "value": 0.2,
+        "status": "implemented"
+      },
+      {
+        "id": "C2G03",
+        "name": "cell_type_hash_mod",
+        "value": 100,
+        "status": "implemented"
+      },
+      {
+        "id": "C2G04",
+        "name": "type_flag_excitatory",
+        "value": 0,
+        "status": "implemented"
+      },
+      {
+        "id": "C2G05",
+        "name": "type_flag_inhibitory",
+        "value": 1,
+        "status": "implemented"
+      },
+      {
+        "id": "C2G06",
+        "name": "glia_model",
+        "value": "absent",
+        "status": "design"
+      },
+      {
+        "id": "C2G07",
+        "name": "lif_rest_mv",
+        "value": -65.0,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C2G08",
+        "name": "lif_threshold_mv",
+        "value": -50.0,
+        "status": "active_patch_only"
+      }
+    ],
+    "C3": [
+      {
+        "id": "C3G01",
+        "name": "outdegree",
+        "value": 32,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G02",
+        "name": "local_outdegree",
+        "value": 24,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G03",
+        "name": "projected_outdegree",
+        "value": 8,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G04",
+        "name": "weight_min_absolute",
+        "value": 300,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G05",
+        "name": "weight_span",
+        "value": 4800,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G06",
+        "name": "signed_weight_bits",
+        "value": 16,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G07",
+        "name": "target_id_bits",
+        "value": 32,
+        "status": "implemented"
+      },
+      {
+        "id": "C3G08",
+        "name": "record_size_bytes",
+        "value": 8,
+        "status": "implemented"
+      }
+    ],
+    "C4": [
+      {
+        "id": "C4G01",
+        "name": "cortex_percent",
+        "value": 45,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G02",
+        "name": "cerebellum_percent",
+        "value": 14,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G03",
+        "name": "hippocampus_percent",
+        "value": 10,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G04",
+        "name": "thalamus_percent",
+        "value": 10,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G05",
+        "name": "basal_ganglia_percent",
+        "value": 8,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G06",
+        "name": "brainstem_percent",
+        "value": 7,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G07",
+        "name": "limbic_percent",
+        "value": 6,
+        "status": "implemented"
+      },
+      {
+        "id": "C4G08",
+        "name": "region_name_source",
+        "value": "hypothetical labels",
+        "status": "metadata"
+      }
+    ],
+    "C5": [
+      {
+        "id": "C5G01",
+        "name": "projection_cortex_to",
+        "value": 3,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G02",
+        "name": "projection_cerebellum_to",
+        "value": 5,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G03",
+        "name": "projection_hippocampus_to",
+        "value": 0,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G04",
+        "name": "projection_thalamus_to",
+        "value": 0,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G05",
+        "name": "projection_basal_ganglia_to",
+        "value": 3,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G06",
+        "name": "projection_brainstem_to",
+        "value": 1,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G07",
+        "name": "projection_limbic_to",
+        "value": 2,
+        "status": "implemented"
+      },
+      {
+        "id": "C5G08",
+        "name": "projection_selection",
+        "value": "hash-addressed",
+        "status": "implemented"
+      }
+    ],
+    "C6": [
+      {
+        "id": "C6G01",
+        "name": "learning_rule",
+        "value": "bounded A->B STDP",
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G02",
+        "name": "learning_ltp_rate",
+        "value": 0.00012,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G03",
+        "name": "learning_ltd_rate",
+        "value": 4e-05,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G04",
+        "name": "learning_trace_tau_ms",
+        "value": 20.0,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G05",
+        "name": "lif_leak_tau_ms",
+        "value": 16.0,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G06",
+        "name": "lif_step_ms",
+        "value": 1.0,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G07",
+        "name": "synaptic_current_scale",
+        "value": 0.09,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C6G08",
+        "name": "training_pairing_epochs",
+        "value": 8,
+        "status": "active_patch_only"
+      }
+    ],
+    "C7": [
+      {
+        "id": "C7G01",
+        "name": "training_input_population",
+        "value": 64,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C7G02",
+        "name": "training_readout_population",
+        "value": 48,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C7G03",
+        "name": "active_patch_neurons",
+        "value": 1024,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C7G04",
+        "name": "active_patch_base",
+        "value": 16777216,
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C7G05",
+        "name": "memory_record_format",
+        "value": "JSON weights",
+        "status": "active_patch_only"
+      },
+      {
+        "id": "C7G06",
+        "name": "virtual_graph_materialized",
+        "value": false,
+        "status": "metadata"
+      },
+      {
+        "id": "C7G07",
+        "name": "human_connectome_reconstruction",
+        "value": false,
+        "status": "metadata"
+      },
+      {
+        "id": "C7G08",
+        "name": "genome_mutation",
+        "value": "unimplemented",
+        "status": "design"
+      }
+    ]
+  },
+  "artificial_species": true,
+  "notes": "64 named symbolic genes; CUDA kernel implements 36+ parameter/logic slots. Some metadata and future design markers are NOT executed by GPU. Not DNA nor biological human connectome."
+}
