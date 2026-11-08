@@ -7,13 +7,24 @@
 
 **[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · **[Full-size atlas image](docs/images/hq500m-r08-deep-ruby.webp)** · [Viewer source](docs/index.html) · [Geometry credits](docs/CREDITS.md)
 
-The interactive R13 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
+The interactive R14 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
 
 *HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization, **not** a measured human connectome. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
 
 **Atlas details:** [R13 sulcal-depth manifest](docs/assets/manifest_r13.json) · [Sulcal-depth method](docs/R13_SULCI.md).
 
 <!-- HQ500M_README_HERO_END -->
+
+
+## R14 — anatomical-density view (reversible, provisional)
+
+The [interactive viewer](https://garyu-tt.github.io/mikoshi-hq500m/) now supports **tentative regional annotations**, a density-aware neuron glyph radius, and an adjustable cerebellum detail setting. It preserves all **1,192,673 original point-cloud coordinates**, the original R13 sulcal coloring and the original R11 sampled Q0.8 fiber pairs. The R14 region/density maps are additional sidecar files. The 500M virtual neuron IDs and simulator are unchanged.
+
+A typical human brain has roughly 69B cerebellar neurons despite the cerebellum accounting for only about 10% of brain mass. This is used for *illustrative relative density*, not a claim that we reconstructed or instantiated 69B cells. **The Terrie source has no verified neuroanatomical regional labels; candidate boundaries and even the cerebellum's presence in this point cloud require independent atlas validation.** No original model geometry is stretched or overwritten.
+
+[Implementation, data, caveats and tests](docs/R14_REGIONAL_DENSITY.md).
+
+
 
 ## Fusion R08 — CPU dendritic residual activity (experimental)
 

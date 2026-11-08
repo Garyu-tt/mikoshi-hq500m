@@ -1,0 +1,58 @@
+{
+  "version": "R14",
+  "generated_at": "2026-11-08T17:20:01.830552+00:00",
+  "geometry_source": "HQ500M R13, original Terrie Point Cloud CC BY 4.0",
+  "source_r13_sha256": "d1ac4c919d4ea99961bea86de58199e6bdcabd8ce5c7e87b013432e21927079c",
+  "points": 1192673,
+  "original_xyz_modified": false,
+  "original_fibers_modified": false,
+  "regions": [
+    {
+      "id": 0,
+      "name": "cortex_candidate",
+      "candidate_points": 942296,
+      "mass_fraction_guidance": 0.82,
+      "illustrative_human_neurons": 16300000000,
+      "relative_density_to_cortex": 1.0
+    },
+    {
+      "id": 1,
+      "name": "cerebellum_candidate",
+      "candidate_points": 100392,
+      "mass_fraction_guidance": 0.1,
+      "illustrative_human_neurons": 69030000000,
+      "relative_density_to_cortex": 34.727
+    },
+    {
+      "id": 2,
+      "name": "brainstem_candidate",
+      "candidate_points": 14090,
+      "mass_fraction_guidance": 0.03,
+      "illustrative_human_neurons": 300000000,
+      "relative_density_to_cortex": 1.0
+    },
+    {
+      "id": 3,
+      "name": "deep_structures_candidate",
+      "candidate_points": 135895,
+      "mass_fraction_guidance": 0.05,
+      "illustrative_human_neurons": 470000000,
+      "relative_density_to_cortex": 1.0
+    }
+  ],
+  "region_annotation_status": "unverified heuristic proxy (no atlas registration; cerebellar tissue may be absent from point cloud)",
+  "assumed_anatomical_axes": "Y up, z-high posterior: provisional, requires verification from oriented source",
+  "voxel_occupancy_grid": 96,
+  "size_logic": "point radius decreases with local occupancy and regional density; extra shader instances are illustrative samples only",
+  "density_byte": "min(255, round(30*ln(1+number of source points in neighboring 3x3x3 grid cells)))",
+  "full": {
+    "file": "assets/hq500m_region_density_r14.bin.gz",
+    "sha256": "4eb75e102bc1f0f48ff5b009b3f97851a3f8a17c302c1d6c86eba80f141bb22a"
+  },
+  "lite": {
+    "file": "assets/hq500m_region_density_lite_r14.bin.gz",
+    "sha256": "70586bf1a283615d095cfa6a76dca3ba0c9fd8b3306d61415a506b667ecb8cb4"
+  },
+  "original_q08_unchanged": true,
+  "point_cloud_license": "Terrie CC BY 4.0"
+}
