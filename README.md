@@ -4,15 +4,15 @@
 
 **[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · [Viewer source](docs/index.html) · [Geometry credits](docs/CREDITS.md)
 
-The interactive R12 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
+The interactive R13 viewer uses **all 1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs**, with GPU depth occlusion (not every potential edge). 500 million virtual addresses and 16 billion potential connections describe the **synthetic HQ500M architecture**, not simultaneously simulated neurons or measured human axons.
 
 *HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization of the 500-million-address HQ500M architecture. This is **not** a measured human connectome or a simulation of 500 million simultaneously active neurons. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
 
-## Interactive 3D atlas — R12
+## Interactive 3D atlas — R13
 
 **[Open HQ500M in 3D · rotate, zoom and inspect computed Q0.8 fibers](https://garyu-tt.github.io/mikoshi-hq500m/)**
 
-The viewer loads **1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs** (not all 16 billion potential connections). Depth testing hides occluded fibers. The spatial neuron ID mapping and line paths are **synthetic**; this is not a measured human connectome. See the [R12 geometric-crest manifest](docs/assets/manifest_r12.json) · [Geometric crest method & verification](docs/R12_GEOMETRY.md) and [source credit](docs/CREDITS.md).
+The viewer loads **1,192,673 original point-cloud positions** and **520,150 sampled deterministic Q0.8 neural-address pairs** (not all 16 billion potential connections). Depth testing hides occluded fibers. The spatial neuron ID mapping and line paths are **synthetic**; this is not a measured human connectome. See the [R13 sulcal-depth manifest](docs/assets/manifest_r13.json) · [Sulcal-depth method](docs/R13_SULCI.md) and [source credit](docs/CREDITS.md).
 
 **A tiny, hackable neural sandbox with 500,000,000 virtual neuron addresses, named sensory/motor ports, and zero GPU requirements.**
 

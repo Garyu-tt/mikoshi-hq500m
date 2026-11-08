@@ -1,0 +1,37 @@
+{
+  "version": "R13",
+  "source_sha256": "86fb8cfcb35d116ffe9e76c8d2016233d2da9018db288ecd4d10ce76c6538e8f",
+  "points": 1192673,
+  "groups": 19,
+  "accents": "geometry-derived sulcal recess and concavity; source is unlabelled point cloud",
+  "mask_stats": {
+    "method": "80-neighbor radial recess + signed local PCA concavity + multi-scale occupancy, 4 neighbor-smooth passes",
+    "groove_selection": "depressions (not convex crests)",
+    "point_count": 1192673,
+    "shell_count": 74932,
+    "mask_any": 92196,
+    "mask_strong": 36422,
+    "mask_any_percent": 7.73,
+    "mask_strong_percent": 3.054,
+    "local_quantiles": [
+      0.2951147434124275,
+      0.4236897076586308
+    ],
+    "not_anatomical_sulcal_annotation": true
+  },
+  "source_xyz": "bit-identical to R12",
+  "jitter_seed": "identical to R12",
+  "edges": "R11 Q0.8 exact-address-pair edge data retained without modification",
+  "full": {
+    "file": "assets/hq500m_source_points_r13.bin.gz",
+    "bytes": 4611255,
+    "sha256": "d1ac4c919d4ea99961bea86de58199e6bdcabd8ce5c7e87b013432e21927079c"
+  },
+  "lite": {
+    "file": "assets/hq500m_source_points_lite_r13.bin.gz",
+    "bytes": 1254507,
+    "sha256": "45cc12c2a9f11c4e68f51db48dd16a64461aca7bfc4c96cf1e3ae1bd0f409e8a"
+  },
+  "license_source": "Terrie Brain Point Cloud CC BY 4.0",
+  "note": "Synthetic 3D proxy, NOT confirmed anatomical sulcal labels or reconstructed axons"
+}
