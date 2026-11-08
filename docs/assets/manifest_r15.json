@@ -1,0 +1,59 @@
+{
+  "version": "R15",
+  "generated_at": "2026-11-08T17:35:19.707491+00:00",
+  "atlas_registration": {
+    "status": "not_registered",
+    "atlases_to_consider": [
+      "MNI152 (full brain)",
+      "SUIT (cerebellum)"
+    ],
+    "why": "Terrie point cloud has no known spatial orientation, MRI reference or registration landmarks",
+    "mapping": "R14 heuristic region IDs; no verified anatomical region labels"
+  },
+  "original_r13_xyz_modified": false,
+  "original_r11_fibers_modified": false,
+  "point_count": 1192673,
+  "source_r13_sha256": "d1ac4c919d4ea99961bea86de58199e6bdcabd8ce5c7e87b013432e21927079c",
+  "source_r14_sha256": "4eb75e102bc1f0f48ff5b009b3f97851a3f8a17c302c1d6c86eba80f141bb22a",
+  "stability_definition": "0..255 fraction of nearby R14 candidate labels agreeing with most common label at each occupied voxel; boundary continuity only, NOT medical certainty",
+  "grid": 64,
+  "regions": {
+    "0": {
+      "points": 942296,
+      "stable_ge_192": 900219,
+      "stable_ge_224": 893635
+    },
+    "1": {
+      "points": 100392,
+      "stable_ge_192": 81692,
+      "stable_ge_224": 78281
+    },
+    "2": {
+      "points": 14090,
+      "stable_ge_192": 9749,
+      "stable_ge_224": 7329
+    },
+    "3": {
+      "points": 135895,
+      "stable_ge_192": 101161,
+      "stable_ge_224": 96422
+    }
+  },
+  "mixed_cells_lt_0_6": 1022,
+  "full": {
+    "file": "assets/hq500m_region_stability_r15.bin.gz",
+    "bytes": 20262,
+    "sha256": "02f39cb16e75d5bef2a7df1bca20d16af782d97a4b94be2f27abee6a3b12fd25"
+  },
+  "lite": {
+    "file": "assets/hq500m_region_stability_lite_r15.bin.gz",
+    "bytes": 13576,
+    "sha256": "fc9dfbab80f6fe02343270a0fb91b425be8fb79facd50ab78718a58ccba24e40"
+  },
+  "original_geometry_sha256": "d1ac4c919d4ea99961bea86de58199e6bdcabd8ce5c7e87b013432e21927079c",
+  "license_source": "Terrie Brain Point Cloud CC BY 4.0",
+  "references": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC2776484/",
+    "https://www.diedrichsenlab.org/imaging/atlasPackage.htm"
+  ]
+}

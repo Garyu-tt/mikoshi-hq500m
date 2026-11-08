@@ -16,6 +16,23 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 <!-- HQ500M_README_HERO_END -->
 
 
+## R15 — boundary-stable density preview (source geometry preserved)
+
+The interactive 3D viewer now layers *geometric boundary stability* over
+the provisional R14 regions. The candidate cerebellar zone can render
+with finer glyphs and higher proxy sample density **without submitting
+the entire cloud repeatedly**. All original 1,192,673 point positions,
+Q0.8 fiber endpoints and 500M virtual neuron IDs are unchanged.
+
+High boundary stability means neighboring *heuristic* labels agree; it
+**does not verify a real cerebellum or a registered anatomical atlas**.
+MNI/SUIT alignment is a separate future step.
+
+[Method, validation and atlas requirements](docs/R15_BOUNDARY_STABLE_DENSITY.md).
+
+
+
+
 ## R14 — anatomical-density view (reversible, provisional)
 
 The [interactive viewer](https://garyu-tt.github.io/mikoshi-hq500m/) now supports **tentative regional annotations**, a density-aware neuron glyph radius, and an adjustable cerebellum detail setting. It preserves all **1,192,673 original point-cloud coordinates**, the original R13 sulcal coloring and the original R11 sampled Q0.8 fiber pairs. The R14 region/density maps are additional sidecar files. The 500M virtual neuron IDs and simulator are unchanged.
