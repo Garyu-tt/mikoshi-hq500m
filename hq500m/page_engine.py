@@ -13,7 +13,8 @@ from .core import (
     ACTIONS, BOUNDS, BRIDGES, INPUT_PORTS, MOTOR_PORTS, REGION_NAMES,
     VIRTUAL_NEURONS, WIDTH, _normalize_observation, port_id,
 )
-from .bitweave import _edges, DECAY
+from .bitweave import DECAY
+from .c5_fast import source_edges as _edges
 
 PAGE_SIZE = 1024
 FORMAT = "mikoshi-hq500m-page-cpu-r02"
@@ -70,7 +71,9 @@ class PagedBrain:
     @property
     def neurons(self):
         """Resident neurons, not virtual neurons, not currently firing cells."""
-        return len(self.hot) * PAGE_SIZE
+        # The final virtual page has fewer than 1,024 valid addresses.
+        return sum(min(PAGE_SIZE, VIRTUAL_NEURONS - page * PAGE_SIZE)
+                   for page in self.hot)
 
     def _page(self, neuron_id):
         if type(neuron_id) is not int or not 0 <= neuron_id < VIRTUAL_NEURONS:
@@ -164,6 +167,14 @@ class PagedBrain:
                    for gid in self.input_ports[name]]
         counts = {a: 0 for a in ACTIONS}
         unique_updated, unique_spikes, contacted_pages = set(), set(), set()
+        # These IDs receive an injected drive; spikes outside that set are
+        # caused by native C5 connections, original game bridges or residual state.
+        directly_driven = set(pulses)
+        for name, value in sensors.items():
+            if value:
+                directly_driven.update(self.input_ports[name])
+        spikes_by_tick = []
+        undriven_spikes_by_tick = []
         all_spikes = delivery_count = remote_count = evaluated = 0
         peak_spikes = peak_updates = 0
         initial_loads, initial_evictions = self.load_count, self.eviction_count
@@ -182,7 +193,9 @@ class PagedBrain:
             # Order by exact target and source so result is reproducible.
             for dest, amplitude, src, slot in sorted(incoming,
                      key=lambda e: (e[0], e[2], e[3])):
-                self._touch(dest)
+                # Collect by exact destination without an unnecessary page-load pass.
+                # Every distinct destination page is touched when its state is
+                # actually integrated below; cold memory is never discarded.
                 contacted_pages.add(dest // PAGE_SIZE)
                 currents[dest] = currents.get(dest, 0.0) + amplitude
                 if src >= 0 and slot >= 0:
@@ -195,8 +208,15 @@ class PagedBrain:
             peak_updates = max(peak_updates, len(currents))
             unique_updated.update(currents)
             firing = []
+            # Destination IDs are sorted; all cells from one page can reuse
+            # its resident state without repeatedly entering LRU.
+            current_page = None
+            state = None
             for gid in sorted(currents):
-                state = self._touch(gid)
+                pg = gid // PAGE_SIZE
+                if pg != current_page:
+                    state = self._touch(gid)
+                    current_page = pg
                 voltage, last_tick, last_fire = state.get(gid, (0.0, -1, -100))
                 if now - last_fire <= 2:
                     continue
@@ -212,6 +232,9 @@ class PagedBrain:
                 else:
                     state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
             peak_spikes = max(peak_spikes, len(firing))
+            spikes_by_tick.append(len(firing))
+            undriven_spikes_by_tick.append(
+                sum(gid not in directly_driven for gid in firing))
             all_spikes += len(firing)
             outgoing = []
             for gid in firing:
@@ -253,6 +276,10 @@ class PagedBrain:
             "pages_contacted": len(contacted_pages),
             "unique_updated_neurons": len(unique_updated),
             "unique_spiking_neurons": len(unique_spikes),
+            "directly_driven_neurons": len(directly_driven),
+            "unique_undriven_spiking_neurons": len(unique_spikes - directly_driven),
+            "spikes_per_tick": spikes_by_tick,
+            "undriven_spikes_per_tick": undriven_spikes_by_tick,
             "peak_spiking_in_one_tick": peak_spikes,
             "peak_updated_in_one_tick": peak_updates,
             "synapses_evaluated": evaluated,
