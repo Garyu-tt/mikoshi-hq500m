@@ -1,5 +1,27 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Fusion R02 — exact-address dynamic CPU neuron paging
+
+A second optional mode, **paged**, now delivers original 24 local and 8
+projected C5 synapses to their exact 500M-space target IDs. Page misses
+load the requested 1,024-address module, LRU evictions preserve cold
+membrane states in RAM, and checkpoint files retain queued remote events
+and toy plasticity deltas. It does **not** use synthetic fanout. See
+[Fusion R02 details, tests and limits](docs/FUSION_R02.md).
+
+~~~bash
+python3 -m hq500m demo --engine paged --max-pages 128 --ticks 4
+python3 -m hq500m demo --engine paged --max-pages 1024 --ticks 4
+~~~
+
+On a 32-vCPU Xeon CPU, a two-tick laboratory pulse test with 4,096 distinct
+externally driven source neurons integrated 135,162 distinct neurons and
+delivered 131,072 exact C5 synapse events in 0.963 s, including 32,768
+cross-module events. This is **not** 135K independently firing neurons:
+only the 4,096 stimulated sources fired. Up to 1,048,576 *logically
+resident addresses* fit the page budget; no claim is made that a million
+neurons were actually updated. Default/legacy behavior is unchanged.
+
 ## Expanded CPU simulation — BitWeave-inspired sparse event engine (R01)
 
 An **opt-in** CPU-only engine now supports 1–128 resident 1,024-neuron pages in each of seven regions (up to 917,504 **resident** virtual addresses) with packed spike bitsets, popcount and lazy LIF updates. This is a **BitWeave-inspired CPU adaptation**, NOT the CUDA R04 binary-GEMM kernel.
