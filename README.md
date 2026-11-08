@@ -1,5 +1,9 @@
 # Mikoshi HQ500M — CPU Playground
 
+[![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)](docs/images/hq500m-r08-deep-ruby.webp)
+
+*HQ500M R08 Deep Ruby — a computed, synthetic spatial visualization of the 500-million-address HQ500M architecture. This is **not** a measured human connectome or a simulation of 500 million simultaneously active neurons. Point-cloud geometry adapted from [Brain Point Cloud](https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb) by Terrie ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)); image palette and layout customized for Mikoshi.*
+
 **A tiny, hackable neural sandbox with 500,000,000 virtual neuron addresses, named sensory/motor ports, and zero GPU requirements.**
 
 This is the **public toy release**, not our large research installation. It runs on an ordinary computer using Python 3.11+ and the standard library only.
