@@ -1,5 +1,19 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Expanded CPU simulation — BitWeave-inspired sparse event engine (R01)
+
+An **opt-in** CPU-only engine now supports 1–128 resident 1,024-neuron pages in each of seven regions (up to 917,504 **resident** virtual addresses) with packed spike bitsets, popcount and lazy LIF updates. This is a **BitWeave-inspired CPU adaptation**, NOT the CUDA R04 binary-GEMM kernel.
+
+~~~bash
+python3 -m hq500m demo --engine bitweave --pages 16 --fanout 16 --ticks 3
+python3 -m hq500m demo --engine bitweave --pages 64 --fanout 16 --ticks 3
+~~~
+
+On a 32-vCPU Xeon E5-2660 v4 host, a single three-tick step with one food input activated **1,819** unique firing neurons out of 114,688 resident (0.322 s) at 16 pages/region; at 64 pages/region it activated **7,196** out of 458,752 resident (1.286 s). These counts require **explicitly artificial sensory fanout**; they are not demonstrated cognition or genuine C5-driven propagation. The 500M neuron address space is still virtual; only resident destinations receive C5 events. The regular playground remains the default, compatible mode.
+
+See [full engine explanation, limitations and reproducible measurements](docs/BITWEAVE_CPU.md). 14 original and new unit/integration tests passed locally.
+
+
 [![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)](docs/images/hq500m-r08-deep-ruby.webp)
 
 **[Interactive Deep Ruby 3D viewer](https://garyu-tt.github.io/mikoshi-hq500m/)** · [Viewer source](docs/index.html) · [Geometry credits](docs/CREDITS.md)
