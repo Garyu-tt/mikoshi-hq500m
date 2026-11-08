@@ -1,5 +1,34 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Fusion R05 — optional native C99 exact C5 generator
+
+The optional paged CPU engine can use a **compiled C99 batch generator** for
+the original C5 32-synapse topology (24 local + 8 remote). A separate Python
+implementation remains the default and checks exact target IDs and weights.
+This is not a CUDA port or the GPU BitWeave R04 matrix multiplication engine.
+
+~~~sh
+# Linux, C99 compiler installed (requires no extra Python dependencies)
+sh hq500m/native/build.sh
+python3 -m hq500m demo --engine paged --max-pages 128 --kernel native
+python3 -m hq500m demo --engine paged --max-pages 128 --kernel python
+python3 benchmarks/fusion_r05_native_bench.py
+python3 -m unittest discover -s tests -v
+~~~
+
+If the native library is missing, the default Python path still works;
+the explicit native flag fails with a clear error. Kernel auto uses native if
+installed, otherwise Python; it does NOT yet implement an adaptive
+hot/cold or sparse/dense performance crossover.
+
+On the verified mirbi-linux CPU, the C99 path ran **1.34–1.56x faster**
+for C5-cold full-step tests (1,024–8,192 driven sources), with all neural
+outputs identical; after warming the Python C5 LRU, native ranged from
+**0.92–0.95x** the cached Python baseline. Native therefore remains
+strictly OPT-IN. These are host-specific CPU results, not tokens/sec,
+not GPU speed, and not a million firing neurons.
+[Read R05 methodology, raw data, limitations](docs/FUSION_R05.md).
+
 ## Fusion R04 — recurrent neural events and controlled associative learning
 
 The **optional** paged CPU engine now supports an experimental
