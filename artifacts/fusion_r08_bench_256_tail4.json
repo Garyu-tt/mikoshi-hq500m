@@ -1,0 +1,35 @@
+{
+  "schema": "HQ500M-CPU-FUSION-R08-DENDRITE-BENCH",
+  "sources": 256,
+  "ticks_per_step": 3,
+  "tail_ticks": 4,
+  "trials": 2,
+  "median_driven_seconds": 0.173344,
+  "median_silent_seconds": 0.139616,
+  "maxrss_kib_process": 23640,
+  "results": [
+    {
+      "driven_seconds": 0.18419604690279812,
+      "silent_seconds": 0.13726007810328156,
+      "driven_spikes": 256,
+      "driven_integrated_unique": 8448,
+      "driven_events": 8192,
+      "silent_spikes": 0,
+      "silent_no_input_integrations": 17050,
+      "wake_after_silence": 0
+    },
+    {
+      "driven_seconds": 0.1624912660336122,
+      "silent_seconds": 0.1419720179401338,
+      "driven_spikes": 256,
+      "driven_integrated_unique": 8448,
+      "driven_events": 8192,
+      "silent_spikes": 0,
+      "silent_no_input_integrations": 17050,
+      "wake_after_silence": 0
+    }
+  ],
+  "no_gpu_used": true,
+  "virtual_neurons_not_fully_active": true,
+  "real_human_dendrites": false
+}
