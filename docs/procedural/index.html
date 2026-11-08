@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>HQ500M R18 · Procedural Neural Atlas</title>
+<title>HQ500M R20 · High-Density Procedural Neural Atlas</title>
 <meta name="theme-color" content="#101010">
 <meta name="description" content="Anatomy-stencilled procedural synthetic neuron viewer, with 283 named HRA regions, dynamic target neuron counts and GPU level-of-detail.">
 <style>
@@ -48,7 +48,7 @@ a{color:#ed9eb1}
 <canvas id="scene" aria-label="3D-anatomical procedural neural model"></canvas>
 <header id="heading">
 <h1>MIKOSHI <span>NEURAL ATLAS</span></h1>
-<p>R18 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
+<p>R20 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
 <div id="status" role="status">Загрузка компактного трафарета…</div>
 </header>
 <aside id="panel">
@@ -57,9 +57,11 @@ a{color:#ed9eb1}
 <span class="mini">Количество нейронов во всём мозге</span>
 <div class="row"><button id="preset500" class="main">500 млн</button><button id="preset86">8,6 млрд</button><button id="preset861">86,1 млрд</button></div>
 <input id="target" inputmode="numeric" type="number" value="500000000" step="1000000" min="1000" max="1000000000000" aria-label="Точное количество виртуальных нейронов" style="margin-top:7px">
-<span class="mini">GPU-детализация (бюджет точек)</span>
-<input id="lod" type="range" min="8000" max="220000" step="4000" value="130000">
-<div id="lodValue" class="note">60 000 отображаемых точек</div>
+<span class="mini">Уплотнение нейронного облака · GPU LOD</span>
+<select id="lodMode" aria-label="Режим плотности"><option value="auto" selected>Авто: адаптация к количеству нейронов</option><option value="manual">Вручную: выбранный лимит точек</option></select>
+<input id="lod" type="range" min="20000" max="1100000" step="20000" value="800000" aria-label="Максимум отображаемых нейронных точек" style="margin-top:5px">
+<div id="lodValue" class="note">Подготовка адаптивного уровня детализации…</div>
+<p class="note">В авто-режиме ~220 тыс. видимых точек при 500 млн виртуальных нейронов и ~680 тыс. при 86,1 млрд. Ручной режим — до 1,1 млн на ПК и до 120 тыс. на мобильных. Все внутренние области скрыты до выбора.</p>
 <h3>Распределение по крупным зонам</h3><div id="split"></div>
 <span class="mini">Анатомическая область (283 структуры)</span>
 <input id="regionSearch" type="search" placeholder="cerebell, gyrus, thalamus..." aria-label="Поиск области">
@@ -69,6 +71,16 @@ a{color:#ed9eb1}
 <select id="background"><option value="dim" selected>Приглушить наружные области</option><option value="hide">Полностью скрыть</option><option value="all">Показывать наружные области</option></select>
 <span class="mini">Связи</span>
 <div class="row"><button id="linkOff" aria-pressed="true">Без связей</button><button id="linkOn" aria-pressed="false">Синтетические связи</button></div>
+<h3>Neural Path Explorer · ID граф</h3>
+<label class="mini" for="sourceNeuronR19">Neuron ID от 0 до N−1</label>
+<input id="sourceNeuronR19" type="number" value="42" min="0" step="1" placeholder="Например, 42">
+<label class="mini" for="targetNeuronR19">Целевой ID (необязательно)</label>
+<input id="targetNeuronR19" type="number" min="0" step="1" placeholder="Пусто = исходящие связи">
+<label class="mini" for="graphDepthR19">Глубина направленного обхода</label>
+<select id="graphDepthR19"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select>
+<div class="row" style="margin-top:8px"><button id="neuronRunR19" class="main">Показать нейрон и связи</button><button id="neuronClearR19">Очистить</button></div>
+<div id="neuronResultR19" role="status" style="margin:8px 0;font-size:10px;color:#ffb9cb;line-height:1.45;overflow-wrap:anywhere">ID адресуются процедурно. Вершины и направленные связи не хранятся заранее.</div>
+<p class="note">Структурный граф строго <strong>синтетический</strong>: локальные связи и редкие пространственные проекции между соседними HRA-областями, без биологических синаптических данных. Смена общего количества перенумеровывает глобальные ID.</p>
 <span class="mini">Режим проводящих трактов</span>
 <select id="tract"><option value="-1">Не выделять тракт</option></select>
 <p class="note">Трактовые линии — условные трассы через пространственные ячейки HRA, не реконструированные аксоны. Белое вещество не получает фиктивных тел нейронов.</p>
@@ -78,7 +90,7 @@ a{color:#ed9eb1}
 <a href="https://neutrallab.infracare-it.com/viewer/" target="_blank" rel="noopener" style="display:block;margin-top:5px">Исходный HRA в NeutralLab</a>
 </aside>
 <button id="togglePanel">Управление мозгом</button>
-<div id="copyright">HRA/Allen v1.3 · CC BY 4.0 · 110 404 V5 пространственных шаблонов и 78 091 точка анатомических поверхностей · синтетическая визуализация, не измеренный коннектом</div>
-<script src="./procedural_r18.js" defer></script>
+<div id="copyright">HRA/Allen v1.3 · CC BY 4.0 · 110 404 V5 пространственных шаблонов и 78 091 точка анатомических поверхностей · синтетический процедурный граф, не измеренный коннектом</div>
+<script src="./procedural_r20.js" defer></script>
 </body>
 </html>

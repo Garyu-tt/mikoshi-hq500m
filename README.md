@@ -15,6 +15,49 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 
 <!-- HQ500M_README_HERO_END -->
 
+## R20 — Dense Procedural Neural Atlas (adaptive GPU LOD)
+
+[Open the denser procedural brain](https://garyu-tt.github.io/mikoshi-hq500m/procedural/).
+
+R20 increases on-screen synthetic neuron proxy density without
+increasing the saved HRA stencil or changing the configured virtual
+neuron count. Automatic desktop density now renders about **220,000
+points at 500 million virtual neurons** and **682,889 points at 86.1
+billion virtual neurons**; manually adjustable up to **1,100,000**
+points on desktop, capped at **120,000** on mobile. The old R18 default
+rendered 24,000 and 101,461 respectively.
+
+Unselected regions stay hidden internally, with the R19 directed
+synthetic neuron graph / tract explorer unchanged. Point sizes adapt
+to the actual GPU sample count. This is a visual density proxy, **not**
+new biologically measured neurons or synaptic morphology.
+
+[R20 method and validation](docs/R20_DENSE_LOD.md) ·
+[R20 dense preview](docs/images/r20_dense_861b.png).
+
+
+
+
+## R19 — Procedural Neural Path Explorer with stable neuron IDs
+
+**[Open the R19 model and explore neuron paths](https://garyu-tt.github.io/mikoshi-hq500m/procedural/)**.
+
+R19 adds a deterministic synthetic directed graph on top of R18's
+compact 283-structure HRA atlas stencil. Select any virtual neuron ID
+in the configured 500M, 8.6B, 86.1B (or custom) population to examine
+a bounded connected subgraph or an ID-to-ID path. Region-linked ID
+positions are computed on demand in spatial Morton order. The same
+neuron ID and links are stable when changing the GPU rendering LOD.
+
+All unselected inner regions remain hidden unless explicitly selected.
+The synthetic graph has bounded memory usage: it is NOT a stored
+86B connectome, and projected connections are not measured synapses.
+
+[Detailed R19 architecture, scientific limits and browser tests](docs/R19_DYNAMIC_NEURAL_GRAPH.md).
+[Rendered ID-based graph example](docs/images/r19_graph_tree_demo.png).
+
+
+
 
 ## R18 - Procedural Neural Atlas, scalable 500M / 8.6B / 86.1B
 
