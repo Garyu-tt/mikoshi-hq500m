@@ -1,7 +1,7 @@
 # R23 experimental: anatomical-surface-adjacent synthetic fibers
 
 2026-11-08. Source: docs/procedural/procedural_r23.js.
-R22 remains the verified public release until live WebGL2 browser QA passes.
+R23 passed real Chromium WebGL2 QA on 2026-11-08 with an isolated SwiftShader setup. The R22 source remains preserved for regression comparisons.
 
 ## Problem addressed
 
@@ -38,9 +38,18 @@ vertices, Q0.8 fibers, R19 neuron graph, neuron quotas or manifests.
   12,903 candidates without a preceding local neighbor (94.1% connected).
 - On/off control and isolated region 111 passed in Node.
 - R18–R22 historic source invariants and triangle/checksum tests can run.
-- Real Chromium QA not validated: headless Chromium lacks required system
-  graphics libraries in this environment. The optional Playwright script
-  tools/qa_r23_browser.py is prepared for the WebGL2-enabled runner.
+- Real Chromium WebGL2/SwiftShader QA passed using 18 isolated Debian 13
+  shared-library packages under /tmp (no modification to read-only /usr).
+  The tested desktop mode rendered 207,097 fibers at 220k points, 658,156
+  at 682,889 points and 1,064,269 at 1.1 million points.
+  Mobile was capped at 120,000 points / 112,410 fibers.
+  Rotating camera changed eligible source HRA triangles; toggling
+  masks, isolating a region and focusing a neuron-ID graph worked.
+  There were zero recorded JavaScript console errors.
+  Two screenshots with fibers on/off were compared pixel-wise:
+  red-channel average absolute difference >2/255, verifying
+  that GPU-instanced lines affect the framebuffer.
+  The test executable is tools/qa_r23_browser.py.
 
 ## Scientific limitations
 

@@ -17,7 +17,7 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 
 ## R23: dense surface-adjacent schematic connections (experimental)
 
-[Open Procedural Neural Atlas](https://garyu-tt.github.io/mikoshi-hq500m/procedural/) — **the public site currently remains on the verified R22 release**; this branch is an R23 test candidate.
+**[Open Procedural Neural Atlas R23](https://garyu-tt.github.io/mikoshi-hq500m/procedural/)**.
 
 R22 used a maximum of 2,400 CPU-expanded ID-graph fiber segments in
 the whole-brain context. R23 instead connects HRA-triangle-adjacent
@@ -36,9 +36,9 @@ applies. Focused Neuron ID and tract paths use the existing R19 model,
 rendered proxies*, not the synaptic graph and not traced biological
 axons. The whole brain still uses a bounded GPU LOD; the tool does not
 render all 500M/86.1B real neuron bodies or their true synapses.
-R23 real-browser WebGL2 QA remains pending.
+R23 real-browser Chromium WebGL2 QA passed for desktop and mobile.
 
-[Implementation notes](docs/R23_DENSE_SURFACE_FIBERS.md).
+[Implementation and browser test](docs/R23_DENSE_SURFACE_FIBERS.md) · [R23 real WebGL2 screenshot](docs/images/r23_dense_front_preview.jpg).
 
 ## R22: only camera-visible neuron and fiber proxies
 
