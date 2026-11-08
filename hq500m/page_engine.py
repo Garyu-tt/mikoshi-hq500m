@@ -30,7 +30,9 @@ class PagedBrain:
     max_pages*1024 dense state; pages are loaded only on delivered events.
     """
     def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0,
-                 plasticity_scope="remote", kernel="python"):
+                 plasticity_scope="remote", kernel="python",
+                 lab_max_pulses=8192, event_kernel="python",
+                 lif_kernel="python"):
         if type(max_pages) is not int or not 8 <= max_pages <= 1024:
             raise ValueError("max_pages must be 8..1024")
         if type(ticks) is not int or not 1 <= ticks <= 32:
@@ -50,8 +52,22 @@ class PagedBrain:
                 if kernel == "native":
                     raise
         self.c5_kernel = "native-c99" if self._native else "python"
+        if event_kernel not in ("python", "native") or lif_kernel not in ("python", "native"):
+            raise ValueError("event_kernel and lif_kernel must be python or native")
+        self._native_math = self._native
+        if (event_kernel == "native" or lif_kernel == "native") and self._native_math is None:
+            self._native_math = NativeC5()
+        self.event_kernel = event_kernel
+        self.lif_kernel = lif_kernel
         self.plasticity_scope = plasticity_scope
         self.threshold = float(threshold)
+        # The ordinary public API keeps its 8,192-pulse safety ceiling.
+        # Lab-scale workloads explicitly opt into a bounded larger budget.
+        if type(lab_max_pulses) is not int or lab_max_pulses not in (8192, 32768):
+            raise ValueError("lab_max_pulses must be 8192 (default) or 32768")
+        self.lab_max_pulses = lab_max_pulses
+        self.max_events = max(MAX_EVENTS, lab_max_pulses * 33)
+        self.max_tracked = max(MAX_TRACKED, lab_max_pulses * 40)
         self.max_pages = max_pages
         self.ticks = ticks
         self.learning = bool(learning)
@@ -117,12 +133,11 @@ class PagedBrain:
         self.load_count += 1
         return state
 
-    @staticmethod
-    def _validate_pulses(pulses):
+    def _validate_pulses(self, pulses):
         if pulses is None:
             return {}
-        if not isinstance(pulses, dict) or len(pulses) > 8192:
-            raise ValueError("pulses must be a dictionary of at most 8192 neurons")
+        if not isinstance(pulses, dict) or len(pulses) > self.lab_max_pulses:
+            raise ValueError("pulses must be a dictionary within lab_max_pulses limit")
         out = {}
         for gid, current in pulses.items():
             if type(gid) is not int or not 0 <= gid < VIRTUAL_NEURONS:
@@ -211,6 +226,10 @@ class PagedBrain:
                    for gid in self.input_ports[name]]
         counts = {a: 0 for a in ACTIONS}
         unique_updated, unique_spikes, contacted_pages = set(), set(), set()
+        # "updated" historically means received input. Track ACTUAL voltage
+        # integration separately, excluding the refractory short-circuit.
+        integrated_neurons = set()
+        refractory_skips = 0
         # These IDs receive an injected drive; spikes outside that set are
         # caused by native C5 connections, original game bridges or residual state.
         directly_driven = set(pulses)
@@ -223,6 +242,7 @@ class PagedBrain:
         peak_spikes = peak_updates = 0
         initial_loads, initial_evictions = self.load_count, self.eviction_count
         delivered_sample = []
+        native_lif_cells = native_lif_pages = native_lif_integrations = 0
         for substep in range(self.ticks):
             now = self.neural_ticks + 1
             incoming = self.pending
@@ -231,17 +251,19 @@ class PagedBrain:
             incoming.extend(sensory)
             if substep == 0:
                 incoming.extend((gid, val, -1, -1) for gid, val in pulses.items())
-            if len(incoming) > MAX_EVENTS:
+            if len(incoming) > self.max_events:
                 raise RuntimeError("event budget exceeded; no silent dropping")
-            currents = {}
-            # Order by exact target and source so result is reproducible.
-            for dest, amplitude, src, slot in sorted(incoming,
-                     key=lambda e: (e[0], e[2], e[3])):
-                # Collect by exact destination without an unnecessary page-load pass.
-                # Every distinct destination page is touched when its state is
-                # actually integrated below; cold memory is never discarded.
+            # Both C99 and Python respect the exact stable order by
+            # (target, source, slot). C only reduces already-sorted events.
+            ordered = sorted(incoming, key=lambda e: (e[0], e[2], e[3]))
+            if self.event_kernel == "native":
+                currents = self._native_math.reduce_sorted(ordered)
+            else:
+                currents = {}
+            for dest, amplitude, src, slot in ordered:
                 contacted_pages.add(dest // PAGE_SIZE)
-                currents[dest] = currents.get(dest, 0.0) + amplitude
+                if self.event_kernel == "python":
+                    currents[dest] = currents.get(dest, 0.0) + amplitude
                 if src >= 0 and slot >= 0:
                     delivery_count += 1
                     if slot >= 24:
@@ -254,31 +276,83 @@ class PagedBrain:
             peak_updates = max(peak_updates, len(currents))
             unique_updated.update(currents)
             firing = []
-            # Destination IDs are sorted; all cells from one page can reuse
-            # its resident state without repeatedly entering LRU.
-            current_page = None
-            state = None
-            for gid in sorted(currents):
-                pg = gid // PAGE_SIZE
-                if pg != current_page:
-                    state = self._touch(gid)
-                    current_page = pg
-                voltage, last_tick, last_fire = state.get(gid, (0.0, -1, -100))
-                if now - last_fire <= 2:
-                    continue
-                # Exact lazy integration for input-free decay.
-                voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
-                if voltage >= self.threshold:
-                    state[gid] = (0.0, now, now)
-                    firing.append(gid)
-                    unique_spikes.add(gid)
-                    if gid in watched:
-                        watched_spikes[str(gid)].append(now)
-                    if gid in self.motor_of:
-                        counts[self.motor_of[gid]] += 1
-                    self._plastic_post(gid, now)
-                else:
-                    state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
+            if self.lif_kernel == "native":
+                # Use C99 only on meaningfully dense 1024-ID pages.
+                # Sparse one-event pages keep the faster Python branch.
+                from itertools import groupby
+                for pg, ids_iter in groupby(sorted(currents),
+                                            key=lambda gid: gid // PAGE_SIZE):
+                    ids = list(ids_iter)
+                    state = self._touch(ids[0])
+                    if len(ids) < 48:
+                        for gid in ids:
+                            voltage, last_tick, last_fire = state.get(gid, (0.0, -1, -100))
+                            if now - last_fire <= 2:
+                                refractory_skips += 1
+                                continue
+                            integrated_neurons.add(gid)
+                            voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
+                            if voltage >= self.threshold:
+                                state[gid] = (0.0, now, now)
+                                firing.append(gid)
+                                unique_spikes.add(gid)
+                                if gid in watched:
+                                    watched_spikes[str(gid)].append(now)
+                                if gid in self.motor_of:
+                                    counts[self.motor_of[gid]] += 1
+                                self._plastic_post(gid, now)
+                            else:
+                                state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
+                    else:
+                        rows = []
+                        for gid in ids:
+                            v, t, fired_at = state.get(gid, (0.0, -1, -100))
+                            rows.append((v, t, fired_at, currents[gid]))
+                        resolved = self._native_math.lif_rows(rows, now, self.threshold)
+                        native_lif_cells += len(ids)
+                        native_lif_pages += 1
+                        for gid, before, after in zip(ids, rows, resolved):
+                            v, t, fired_at, spiked = after
+                            if now - before[2] <= 2:
+                                refractory_skips += 1
+                                continue
+                            integrated_neurons.add(gid)
+                            native_lif_integrations += 1
+                            state[gid] = (v, t, fired_at)
+                            if spiked:
+                                firing.append(gid)
+                                unique_spikes.add(gid)
+                                if gid in watched:
+                                    watched_spikes[str(gid)].append(now)
+                                if gid in self.motor_of:
+                                    counts[self.motor_of[gid]] += 1
+                                self._plastic_post(gid, now)
+            else:
+                # Original event-driven Python LIF; identical by default.
+                current_page = None
+                state = None
+                for gid in sorted(currents):
+                    pg = gid // PAGE_SIZE
+                    if pg != current_page:
+                        state = self._touch(gid)
+                        current_page = pg
+                    voltage, last_tick, last_fire = state.get(gid, (0.0, -1, -100))
+                    if now - last_fire <= 2:
+                        refractory_skips += 1
+                        continue
+                    integrated_neurons.add(gid)
+                    voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
+                    if voltage >= self.threshold:
+                        state[gid] = (0.0, now, now)
+                        firing.append(gid)
+                        unique_spikes.add(gid)
+                        if gid in watched:
+                            watched_spikes[str(gid)].append(now)
+                        if gid in self.motor_of:
+                            counts[self.motor_of[gid]] += 1
+                        self._plastic_post(gid, now)
+                    else:
+                        state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
             peak_spikes = max(peak_spikes, len(firing))
             spikes_by_tick.append(len(firing))
             undriven_spikes_by_tick.append(
@@ -313,13 +387,13 @@ class PagedBrain:
                         for dest, sensor, motor in self.bridges.get(gid, ()):
                             outgoing.append((dest, 1.25 * self.gain.get(
                                 sensor + ":" + motor, 1.0), -1, -2))
-            if len(outgoing) > MAX_EVENTS:
+            if len(outgoing) > self.max_events:
                 raise RuntimeError("outgoing event budget exceeded")
             self.pending = outgoing
             self.neural_ticks = now
             if self.learning and now % 256 == 0:
                 self._prune_expired_traces(now)
-            if sum(len(s) for s in self.hot.values()) + sum(len(s) for s in self.cold.values()) > MAX_TRACKED:
+            if sum(len(s) for s in self.hot.values()) + sum(len(s) for s in self.cold.values()) > self.max_tracked:
                 raise RuntimeError("tracked neuron state budget exceeded")
         self.last_delivery_sample = delivered_sample
         directly_driven_pages = {gid // PAGE_SIZE for gid in directly_driven}
@@ -346,12 +420,15 @@ class PagedBrain:
             "virtual_neurons": VIRTUAL_NEURONS,
             "resident_neurons": self.neurons,
             "page_capacity_neurons": self.max_pages * PAGE_SIZE,
+            "lab_max_pulses": self.lab_max_pulses,
             "resident_pages": len(self.hot),
             "cold_pages": len(self.cold),
             "pages_loaded": self.load_count - initial_loads,
             "pages_evicted": self.eviction_count - initial_evictions,
             "pages_contacted": len(contacted_pages),
             "unique_updated_neurons": len(unique_updated),
+            "unique_membrane_integrated_neurons": len(integrated_neurons),
+            "refractory_event_skips": refractory_skips,
             "unique_spiking_neurons": len(unique_spikes),
             "directly_driven_neurons": len(directly_driven),
             "unique_undriven_spiking_neurons": len(unique_spikes - directly_driven),
@@ -374,6 +451,11 @@ class PagedBrain:
             "plasticity_updates": self.plasticity_updates,
             "synthetic_fanout": False,
             "c5_kernel": self.c5_kernel,
+            "event_kernel": self.event_kernel,
+            "lif_kernel": self.lif_kernel,
+            "native_lif_input_cells": native_lif_cells,
+            "native_lif_integrations": native_lif_integrations,
+            "native_lif_page_batches": native_lif_pages,
             "lif_threshold": self.threshold,
             "plasticity_scope": self.plasticity_scope,
             "source": "synthetic_neural_ports",
@@ -389,6 +471,7 @@ class PagedBrain:
     def snapshot(self):
         return {
             "schema": FORMAT, "max_pages": self.max_pages,
+            "lab_max_pulses": self.lab_max_pulses,
             "ticks": self.ticks, "learning": self.learning,
             "threshold": self.threshold, "plasticity_scope": self.plasticity_scope,
             "virtual_neurons": VIRTUAL_NEURONS,
@@ -411,6 +494,7 @@ class PagedBrain:
         if not isinstance(s, dict) or any((
             s.get("schema") != FORMAT,
             s.get("max_pages") != self.max_pages,
+            s.get("lab_max_pulses", 8192) != self.lab_max_pulses,
             s.get("ticks") != self.ticks,
             s.get("learning") != self.learning,
             # Historical R02/R03 checkpoints omitted threshold: they are 1.0.
@@ -479,7 +563,7 @@ class PagedBrain:
                 type(slot) is not int or not -2 <= slot < 32):
                 raise ValueError("invalid event")
             pending.append(tuple(event))
-        if len(pending) > MAX_EVENTS:
+        if len(pending) > self.max_events:
             raise ValueError("checkpoint event overflow")
         plastic = {}
         for src, slot, delta in s.get("plastic", []):
