@@ -1,0 +1,35 @@
+{
+  "schema": "hq500m-interactive-atlas-r11",
+  "source": "Brain Point Cloud by Terrie Simmons-Ehrhardt",
+  "source_url": "https://sketchfab.com/3d-models/brain-point-cloud-c427ea0aee214141a78eba37bf9b76bb",
+  "source_license": "CC BY 4.0",
+  "source_sha256": "86fb8cfcb35d116ffe9e76c8d2016233d2da9018db288ecd4d10ce76c6538e8f",
+  "source_points": 1192673,
+  "source_groups": 19,
+  "virtual_addresses": 500000000,
+  "potential_connections": 16000000000,
+  "point_geometry": {
+    "file": "assets/hq500m_source_points_r11.bin.gz",
+    "bytes": 3643782,
+    "sha256": "2f71094fdbdb3ccf0b6d8ae6baa0fd82483517815d7c49f78bdd938927de7739"
+  },
+  "lite_point_geometry": {
+    "file": "assets/hq500m_source_points_lite_r11.bin.gz",
+    "bytes": 952142,
+    "sha256": "b30c3a500013bd1f0b2227ba22bbaee5af87ae2c739aecc35fbb0dc14dd77673"
+  },
+  "edge_geometry": {
+    "file": "assets/hq500m_exact_fibers_r11.bin.gz",
+    "bytes": 1614599,
+    "sha256": "31c32a4be3c7b650eda1d3a20f6b4df8e26e2be82a3523a83edb43aabeb0a2ef"
+  },
+  "visible_surface_seed_count": 52015,
+  "local_edges_sampled": 364105,
+  "long_edges_sampled": 156045,
+  "total_edges_sampled": 520150,
+  "edge_algorithm": "HQ500M Q0.8 exact deterministic 32-slot endpoints (seed 37421)",
+  "spatial_atlas": "synthetic 19-group Morton sorted mapping to Terrie source positions",
+  "render_convention": "True source geometry, viewport depth testing; sampled exact edge endpoints as illustrative straight segments. No reconstructed biological axon trajectories.",
+  "not_a_human_connectome": true,
+  "simultaneously_active_500m": false
+}
