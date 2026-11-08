@@ -1,3 +1,20 @@
+## Fusion R07 — optional synthetic dendritic compartments
+
+The exact-ID paged CPU simulator now supports an **opt-in four-branch
+dendritic proxy**. C5 synaptic inputs land on deterministic branch
+groups, each branch leaks independently, and local coincident input can
+produce a supralinear somatic contribution. Signed inhibition and
+checkpoint/replay are supported; no 500M-wide branch array is allocated.
+
+    python3 -m hq500m demo --engine paged --dendrites
+    python3 -m unittest discover -s tests -v
+
+Legacy mode and default checkpoints are unchanged. Native C99 LIF is
+not compartment-aware and is rejected in dendrite mode. The synthetic
+C5 slot-to-branch mapping is **not human neuron morphology** and this
+does not convert the toy network into a human connectome.
+[Design, limits and validation](docs/FUSION_R07_DENDRITES.md).
+
 # Mikoshi HQ500M — CPU Playground
 
 ## Fusion R06 — million real CPU membrane integrations (experimental)

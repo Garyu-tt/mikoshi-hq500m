@@ -14,6 +14,7 @@ from .core import (
     VIRTUAL_NEURONS, WIDTH, _normalize_observation, port_id,
 )
 from .bitweave import DECAY
+from .dendrites import INITIAL as DENDRITIC_INITIAL, ZERO_BRANCHES, branch_for_slot, integrate as dendritic_integrate
 from .c5_fast import source_edges as _edges
 from .native_c5 import NativeC5, NativeUnavailable, EDGE_GAIN
 
@@ -32,7 +33,7 @@ class PagedBrain:
     def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0,
                  plasticity_scope="remote", kernel="python",
                  lab_max_pulses=8192, event_kernel="python",
-                 lif_kernel="python"):
+                 lif_kernel="python", dendrites=False):
         if type(max_pages) is not int or not 8 <= max_pages <= 1024:
             raise ValueError("max_pages must be 8..1024")
         if type(ticks) is not int or not 1 <= ticks <= 32:
@@ -54,6 +55,11 @@ class PagedBrain:
         self.c5_kernel = "native-c99" if self._native else "python"
         if event_kernel not in ("python", "native") or lif_kernel not in ("python", "native"):
             raise ValueError("event_kernel and lif_kernel must be python or native")
+        if type(dendrites) is not bool:
+            raise ValueError("dendrites must be a boolean")
+        if dendrites and lif_kernel != "python":
+            raise ValueError("dendrites require the Python LIF path; native LIF has no compartments")
+        self.dendrites = dendrites
         self._native_math = self._native
         if (event_kernel == "native" or lif_kernel == "native") and self._native_math is None:
             self._native_math = NativeC5()
@@ -275,6 +281,18 @@ class PagedBrain:
                         delivered_sample.append((src, slot, dest))
             peak_updates = max(peak_updates, len(currents))
             unique_updated.update(currents)
+            # C5 destination morphology is unknown; the outgoing slot
+            # deterministically selects one of four proxy branches.
+            # Named sensory pulses and synthetic game bridges stay somatic.
+            if self.dendrites:
+                soma_currents = {}
+                branch_currents = {}
+                for dest, amplitude, src, slot in ordered:
+                    if src >= 0 and 0 <= slot < 32:
+                        branches = branch_currents.setdefault(dest, [0.0] * 4)
+                        branches[branch_for_slot(slot)] += amplitude
+                    else:
+                        soma_currents[dest] = soma_currents.get(dest, 0.0) + amplitude
             firing = []
             if self.lif_kernel == "native":
                 # Use C99 only on meaningfully dense 1024-ID pages.
@@ -336,14 +354,28 @@ class PagedBrain:
                     if pg != current_page:
                         state = self._touch(gid)
                         current_page = pg
-                    voltage, last_tick, last_fire = state.get(gid, (0.0, -1, -100))
+                    row = state.get(gid, DENDRITIC_INITIAL if self.dendrites
+                                    else (0.0, -1, -100))
+                    last_fire = row[2]
                     if now - last_fire <= 2:
                         refractory_skips += 1
                         continue
                     integrated_neurons.add(gid)
-                    voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
-                    if voltage >= self.threshold:
-                        state[gid] = (0.0, now, now)
+                    if self.dendrites:
+                        updated, spiked = dendritic_integrate(
+                            row, now, self.threshold,
+                            soma_currents.get(gid, 0.0),
+                            branch_currents.get(gid, ZERO_BRANCHES))
+                        state[gid] = updated
+                    else:
+                        voltage, last_tick, _ = row
+                        voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
+                        spiked = voltage >= self.threshold
+                        if spiked:
+                            state[gid] = (0.0, now, now)
+                        else:
+                            state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
+                    if spiked:
                         firing.append(gid)
                         unique_spikes.add(gid)
                         if gid in watched:
@@ -351,8 +383,6 @@ class PagedBrain:
                         if gid in self.motor_of:
                             counts[self.motor_of[gid]] += 1
                         self._plastic_post(gid, now)
-                    else:
-                        state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
             peak_spikes = max(peak_spikes, len(firing))
             spikes_by_tick.append(len(firing))
             undriven_spikes_by_tick.append(
@@ -458,6 +488,8 @@ class PagedBrain:
             "native_lif_page_batches": native_lif_pages,
             "lif_threshold": self.threshold,
             "plasticity_scope": self.plasticity_scope,
+            **({"dendrite_model": "four-branch-proxy-r07",
+                "dendrite_branches": 4} if self.dendrites else {}),
             "source": "synthetic_neural_ports",
             "motor_mapping": "toy-functional",
             **({"watched_spike_ticks": watched_spikes} if watched else {}),
@@ -474,6 +506,7 @@ class PagedBrain:
             "lab_max_pulses": self.lab_max_pulses,
             "ticks": self.ticks, "learning": self.learning,
             "threshold": self.threshold, "plasticity_scope": self.plasticity_scope,
+            **({"dendrites": True} if self.dendrites else {}),
             "virtual_neurons": VIRTUAL_NEURONS,
             "step_number": self.step_number, "neural_ticks": self.neural_ticks,
             "load_count": self.load_count,
@@ -500,6 +533,7 @@ class PagedBrain:
             # Historical R02/R03 checkpoints omitted threshold: they are 1.0.
             s.get("threshold", 1.0) != self.threshold,
             s.get("plasticity_scope", "remote") != self.plasticity_scope,
+            s.get("dendrites", False) is not self.dendrites,
             s.get("virtual_neurons") != VIRTUAL_NEURONS,
         )):
             raise ValueError("incompatible checkpoint")
@@ -535,14 +569,20 @@ class PagedBrain:
                 if type(p) is not int or not 0 <= p <= (VIRTUAL_NEURONS-1)//PAGE_SIZE or p in out:
                     raise ValueError("invalid page ID")
                 cells = {}
-                for gid, v, prev, fired in rows:
+                for row in rows:
+                    if (not isinstance(row, list) or
+                            len(row) != (8 if self.dendrites else 4)):
+                        raise ValueError("invalid cell compartments")
+                    gid, v, prev, fired, *branches = row
                     if (type(gid) is not int or gid//PAGE_SIZE != p or gid in cells or
                         type(v) not in (float, int) or not math.isfinite(v) or
                         not -2 <= v <= 1 or type(prev) is not int or
                         not -1 <= prev <= s["neural_ticks"] or
-                        type(fired) is not int or not -100 <= fired <= s["neural_ticks"]):
+                        type(fired) is not int or not -100 <= fired <= s["neural_ticks"] or
+                        any(type(b) not in (int, float) or not math.isfinite(b) or
+                            not -2 <= b <= 2 for b in branches)):
                         raise ValueError("invalid cell")
-                    cells[gid] = (v, prev, fired)
+                    cells[gid] = (v, prev, fired, *branches)
                 out[p] = cells
             return out
         hot = decode(s.get("hot"))
