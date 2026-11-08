@@ -85,4 +85,4 @@ No GPU binaries, trained checkpoints, private operational paths, server logs or 
 - Routing latency and paging fairness may influence outcomes; Q0.9 is intended to explore reliability.
 - Labels such as "Human Quantum" are project names; the implementation does **not** use quantum computing or recreate human consciousness.
 
-See [LICENSE](LICENSE) for the source license.
+Original source code in this release is **GNU GPLv3 or later** (`GPL-3.0-or-later`). Copyright (C) 2026 [Garyu-tt](https://github.com/Garyu-tt). See [LICENSE](LICENSE) and [AUTHORS.md](AUTHORS.md). Previously published MIT revisions retain their original permissions.
