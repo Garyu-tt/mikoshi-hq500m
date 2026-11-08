@@ -1,0 +1,793 @@
+{
+  "experiment": "fusion-r04-local-association",
+  "label": "controlled toy associative plasticity, topology-conditioned selection",
+  "date": "2026-11-08",
+  "source_pages_prespecified": [
+    1048576,
+    1049600,
+    1050624,
+    2011136,
+    16777216,
+    134217728,
+    250000384,
+    300000256,
+    370000896,
+    420000768,
+    450000896,
+    480000000
+  ],
+  "selected_by": "absolute predicted cue C5 current nearest .875 within [.75,.95], >=5 positive local inputs",
+  "pulse_sources_per_trial": 128,
+  "training_repetitions": 25,
+  "inter_trial_silent_ticks": 16,
+  "lif_threshold": 1.0,
+  "plasticity_policy": "positive all-C5 only in paired/cueonly/teacheronly",
+  "conditions": [
+    "paired",
+    "plasticity_off",
+    "cue_only",
+    "teacher_only",
+    "remote_only"
+  ],
+  "total_eligible": 11,
+  "success_counts": {
+    "paired": 5,
+    "plasticity_off": 0,
+    "cue_only": 0,
+    "teacher_only": 0,
+    "remote_only": 0
+  },
+  "retention_256_ticks": {
+    "paired": 5,
+    "plasticity_off": 0,
+    "cue_only": 0,
+    "teacher_only": 0,
+    "remote_only": 0
+  },
+  "distractor_retention": {
+    "paired": 5,
+    "plasticity_off": 0,
+    "cue_only": 0,
+    "teacher_only": 0,
+    "remote_only": 0
+  },
+  "baseline_spiking": 0,
+  "trials": [
+    {
+      "base": 1048576,
+      "readout": {
+        "target": 1049306,
+        "expected_cue_current": 0.87479,
+        "excitatory_incoming_edges": 9,
+        "positive_current": 0.87479
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": true,
+          "after_256_silent_ticks": true,
+          "after_unrelated_distractor": true,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 1.8,
+          "changed_c5_synapses_all": 352,
+          "plastic_updates_all": 9143,
+          "elapsed_s": 0.5601
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4317
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 343,
+          "plastic_updates_all": 8918,
+          "elapsed_s": 0.5425
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 343,
+          "plastic_updates_all": 343,
+          "elapsed_s": 0.187
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4635
+        }
+      }
+    },
+    {
+      "base": 1049600,
+      "readout": {
+        "target": 1050396,
+        "expected_cue_current": 0.812315,
+        "excitatory_incoming_edges": 6,
+        "positive_current": 0.812315
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 1.2,
+          "changed_c5_synapses_all": 256,
+          "plastic_updates_all": 6648,
+          "elapsed_s": 0.5534
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4281
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 248,
+          "plastic_updates_all": 6448,
+          "elapsed_s": 0.5462
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 248,
+          "plastic_updates_all": 248,
+          "elapsed_s": 0.2081
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.5049
+        }
+      }
+    },
+    {
+      "base": 1050624,
+      "readout": {
+        "target": 1050986,
+        "expected_cue_current": 0.810775,
+        "excitatory_incoming_edges": 7,
+        "positive_current": 0.810775
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 1.4,
+          "changed_c5_synapses_all": 342,
+          "plastic_updates_all": 8880,
+          "elapsed_s": 0.5844
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4333
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 330,
+          "plastic_updates_all": 8580,
+          "elapsed_s": 0.5495
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 330,
+          "plastic_updates_all": 330,
+          "elapsed_s": 0.1838
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4588
+        }
+      }
+    },
+    {
+      "base": 2011136,
+      "readout": {
+        "target": 2012029,
+        "expected_cue_current": 0.8022,
+        "excitatory_incoming_edges": 8,
+        "positive_current": 0.8022
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 1.6,
+          "changed_c5_synapses_all": 308,
+          "plastic_updates_all": 8000,
+          "elapsed_s": 0.5606
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4289
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 300,
+          "plastic_updates_all": 7800,
+          "elapsed_s": 0.5455
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 300,
+          "plastic_updates_all": 300,
+          "elapsed_s": 0.1878
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4696
+        }
+      }
+    },
+    {
+      "base": 16777216,
+      "readout": {
+        "target": 16777594,
+        "expected_cue_current": 0.846895,
+        "excitatory_incoming_edges": 10,
+        "positive_current": 0.846895
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": true,
+          "after_256_silent_ticks": true,
+          "after_unrelated_distractor": true,
+          "positive_target_synapses": 10,
+          "target_synapse_multiplier_delta_sum": 2.0,
+          "changed_c5_synapses_all": 331,
+          "plastic_updates_all": 8593,
+          "elapsed_s": 0.5698
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 10,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.434
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 10,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 318,
+          "plastic_updates_all": 8268,
+          "elapsed_s": 0.5564
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 10,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 318,
+          "plastic_updates_all": 318,
+          "elapsed_s": 0.1901
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 10,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4747
+        }
+      }
+    },
+    {
+      "base": 134217728,
+      "readout": {
+        "target": 134217978,
+        "expected_cue_current": 0.883085,
+        "excitatory_incoming_edges": 8,
+        "positive_current": 0.883085
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": true,
+          "after_256_silent_ticks": true,
+          "after_unrelated_distractor": true,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 1.6,
+          "changed_c5_synapses_all": 302,
+          "plastic_updates_all": 7840,
+          "elapsed_s": 0.5616
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4353
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 290,
+          "plastic_updates_all": 7540,
+          "elapsed_s": 0.5445
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 290,
+          "plastic_updates_all": 290,
+          "elapsed_s": 0.1934
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4644
+        }
+      }
+    },
+    {
+      "base": 250000384,
+      "readout": {
+        "target": 250000593,
+        "expected_cue_current": 0.773045,
+        "excitatory_incoming_edges": 6,
+        "positive_current": 0.773045
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 1.2,
+          "changed_c5_synapses_all": 298,
+          "plastic_updates_all": 7739,
+          "elapsed_s": 0.5603
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4478
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 289,
+          "plastic_updates_all": 7514,
+          "elapsed_s": 0.5624
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 289,
+          "plastic_updates_all": 289,
+          "elapsed_s": 0.1989
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 6,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4808
+        }
+      }
+    },
+    {
+      "base": 300000256,
+      "readout": {
+        "target": 300001118,
+        "expected_cue_current": 0.78435,
+        "excitatory_incoming_edges": 7,
+        "positive_current": 0.78435
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 1.4,
+          "changed_c5_synapses_all": 289,
+          "plastic_updates_all": 7507,
+          "elapsed_s": 0.5863
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4558
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 282,
+          "plastic_updates_all": 7332,
+          "elapsed_s": 0.5622
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 282,
+          "plastic_updates_all": 282,
+          "elapsed_s": 0.1908
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4761
+        }
+      }
+    },
+    {
+      "base": 370000896,
+      "readout": {
+        "target": 370001747,
+        "expected_cue_current": 0.7854,
+        "excitatory_incoming_edges": 7,
+        "positive_current": 0.90097
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 1.4,
+          "changed_c5_synapses_all": 302,
+          "plastic_updates_all": 7845,
+          "elapsed_s": 0.5805
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.445
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 295,
+          "plastic_updates_all": 7670,
+          "elapsed_s": 0.5668
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 295,
+          "plastic_updates_all": 295,
+          "elapsed_s": 0.1895
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 7,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4823
+        }
+      }
+    },
+    {
+      "base": 420000768,
+      "selection": "no eligible target"
+    },
+    {
+      "base": 450000896,
+      "readout": {
+        "target": 450001549,
+        "expected_cue_current": 0.892465,
+        "excitatory_incoming_edges": 9,
+        "positive_current": 0.892465
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": true,
+          "after_256_silent_ticks": true,
+          "after_unrelated_distractor": true,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 1.8,
+          "changed_c5_synapses_all": 344,
+          "plastic_updates_all": 8932,
+          "elapsed_s": 0.5839
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4429
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 332,
+          "plastic_updates_all": 8632,
+          "elapsed_s": 0.5708
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 332,
+          "plastic_updates_all": 332,
+          "elapsed_s": 0.1925
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 9,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4814
+        }
+      }
+    },
+    {
+      "base": 480000000,
+      "readout": {
+        "target": 480000867,
+        "expected_cue_current": 0.938665,
+        "excitatory_incoming_edges": 8,
+        "positive_current": 0.938665
+      },
+      "conditions": {
+        "paired": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": true,
+          "after_256_silent_ticks": true,
+          "after_unrelated_distractor": true,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 1.6,
+          "changed_c5_synapses_all": 338,
+          "plastic_updates_all": 8775,
+          "elapsed_s": 0.5739
+        },
+        "plasticity_off": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4455
+        },
+        "cue_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 325,
+          "plastic_updates_all": 8450,
+          "elapsed_s": 0.5601
+        },
+        "teacher_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 325,
+          "plastic_updates_all": 325,
+          "elapsed_s": 0.1943
+        },
+        "remote_only": {
+          "baseline_readout_spike": false,
+          "after_training_readout_spike": false,
+          "after_256_silent_ticks": false,
+          "after_unrelated_distractor": false,
+          "positive_target_synapses": 8,
+          "target_synapse_multiplier_delta_sum": 0.0,
+          "changed_c5_synapses_all": 0,
+          "plastic_updates_all": 0,
+          "elapsed_s": 0.4749
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "not randomized target selection or biological model",
+    "selection based on known target C5 current, not held-out unseen tasks",
+    "single-cue local circuit, not broad autonomously learned behavior",
+    "teacher pulse explicitly forces desired post spike during training"
+  ]
+}
