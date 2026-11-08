@@ -1,3 +1,19 @@
+## Fusion R08 — CPU dendritic residual activity (experimental)
+
+This CPU-only patch adds an optional, **bounded sparse wake map** for
+R07 four-branch dendritic neurons. Charged branches continue integrating
+for up to eight subsequent silent ticks, allowing delayed spikes without
+allocating all 500 million virtual neuron IDs. Checkpoints persist exact
+awake IDs and expiration times; the default zero tail is R07-compatible.
+
+    python3 -m hq500m demo --engine paged --dendrites --dendrite-tail 4
+    python3 -m unittest discover -s tests -v
+
+There is no GPU dependency. This is still a synthetic four-branch
+proxy, not a human neuronal or dendritic reconstruction; CPU tail work
+is bounded by a safety cap and may be slow for dense event streams.
+See [R08 CPU tail design](docs/FUSION_R08_CPU_DENDRITE_TAIL.md).
+
 ## Fusion R07 — optional synthetic dendritic compartments
 
 The exact-ID paged CPU simulator now supports an **opt-in four-branch
