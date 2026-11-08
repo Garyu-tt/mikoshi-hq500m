@@ -15,6 +15,27 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 
 <!-- HQ500M_README_HERO_END -->
 
+
+## R21 — Smoother dense brain, no straight-through synthetic fiber web
+
+**[Open the updated procedural atlas R21](https://garyu-tt.github.io/mikoshi-hq500m/procedural/)**.
+
+The dense R20 point-cloud model is preserved, but optional synthetic
+connections now default to **short, gently curved, depth-occluded
+within-region fibers** instead of distant full-brain chords. The
+individual directed neuron ID graph and schematic HRA tract mode still
+support focused path inspection. Visible cortical glyph coverage
+is slightly stronger without storing any additional geometry or
+materializing 500M / 86B virtual neurons.
+
+Connections remain synthetic illustrations, not anatomically
+reconstructed axons/synapses.
+
+[Technical change and tests](docs/R21_LOCAL_FIBERS.md) ·
+[Local connection screenshot](docs/images/r21_local_fibers.png).
+
+
+
 ## R20 — Dense Procedural Neural Atlas (adaptive GPU LOD)
 
 [Open the denser procedural brain](https://garyu-tt.github.io/mikoshi-hq500m/procedural/).

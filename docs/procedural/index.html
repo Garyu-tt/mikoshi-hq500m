@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>HQ500M R20 · High-Density Procedural Neural Atlas</title>
+<title>HQ500M R21 · Local Curved Fibers + Dense Neural Atlas</title>
 <meta name="theme-color" content="#101010">
 <meta name="description" content="Anatomy-stencilled procedural synthetic neuron viewer, with 283 named HRA regions, dynamic target neuron counts and GPU level-of-detail.">
 <style>
@@ -48,7 +48,7 @@ a{color:#ed9eb1}
 <canvas id="scene" aria-label="3D-anatomical procedural neural model"></canvas>
 <header id="heading">
 <h1>MIKOSHI <span>NEURAL ATLAS</span></h1>
-<p>R20 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
+<p>R21 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
 <div id="status" role="status">Загрузка компактного трафарета…</div>
 </header>
 <aside id="panel">
@@ -69,8 +69,8 @@ a{color:#ed9eb1}
 <div id="areaInfo" style="margin-top:5px">Внутренние точки скрыты до выбора области.</div>
 <span class="mini">Остальные области</span>
 <select id="background"><option value="dim" selected>Приглушить наружные области</option><option value="hide">Полностью скрыть</option><option value="all">Показывать наружные области</option></select>
-<span class="mini">Связи</span>
-<div class="row"><button id="linkOff" aria-pressed="true">Без связей</button><button id="linkOn" aria-pressed="false">Синтетические связи</button></div>
+<span class="mini">Локальные схематические волокна</span>
+<div class="row"><button id="linkOff" aria-pressed="true">Без связей</button><button id="linkOn" aria-pressed="false">Локальные связи</button></div>
 <h3>Neural Path Explorer · ID граф</h3>
 <label class="mini" for="sourceNeuronR19">Neuron ID от 0 до N−1</label>
 <input id="sourceNeuronR19" type="number" value="42" min="0" step="1" placeholder="Например, 42">
@@ -83,7 +83,15 @@ a{color:#ed9eb1}
 <p class="note">Структурный граф строго <strong>синтетический</strong>: локальные связи и редкие пространственные проекции между соседними HRA-областями, без биологических синаптических данных. Смена общего количества перенумеровывает глобальные ID.</p>
 <span class="mini">Режим проводящих трактов</span>
 <select id="tract"><option value="-1">Не выделять тракт</option></select>
-<p class="note">Трактовые линии — условные трассы через пространственные ячейки HRA, не реконструированные аксоны. Белое вещество не получает фиктивных тел нейронов.</p>
+<p class="note">В полном мозге связи ограничены пространственно близкими узлами:
+длинные пересекающие весь мозг линии скрыты. Отдельный ID-путь
+и режим тракта показывают выделенные проекции. Все волокна остаются
+синтетическими, не реконструкцией аксонов.
+В полном мозге связи ограничены пространственно близкими узлами:
+длинные пересекающие весь мозг линии скрыты. Отдельный ID-путь
+и режим тракта показывают выделенные проекции. Все волокна остаются
+синтетическими, не реконструкцией аксонов.
+Трактовые линии — условные трассы через пространственные ячейки HRA, не реконструированные аксоны. Белое вещество не получает фиктивных тел нейронов.</p>
 <div class="row" style="margin-top:12px"><button id="reset" class="main">Сбросить камеру</button><button id="export">CSV квот</button></div>
 <p class="note">Нейронные квоты 283 областей — модельные оценки. Опорные ~69 млрд мозжечковых, ~16 млрд корковых и ~0,73 млрд других нейронов взяты из литературы; детализация внутри групп распределена по приблизительным геометрическим объёмам NeutralLab V5, не по экспериментальным подсчётам каждой области.</p>
 <a href="../" style="display:block;margin-top:9px">Старый просмотрщик HQ500M / Neural Path Explorer</a>
@@ -91,6 +99,6 @@ a{color:#ed9eb1}
 </aside>
 <button id="togglePanel">Управление мозгом</button>
 <div id="copyright">HRA/Allen v1.3 · CC BY 4.0 · 110 404 V5 пространственных шаблонов и 78 091 точка анатомических поверхностей · синтетический процедурный граф, не измеренный коннектом</div>
-<script src="./procedural_r20.js" defer></script>
+<script src="./procedural_r21.js" defer></script>
 </body>
 </html>
