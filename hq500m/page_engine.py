@@ -28,11 +28,18 @@ class PagedBrain:
     max_pages is the logical simultaneous page budget, not an allocation of
     max_pages*1024 dense state; pages are loaded only on delivered events.
     """
-    def __init__(self, max_pages=128, ticks=6, learning=True):
+    def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0, plasticity_scope="remote"):
         if type(max_pages) is not int or not 8 <= max_pages <= 1024:
             raise ValueError("max_pages must be 8..1024")
         if type(ticks) is not int or not 1 <= ticks <= 32:
             raise ValueError("ticks must be 1..32")
+        # Explicit experimental excitability knob; default preserves R02/R03.
+        if type(threshold) not in (int, float) or not math.isfinite(threshold) or not 0.25 <= threshold <= 2.0:
+            raise ValueError("threshold must be finite, 0.25..2.0")
+        if plasticity_scope not in ("remote", "all_exc"):
+            raise ValueError("plasticity_scope must be remote or all_exc")
+        self.plasticity_scope = plasticity_scope
+        self.threshold = float(threshold)
         self.max_pages = max_pages
         self.ticks = ticks
         self.learning = bool(learning)
@@ -115,7 +122,8 @@ class PagedBrain:
         return out
 
     def _plastic_incoming(self, dest, src, slot, base, now):
-        if (not self.learning or src < 0 or slot < 24 or base <= 0):
+        if (not self.learning or src < 0 or
+                (slot < 24 and self.plasticity_scope == "remote") or base <= 0):
             return
         key = (src, slot)
         post = self.last_post.get(dest, -10**12)
@@ -145,13 +153,37 @@ class PagedBrain:
                     self.plasticity_updates += 1
         self.last_post[dest] = now
 
-    def step(self, observation, pulses=None):
+    def _prune_expired_traces(self, now):
+        cutoff = now - PLASTIC_WINDOW
+        # Expired traces cannot affect learning, but keeping them forever
+        # would make a long-running brain leak memory across cold pages.
+        for gid, events in list(self.pre_trace.items()):
+            live = [event for event in events if event[2] >= cutoff]
+            if live:
+                self.pre_trace[gid] = live
+            else:
+                del self.pre_trace[gid]
+        for gid, tick in list(self.last_post.items()):
+            if tick < cutoff:
+                del self.last_post[gid]
+
+    def step(self, observation, pulses=None, watch_ids=None):
         """Game observation and optional exact-ID external pulses (one tick).
 
         Unlike sensory game input, pulses are injected only on the first tick.
         """
         sensors, reward = _normalize_observation(observation)
         pulses = self._validate_pulses(pulses)
+        if watch_ids is None:
+            watched = set()
+        elif isinstance(watch_ids, (set, tuple, list)) and len(watch_ids) <= 64:
+            if any(type(gid) is not int or not 0 <= gid < VIRTUAL_NEURONS
+                   for gid in watch_ids):
+                raise ValueError("watch_ids must contain valid global neuron IDs")
+            watched = set(watch_ids)
+        else:
+            raise ValueError("watch_ids must be a list, tuple or set with at most 64 IDs")
+        watched_spikes = {str(gid): [] for gid in sorted(watched)}
         if self.learning and self.last_action is not None and reward:
             action = self.last_action
             self.q[action] = max(-2.0, min(2.0,
@@ -202,7 +234,9 @@ class PagedBrain:
                     delivery_count += 1
                     if slot >= 24:
                         remote_count += 1
-                        self._plastic_incoming(dest, src, slot, amplitude, now)
+                    # Local C5 synapses participate only under the explicit
+                    # experimental all_exc flag; remote-only remains default.
+                    self._plastic_incoming(dest, src, slot, amplitude, now)
                     if len(delivered_sample) < 96:
                         delivered_sample.append((src, slot, dest))
             peak_updates = max(peak_updates, len(currents))
@@ -222,10 +256,12 @@ class PagedBrain:
                     continue
                 # Exact lazy integration for input-free decay.
                 voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
-                if voltage >= 1.0:
+                if voltage >= self.threshold:
                     state[gid] = (0.0, now, now)
                     firing.append(gid)
                     unique_spikes.add(gid)
+                    if gid in watched:
+                        watched_spikes[str(gid)].append(now)
                     if gid in self.motor_of:
                         counts[self.motor_of[gid]] += 1
                     self._plastic_post(gid, now)
@@ -249,9 +285,18 @@ class PagedBrain:
                 raise RuntimeError("outgoing event budget exceeded")
             self.pending = outgoing
             self.neural_ticks = now
+            if self.learning and now % 256 == 0:
+                self._prune_expired_traces(now)
             if sum(len(s) for s in self.hot.values()) + sum(len(s) for s in self.cold.values()) > MAX_TRACKED:
                 raise RuntimeError("tracked neuron state budget exceeded")
         self.last_delivery_sample = delivered_sample
+        directly_driven_pages = {gid // PAGE_SIZE for gid in directly_driven}
+        spiking_pages = {gid // PAGE_SIZE for gid in unique_spikes}
+        updated_pages = {gid // PAGE_SIZE for gid in unique_updated}
+        extra_spiking = {gid for gid in unique_spikes
+                         if gid // PAGE_SIZE not in directly_driven_pages}
+        extra_updated = {gid for gid in unique_updated
+                         if gid // PAGE_SIZE not in directly_driven_pages}
         scores = {a: counts[a] / WIDTH + 0.4 * self.q[a] for a in ACTIONS}
         scores["idle"] += .05
         chosen = max(ACTIONS, key=lambda a: scores[a])
@@ -260,7 +305,7 @@ class PagedBrain:
         self.step_number += 1
         return {
             "schema": "mikoshi-hq500m-game-v1",
-            "engine": "bitweave-cpu-exact-paged-r02",
+            "engine": "bitweave-cpu-exact-paged-r04",
             "step": self.step_number,
             "action": chosen,
             "motor_scores": {a: round(scores[a], 4) for a in ACTIONS},
@@ -278,6 +323,12 @@ class PagedBrain:
             "unique_spiking_neurons": len(unique_spikes),
             "directly_driven_neurons": len(directly_driven),
             "unique_undriven_spiking_neurons": len(unique_spikes - directly_driven),
+            # Identify true spread, not repeated spikes in the seeded page.
+            "unique_spiking_outside_driven_pages": len(extra_spiking),
+            "unique_updated_outside_driven_pages": len(extra_updated),
+            "spiking_pages": len(spiking_pages),
+            "spiking_outside_driven_pages": len(spiking_pages - directly_driven_pages),
+            "updated_pages": len(updated_pages),
             "spikes_per_tick": spikes_by_tick,
             "undriven_spikes_per_tick": undriven_spikes_by_tick,
             "peak_spiking_in_one_tick": peak_spikes,
@@ -290,8 +341,11 @@ class PagedBrain:
             "learned_c5_edges": len(self.plastic),
             "plasticity_updates": self.plasticity_updates,
             "synthetic_fanout": False,
+            "lif_threshold": self.threshold,
+            "plasticity_scope": self.plasticity_scope,
             "source": "synthetic_neural_ports",
             "motor_mapping": "toy-functional",
+            **({"watched_spike_ticks": watched_spikes} if watched else {}),
         }
 
     @staticmethod
@@ -303,6 +357,7 @@ class PagedBrain:
         return {
             "schema": FORMAT, "max_pages": self.max_pages,
             "ticks": self.ticks, "learning": self.learning,
+            "threshold": self.threshold, "plasticity_scope": self.plasticity_scope,
             "virtual_neurons": VIRTUAL_NEURONS,
             "step_number": self.step_number, "neural_ticks": self.neural_ticks,
             "load_count": self.load_count,
@@ -325,6 +380,9 @@ class PagedBrain:
             s.get("max_pages") != self.max_pages,
             s.get("ticks") != self.ticks,
             s.get("learning") != self.learning,
+            # Historical R02/R03 checkpoints omitted threshold: they are 1.0.
+            s.get("threshold", 1.0) != self.threshold,
+            s.get("plasticity_scope", "remote") != self.plasticity_scope,
             s.get("virtual_neurons") != VIRTUAL_NEURONS,
         )):
             raise ValueError("incompatible checkpoint")
@@ -393,7 +451,8 @@ class PagedBrain:
         plastic = {}
         for src, slot, delta in s.get("plastic", []):
             if (type(src) is not int or not 0 <= src < VIRTUAL_NEURONS or
-                type(slot) is not int or not 24 <= slot < 32 or
+                type(slot) is not int or not
+                (24 <= slot < 32 if self.plasticity_scope == "remote" else 0 <= slot < 32) or
                 type(delta) not in (float, int) or not math.isfinite(delta) or
                 not -.7 <= delta <= .8):
                 raise ValueError("invalid plastic map")
@@ -405,7 +464,8 @@ class PagedBrain:
             validated = []
             for src, slot, t in entries:
                 if (type(src) is not int or not 0 <= src < VIRTUAL_NEURONS or
-                    type(slot) is not int or not 24 <= slot < 32 or
+                    type(slot) is not int or not
+                    (24 <= slot < 32 if self.plasticity_scope == "remote" else 0 <= slot < 32) or
                     type(t) is not int or not 0 <= t <= s["neural_ticks"]):
                     raise ValueError("invalid pre-trace")
                 validated.append((src, slot, t))
