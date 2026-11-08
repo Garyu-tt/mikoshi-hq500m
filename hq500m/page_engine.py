@@ -15,6 +15,7 @@ from .core import (
 )
 from .bitweave import DECAY
 from .c5_fast import source_edges as _edges
+from .native_c5 import NativeC5, NativeUnavailable, EDGE_GAIN
 
 PAGE_SIZE = 1024
 FORMAT = "mikoshi-hq500m-page-cpu-r02"
@@ -28,7 +29,8 @@ class PagedBrain:
     max_pages is the logical simultaneous page budget, not an allocation of
     max_pages*1024 dense state; pages are loaded only on delivered events.
     """
-    def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0, plasticity_scope="remote"):
+    def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0,
+                 plasticity_scope="remote", kernel="python"):
         if type(max_pages) is not int or not 8 <= max_pages <= 1024:
             raise ValueError("max_pages must be 8..1024")
         if type(ticks) is not int or not 1 <= ticks <= 32:
@@ -38,6 +40,16 @@ class PagedBrain:
             raise ValueError("threshold must be finite, 0.25..2.0")
         if plasticity_scope not in ("remote", "all_exc"):
             raise ValueError("plasticity_scope must be remote or all_exc")
+        if kernel not in ("python", "native", "auto"):
+            raise ValueError("kernel must be python, native, or auto")
+        self._native = None
+        if kernel != "python":
+            try:
+                self._native = NativeC5()
+            except NativeUnavailable:
+                if kernel == "native":
+                    raise
+        self.c5_kernel = "native-c99" if self._native else "python"
         self.plasticity_scope = plasticity_scope
         self.threshold = float(threshold)
         self.max_pages = max_pages
@@ -273,14 +285,34 @@ class PagedBrain:
                 sum(gid not in directly_driven for gid in firing))
             all_spikes += len(firing)
             outgoing = []
-            for gid in firing:
-                for slot, (dest, base) in enumerate(_edges(gid)):
-                    evaluated += 1
-                    factor = 1.0 + self.plastic.get((gid, slot), 0.0)
-                    outgoing.append((dest, base * factor, gid, slot))
-                for dest, sensor, motor in self.bridges.get(gid, ()):
-                    outgoing.append((dest, 1.25 * self.gain.get(
-                        sensor + ":" + motor, 1.0), -1, -2))
+            # The native path is a bounded C99 batch; the original Python
+            # LIF/learning/event routing retains ownership of all state.
+            # Separate loops prevent a Python generator allocation per
+            # spiking source, which would defeat native savings.
+            if self._native is None:
+                for gid in firing:
+                    for slot, (dest, base) in enumerate(_edges(gid)):
+                        evaluated += 1
+                        factor = 1.0 + self.plastic.get((gid, slot), 0.0)
+                        outgoing.append((dest, base * factor, gid, slot))
+                    for dest, sensor, motor in self.bridges.get(gid, ()):
+                        outgoing.append((dest, 1.25 * self.gain.get(
+                            sensor + ":" + motor, 1.0), -1, -2))
+            else:
+                for start in range(0, len(firing), 8192):
+                    chunk = firing[start:start + 8192]
+                    targets, raw_weights = self._native.batch(chunk)
+                    for index, gid in enumerate(chunk):
+                        offset = index * 32
+                        for slot in range(32):
+                            evaluated += 1
+                            base = raw_weights[offset + slot] * EDGE_GAIN
+                            dest = targets[offset + slot]
+                            factor = 1.0 + self.plastic.get((gid, slot), 0.0)
+                            outgoing.append((dest, base * factor, gid, slot))
+                        for dest, sensor, motor in self.bridges.get(gid, ()):
+                            outgoing.append((dest, 1.25 * self.gain.get(
+                                sensor + ":" + motor, 1.0), -1, -2))
             if len(outgoing) > MAX_EVENTS:
                 raise RuntimeError("outgoing event budget exceeded")
             self.pending = outgoing
@@ -341,6 +373,7 @@ class PagedBrain:
             "learned_c5_edges": len(self.plastic),
             "plasticity_updates": self.plasticity_updates,
             "synthetic_fanout": False,
+            "c5_kernel": self.c5_kernel,
             "lif_threshold": self.threshold,
             "plasticity_scope": self.plasticity_scope,
             "source": "synthetic_neural_ports",
