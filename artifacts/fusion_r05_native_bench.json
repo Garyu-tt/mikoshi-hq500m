@@ -1,0 +1,155 @@
+{
+  "project": "HQ500M x BitWeave Fusion R05",
+  "host": "mirbi-linux",
+  "cpu": "",
+  "python": "3.13.5",
+  "benchmark": "full PagedBrain.step of 2 ticks, 1024 logical pages",
+  "input": "first-tick forced 2.0 in N unique exact virtual C5 sources",
+  "repetitions": 4,
+  "cold_definition": "source_edges Python LRU cleared immediately before run",
+  "warm_definition": "same source IDs repeated with existing Python LRU",
+  "kernels": [
+    "python",
+    "native"
+  ],
+  "cases": [
+    {
+      "forced_sources": 1024,
+      "cold": true,
+      "real_updated": 33791,
+      "real_spiking": 1024,
+      "c5_events_delivered": 32768,
+      "cross_region_delivered": 8192,
+      "python_s": 0.178419,
+      "native_s": 0.114541,
+      "native_over_python_x": 1.5577,
+      "python_repetitions_s": [
+        0.184952,
+        0.18183,
+        0.173953,
+        0.175007
+      ],
+      "native_repetitions_s": [
+        0.113998,
+        0.115084,
+        0.116617,
+        0.112073
+      ]
+    },
+    {
+      "forced_sources": 1024,
+      "cold": false,
+      "real_updated": 33791,
+      "real_spiking": 1024,
+      "c5_events_delivered": 32768,
+      "cross_region_delivered": 8192,
+      "python_s": 0.113051,
+      "native_s": 0.122431,
+      "native_over_python_x": 0.9234,
+      "python_repetitions_s": [
+        0.169902,
+        0.106531,
+        0.109594,
+        0.116509
+      ],
+      "native_repetitions_s": [
+        0.124756,
+        0.127323,
+        0.120107,
+        0.113908
+      ]
+    },
+    {
+      "forced_sources": 4096,
+      "cold": true,
+      "real_updated": 135162,
+      "real_spiking": 4096,
+      "c5_events_delivered": 131072,
+      "cross_region_delivered": 32768,
+      "python_s": 0.806543,
+      "native_s": 0.55848,
+      "native_over_python_x": 1.4442,
+      "python_repetitions_s": [
+        0.840322,
+        0.800053,
+        0.805538,
+        0.807548
+      ],
+      "native_repetitions_s": [
+        0.555684,
+        0.566498,
+        0.547334,
+        0.561276
+      ]
+    },
+    {
+      "forced_sources": 4096,
+      "cold": false,
+      "real_updated": 135162,
+      "real_spiking": 4096,
+      "c5_events_delivered": 131072,
+      "cross_region_delivered": 32768,
+      "python_s": 0.533583,
+      "native_s": 0.575633,
+      "native_over_python_x": 0.9269,
+      "python_repetitions_s": [
+        0.797469,
+        0.519451,
+        0.53835,
+        0.528816
+      ],
+      "native_repetitions_s": [
+        0.583054,
+        0.568211,
+        0.590806,
+        0.556355
+      ]
+    },
+    {
+      "forced_sources": 8192,
+      "cold": true,
+      "real_updated": 270294,
+      "real_spiking": 8192,
+      "c5_events_delivered": 262144,
+      "cross_region_delivered": 65536,
+      "python_s": 1.797335,
+      "native_s": 1.345554,
+      "native_over_python_x": 1.3358,
+      "python_repetitions_s": [
+        1.819721,
+        1.798114,
+        1.789433,
+        1.796555
+      ],
+      "native_repetitions_s": [
+        1.340331,
+        1.318592,
+        1.350777,
+        1.371049
+      ]
+    },
+    {
+      "forced_sources": 8192,
+      "cold": false,
+      "real_updated": 270294,
+      "real_spiking": 8192,
+      "c5_events_delivered": 262144,
+      "cross_region_delivered": 65536,
+      "python_s": 1.392524,
+      "native_s": 1.468691,
+      "native_over_python_x": 0.9481,
+      "python_repetitions_s": [
+        1.89349,
+        1.365461,
+        1.402721,
+        1.382327
+      ],
+      "native_repetitions_s": [
+        1.480308,
+        1.508624,
+        1.457074,
+        1.43862
+      ]
+    }
+  ]
+}
