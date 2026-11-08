@@ -1,0 +1,25 @@
+name: CPU-only structural tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpu-graph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify fixed virtual scope and deterministic addressing
+        run: python3 tests/test_fixed_scope.py
+      - name: Query highest valid neuron address
+        run: python3 tools/query_edges.py 499999999 > /dev/null
+      - name: Reject an out-of-range neuron address
+        run: |
+          if python3 tools/query_edges.py 500000000; then
+            echo "Unexpectedly accepted an out-of-range neuron" >&2
+            exit 1
+          fi
+      # Deliberately no CUDA claims: GitHub runners here do not validate GPU execution.
