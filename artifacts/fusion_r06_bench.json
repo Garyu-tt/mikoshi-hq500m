@@ -1,0 +1,69 @@
+{
+  "project": "Fusion R06 exact CPU event reduction + LIF",
+  "platform": "Linux-6.12.113+deb13-cloud-amd64-x86_64-with-glibc2.41",
+  "python": "3.13.5",
+  "repeats": 2,
+  "large_lab_mode": true,
+  "neural_ticks": 2,
+  "input": "2.0 pulse on first tick, globally distinct source IDs: 500000 + i*12941",
+  "max_resident_pages": 1024,
+  "python_C5_kernel": false,
+  "native_C5_kernel": true,
+  "learning": false,
+  "artificial_fanout": false,
+  "limitations": [
+    "forcing neurons artificially is not cognition or learning",
+    "native bulk LIF only on dense pages >= 48 events; sparse pages remain Python",
+    "C-native state storage and GPU BitWeave not implemented",
+    "single host and few short samples, no general speed guarantee"
+  ],
+  "cases": [
+    {
+      "forced_sources": 8192,
+      "unique_membrane_integrated_neurons": 270285,
+      "received_synaptic_current_neurons": 270285,
+      "refractory_event_skips": 0,
+      "unique_firing_neurons": 8192,
+      "original_C5_delivered": 262144,
+      "original_remote_delivered": 65536,
+      "python_s": 1.313052,
+      "native_event_lif_s": 1.47208,
+      "native_vs_python_x": 0.892,
+      "python_samples_s": [
+        1.316501,
+        1.309604
+      ],
+      "native_samples_s": [
+        1.470635,
+        1.473525
+      ],
+      "native_lif_input_cells": 0,
+      "native_lif_integrations": 0,
+      "checks": "all nonbackend fields exactly equal"
+    },
+    {
+      "forced_sources": 32768,
+      "unique_membrane_integrated_neurons": 1080623,
+      "received_synaptic_current_neurons": 1080623,
+      "refractory_event_skips": 17,
+      "unique_firing_neurons": 32768,
+      "original_C5_delivered": 1048576,
+      "original_remote_delivered": 262144,
+      "python_s": 7.252615,
+      "native_event_lif_s": 7.481758,
+      "native_vs_python_x": 0.969,
+      "python_samples_s": [
+        7.274402,
+        7.230829
+      ],
+      "native_samples_s": [
+        7.572909,
+        7.390608
+      ],
+      "native_lif_input_cells": 0,
+      "native_lif_integrations": 0,
+      "checks": "all nonbackend fields exactly equal"
+    }
+  ],
+  "process_peak_rss_mib": 608.7
+}
