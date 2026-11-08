@@ -16,6 +16,25 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 <!-- HQ500M_README_HERO_END -->
 
 
+## R17 - Anatomical HRA reference from NeutralLab (283 structures)
+
+[Open the source human brain anatomy viewer](https://neutrallab.infracare-it.com/viewer/).
+
+A searchable catalogue of 283 named HRA/Allen v1.3 anatomical
+mesh structures now appears in HQ500M. Each name links to the
+corresponding original mesh in NeutralLab's independent 3D viewer.
+
+V5 has 110404 synthetic voxel slots geometrically assigned
+to 265 atlas tissue meshes (18 cavities excluded). These are NOT
+real neurons. The atlas is NOT registered to the 1.19M-point
+HQ500M source or its 500M synthetic neural IDs. Its eight-zone
+R16 colors remain separate illustrative hypotheses.
+
+[Provenance, limitations and tests](docs/R17_HRA_NEUTRALLAB_REFERENCE.md).
+
+
+
+
 ## R16 — Smooth region candidates and Neural Path Explorer
 
 The R14-R15 flat cerebellar-region boundary was replaced with eight
