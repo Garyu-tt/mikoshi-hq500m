@@ -6,10 +6,14 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 from .core import Brain, VIRTUAL_NEURONS, describe_ports, edge, region
+from .bitweave import BitWeaveBrain
 
 
 def create_brain(args):
-    brain = Brain(cells=args.cells, ticks=args.ticks, learning=not args.no_learning)
+    brain = (BitWeaveBrain(pages=args.pages, ticks=args.ticks,
+                          learning=not args.no_learning, fanout=args.fanout)
+             if args.engine == "bitweave" else
+             Brain(cells=args.cells, ticks=args.ticks, learning=not args.no_learning))
     if args.state_file and Path(args.state_file).exists():
         brain.load(args.state_file)
     return brain
@@ -53,7 +57,7 @@ def server(args):
 
         def do_GET(self):
             if self.path == "/health":
-                self._send(200, {"status": "ok", "engine": "CPU", "virtual_neurons": VIRTUAL_NEURONS,
+                self._send(200, {"status": "ok", "engine": type(brain).__name__, "virtual_neurons": VIRTUAL_NEURONS,
                                  "resident_neurons": brain.neurons, "steps": brain.step_number})
             elif self.path == "/v1/ports":
                 self._send(200, describe_ports())
@@ -96,8 +100,9 @@ def demo(args):
                 {"obstacle_left": 0.8, "reward": -0.5},
                 {"eye_right": 1.0}, {"novelty": 0.9}, {}):
         result = run_step(brain, {"observation": obs}, args.state_file)
-        print("input=%s -> action=%s spikes=%d motor=%s" %
-              (obs, result["action"], result["spikes"], result["motor_spikes"]))
+        print("input=%s -> action=%s spikes=%d motor=%s unique_spiking=%s" %
+              (obs, result["action"], result["spikes"], result["motor_spikes"],
+               result.get("unique_spiking_neurons", "legacy")))
 
 
 def query(args):
@@ -122,6 +127,12 @@ def main(argv=None):
                         help="resident neurons per region; default 128")
         sp.add_argument("--ticks", type=int, default=6, help="neural ticks per game step (1..32)")
         sp.add_argument("--no-learning", action="store_true")
+        sp.add_argument("--engine", choices=("legacy", "bitweave"), default="legacy",
+                        help="bitweave: packed sparse event CPU simulator")
+        sp.add_argument("--pages", type=int, default=16,
+                        help="bitweave: resident pages of 1024 neurons per region (1..128)")
+        sp.add_argument("--fanout", type=int, default=16,
+                        help="bitweave: synthetic sensory broadcast lanes per resident page (0..64)")
         sp.add_argument("--state-file", help="optional persistent toy neural state")
         if name == "server":
             sp.add_argument("--port", type=int, default=8766)
