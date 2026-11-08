@@ -22,6 +22,8 @@ PAGE_SIZE = 1024
 FORMAT = "mikoshi-hq500m-page-cpu-r02"
 MAX_EVENTS = 500_000
 MAX_TRACKED = 2_000_000
+MAX_DENDRITIC_WAKES = 131_072
+DENDRITIC_QUIET = 0.025
 PLASTIC_WINDOW = 15
 
 class PagedBrain:
@@ -33,7 +35,7 @@ class PagedBrain:
     def __init__(self, max_pages=128, ticks=6, learning=True, threshold=1.0,
                  plasticity_scope="remote", kernel="python",
                  lab_max_pulses=8192, event_kernel="python",
-                 lif_kernel="python", dendrites=False):
+                 lif_kernel="python", dendrites=False, dendrite_tail_ticks=0):
         if type(max_pages) is not int or not 8 <= max_pages <= 1024:
             raise ValueError("max_pages must be 8..1024")
         if type(ticks) is not int or not 1 <= ticks <= 32:
@@ -57,9 +59,16 @@ class PagedBrain:
             raise ValueError("event_kernel and lif_kernel must be python or native")
         if type(dendrites) is not bool:
             raise ValueError("dendrites must be a boolean")
+        if type(dendrite_tail_ticks) is not int or not 0 <= dendrite_tail_ticks <= 8:
+            raise ValueError("dendrite_tail_ticks must be 0..8")
+        if dendrite_tail_ticks and not dendrites:
+            raise ValueError("dendrite_tail_ticks requires dendrites=True")
         if dendrites and lif_kernel != "python":
             raise ValueError("dendrites require the Python LIF path; native LIF has no compartments")
         self.dendrites = dendrites
+        self.dendrite_tail_ticks = dendrite_tail_ticks
+        # Global ID -> last permitted continuation tick; bounded sparse CPU map.
+        self.dendritic_wake = {}
         self._native_math = self._native
         if (event_kernel == "native" or lif_kernel == "native") and self._native_math is None:
             self._native_math = NativeC5()
@@ -200,6 +209,19 @@ class PagedBrain:
             if tick < cutoff:
                 del self.last_post[gid]
 
+    def _update_dendritic_wake(self, gid, now, row, new_branch_input, spiked):
+        """Keep a bounded set of touched neurons with active dendritic tails."""
+        if not self.dendrite_tail_ticks:
+            return
+        if spiked or max(abs(v) for v in row[3:]) < DENDRITIC_QUIET:
+            self.dendritic_wake.pop(gid, None)
+        elif new_branch_input:
+            self.dendritic_wake[gid] = now + self.dendrite_tail_ticks
+        elif self.dendritic_wake.get(gid, -1) <= now:
+            self.dendritic_wake.pop(gid, None)
+        if len(self.dendritic_wake) > MAX_DENDRITIC_WAKES:
+            raise RuntimeError("dendritic CPU tail budget exceeded; no silent dropping")
+
     def step(self, observation, pulses=None, watch_ids=None):
         """Game observation and optional exact-ID external pulses (one tick).
 
@@ -249,6 +271,7 @@ class PagedBrain:
         initial_loads, initial_evictions = self.load_count, self.eviction_count
         delivered_sample = []
         native_lif_cells = native_lif_pages = native_lif_integrations = 0
+        dendritic_silent_integrations = dendritic_silent_spikes = 0
         for substep in range(self.ticks):
             now = self.neural_ticks + 1
             incoming = self.pending
@@ -349,7 +372,12 @@ class PagedBrain:
                 # Original event-driven Python LIF; identical by default.
                 current_page = None
                 state = None
-                for gid in sorted(currents):
+                candidates = (
+                    sorted(set(currents).union(self.dendritic_wake))
+                    if self.dendrite_tail_ticks else sorted(currents)
+                )
+                for gid in candidates:
+                    was_silent_wake = gid in self.dendritic_wake and gid not in currents
                     pg = gid // PAGE_SIZE
                     if pg != current_page:
                         state = self._touch(gid)
@@ -361,12 +389,21 @@ class PagedBrain:
                         refractory_skips += 1
                         continue
                     integrated_neurons.add(gid)
+                    if was_silent_wake:
+                        dendritic_silent_integrations += 1
                     if self.dendrites:
                         updated, spiked = dendritic_integrate(
                             row, now, self.threshold,
                             soma_currents.get(gid, 0.0),
                             branch_currents.get(gid, ZERO_BRANCHES))
                         state[gid] = updated
+                        if self.dendrite_tail_ticks:
+                            branch_input = branch_currents.get(gid)
+                            self._update_dendritic_wake(
+                                gid, now, updated,
+                                bool(branch_input and any(v != 0.0 for v in branch_input)),
+                                spiked
+                            )
                     else:
                         voltage, last_tick, _ = row
                         voltage = voltage * (DECAY ** (now - last_tick)) + currents[gid]
@@ -376,6 +413,8 @@ class PagedBrain:
                         else:
                             state[gid] = (max(-2.0, min(1.0, voltage)), now, last_fire)
                     if spiked:
+                        if was_silent_wake:
+                            dendritic_silent_spikes += 1
                         firing.append(gid)
                         unique_spikes.add(gid)
                         if gid in watched:
@@ -486,6 +525,11 @@ class PagedBrain:
             "native_lif_input_cells": native_lif_cells,
             "native_lif_integrations": native_lif_integrations,
             "native_lif_page_batches": native_lif_pages,
+            **({"dendritic_wake_integrations": dendritic_silent_integrations,
+                "dendritic_silent_spikes": dendritic_silent_spikes,
+                "dendritic_active_tails": len(self.dendritic_wake),
+                "dendrite_tail_ticks": self.dendrite_tail_ticks}
+               if self.dendrite_tail_ticks else {}),
             "lif_threshold": self.threshold,
             "plasticity_scope": self.plasticity_scope,
             **({"dendrite_model": "four-branch-proxy-r07",
@@ -507,6 +551,10 @@ class PagedBrain:
             "ticks": self.ticks, "learning": self.learning,
             "threshold": self.threshold, "plasticity_scope": self.plasticity_scope,
             **({"dendrites": True} if self.dendrites else {}),
+            **({"dendrite_tail_ticks": self.dendrite_tail_ticks,
+                "dendritic_wake": [[gid, deadline] for gid, deadline
+                                   in sorted(self.dendritic_wake.items())]}
+               if self.dendrite_tail_ticks else {}),
             "virtual_neurons": VIRTUAL_NEURONS,
             "step_number": self.step_number, "neural_ticks": self.neural_ticks,
             "load_count": self.load_count,
@@ -534,6 +582,7 @@ class PagedBrain:
             s.get("threshold", 1.0) != self.threshold,
             s.get("plasticity_scope", "remote") != self.plasticity_scope,
             s.get("dendrites", False) is not self.dendrites,
+            s.get("dendrite_tail_ticks", 0) != self.dendrite_tail_ticks,
             s.get("virtual_neurons") != VIRTUAL_NEURONS,
         )):
             raise ValueError("incompatible checkpoint")
@@ -627,6 +676,27 @@ class PagedBrain:
                     raise ValueError("invalid pre-trace")
                 validated.append((src, slot, t))
             pre_trace[dst] = validated
+        wake = {}
+        if self.dendrite_tail_ticks:
+            values = s.get("dendritic_wake")
+            if not isinstance(values, list) or len(values) > MAX_DENDRITIC_WAKES:
+                raise ValueError("invalid dendritic wake list")
+            for pair in values:
+                if not isinstance(pair, list) or len(pair) != 2:
+                    raise ValueError("invalid dendritic wake entry")
+                gid, deadline = pair
+                if (type(gid) is not int or not 0 <= gid < VIRTUAL_NEURONS or
+                        gid in wake or type(deadline) is not int or
+                        not s["neural_ticks"] < deadline <=
+                        s["neural_ticks"] + self.dendrite_tail_ticks):
+                    raise ValueError("invalid dendritic wake deadline")
+                wake[gid] = deadline
+            if any(
+                gid not in hot.get(gid // PAGE_SIZE, {}) and
+                gid not in cold.get(gid // PAGE_SIZE, {})
+                for gid in wake
+            ):
+                raise ValueError("dendritic wake missing neuron state")
         last_post = {}
         for dst, t in s.get("last_post", []):
             if (type(dst) is not int or not 0 <= dst < VIRTUAL_NEURONS or
@@ -636,6 +706,7 @@ class PagedBrain:
         # Commit to instance only after successful full validation.
         self.hot, self.cold = hot, cold
         self.pending = pending
+        self.dendritic_wake = wake
         self.plastic, self.pre_trace, self.last_post = plastic, pre_trace, last_post
         self.q, self.gain = dict(s["q"]), dict(s["gain"])
         self.last_action, self.last_sensors = s["last_action"], list(s["last_sensors"])
