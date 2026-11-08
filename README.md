@@ -1,88 +1,120 @@
-# Mikoshi HQ500M — GENESIS Human Quantum
+# Mikoshi HQ500M — CPU Playground
 
-**Experimental fixed-scale neural graph with 500,000,000 virtual neuron addresses.**
+**A tiny, hackable neural sandbox with 500,000,000 virtual neuron addresses, named sensory/motor ports, and zero GPU requirements.**
 
-HQ500M is a CUDA-based research prototype of a **synthetic, cortical-inspired** network. It generates deterministic graph connections on demand, keeps a small set of 1,024-neuron modules active across eight GPUs, routes events to exact global addresses and experiments with sparse synaptic plasticity.
+This is the **public toy release**, not our large research installation. It runs on an ordinary computer using Python 3.11+ and the standard library only.
 
-> **Scope:** 500,000,000 is the *virtual address space*, **not** 500 million simultaneously simulated neurons. This is not a reconstructed human connectome, human brain simulation, general AI or evidence of human-like cognition.
+- **500,000,000 fixed, virtual addresses**; 32 on-demand potential outgoing edges per address.
+- **896 active toy neurons by default** (7 regions × 128 cells); selectable **896 / 1,792 / 3,584 / 7,168** at runtime.
+- 15 named sensory inputs, 6 motor outputs, synthetic functional bridges, spiking dynamics, simple reward-based plasticity and local checkpoint save/load.
+- Compatible game-style observation keys from BrainFryGameAgent (`food`, `threat`, `obstacle`, `novelty`, `hunger`, `fatigue`, `reward`).
+- Plain Python API, newline-delimited JSON or **localhost-only HTTP API** for game engines.
 
-## What is implemented
+> **Important:** The 500 million neurons are *not simultaneously active*. This is a small **synthetic** network in a large **virtual** address space. The names cortex, thalamus, eye, spinal cord, etc. designate **hypothetical functional ports**, not biological reconstructions. It contains no human connectome, no quantum computation, and no claim of consciousness.
 
-- Fixed neuron IDs **0 … 499,999,999** (compile-time constant; no billion-neuron option here).
-- 32 deterministic potential outgoing edges per neuron: 24 module-local and 8 projected, for 16 billion **potential**, not materialized, edges.
-- A bounded, resident CUDA working set across **8 CUDA-capable GPUs**; demand paging retains exact global event destinations.
-- Sparse, per-connection long-range excitatory plasticity and checkpoint restore.
-- Q0.8: a selected-synapse cue/teaching/readout experiment with three negative controls and a saved-state continuation test (see [technical Q0.8 notes](docs/Q08.md)).
-- Q0.9: **experimental** cohort methodology for testing multiple preselected synapses. The full cohort is **not independently confirmed** in this repository.
-
-## Run CPU-only graph inspection
-
-Python 3, no GPU required:
+## Try it in under a minute
 
 ```bash
-python3 tools/query_edges.py 0
-python3 tools/query_edges.py 499999999
-python3 tests/test_fixed_scope.py
+git clone https://github.com/Garyu-tt/mikoshi-hq500m.git
+cd mikoshi-hq500m
+
+python3 -m hq500m demo
+python3 -m hq500m ports
+python3 examples/simple_game.py
+python3 -m unittest discover -s tests -v
 ```
 
-This inspects **virtual deterministic connectivity**, not network dynamics.
+**No** `pip install`, GPU, CUDA, pretrained model weights, paid API, database or network access is needed.
 
-## CUDA requirements and build
-
-The CUDA simulation currently requires **8 available NVIDIA CUDA GPUs**. It is not configured to run the full simulation on one GPU.
+Try larger active windows, still with exactly 500 million virtual addresses:
 
 ```bash
-nvcc -O2 -std=c++17 -o hq500m_q08_assay src/hq500m_q08_assay.cu
-nvcc -O2 -std=c++17 -o hq500m_q09_batch src/hq500m_q09_batch.cu
+python3 -m hq500m demo --cells 256
+python3 -m hq500m demo --cells 1024
+python3 -m hq500m query 499999999
 ```
 
-CUDA builds and GPU-run reproduction have **not been repeated in this GitHub export environment**. The original experiments used eight NVIDIA P106-100 devices; consult the documentation for their limited scope.
+The `--cells` number is **per region**. It changes RAM/CPU workload but never changes the fixed virtual network size.
 
-## Reproduce the Q0.8 controlled assay
+## Connect to a game
+
+**Option A: directly from Python**
+
+```python
+from hq500m import Brain
+
+brain = Brain(cells=128, ticks=6)
+reply = brain.step({
+    "eye_left": 0.8,        # left-eye sensory channel
+    "obstacle_left": 0.9,   # game sensor: obstacle on left
+    "spinal_sensory": 0.2,  # body-state feedback
+    "reward": 0.0          # feedback about the previous action
+})
+print(reply["action"], reply["motor_spikes"])
+# Your game applies the chosen command. The model does NOT control the game itself.
+```
+
+**Option B: pipe JSON lines (one input/response per line)**
 
 ```bash
-./hq500m_q08_assay on 240 q08_on.json
-./hq500m_q08_assay off 240 q08_off.json
-./hq500m_q08_assay unpaired 240 q08_unpaired.json
-./hq500m_q08_assay cueonly 240 q08_cueonly.json
-
-# Generate an intermediate checkpoint and resume without altering it.
-./hq500m_q08_assay on 190 q08_partial.json q08_at_190.chk
-./hq500m_q08_assay on 240 q08_restored.json q08_at_190.chk --resume-no-save
-
-python3 tests/hq500m_q08_audit.py q08_on.json q08_off.json q08_unpaired.json q08_cueonly.json q08_restored.json
+python3 -m hq500m jsonl
 ```
 
-The output is a small, hand-defined associative learning assay. A passing test does not establish generalizable learning.
+Send one line:
 
-## Investigate Q0.9 (experimental)
+```json
+{"observation":{"eye_left":0.8,"obstacle_left":0.9,"reward":0}}
+```
+
+Output includes `action`, `motor_spikes`, `motor_scores`, `spikes`, `step`, `resident_neurons` and `virtual_neurons`.
+
+**Option C: localhost HTTP**
+
+Terminal 1:
 
 ```bash
-mkdir -p q09_cohort
-./hq500m_q09_batch 0 3
-python3 tests/hq500m_q09_cohort_audit.py q09_cohort 4
+python3 -m hq500m server --port 8766 --state-file ./brain-state.json
 ```
 
-The cohort script evaluates four conditions per trial. **Do not describe a cohort as passing until the raw JSON outputs have been generated and the audit has completed on your hardware.**
+Terminal 2:
 
-## Source layout
+```bash
+curl http://127.0.0.1:8766/v1/ports
+curl -s -X POST http://127.0.0.1:8766/v1/step \
+  -H 'Content-Type: application/json' \
+  -d '{"observation":{"food":1,"threat":0,"reward":0}}'
+```
 
-- `src/genesis_hq500m_q08.cu`: fixed 500M procedural graph, paging and CUDA LIF substrate.
-- `src/hq500m_q08_assay.cu`: Q0.8 associative probe and ablations.
-- `src/hq500m_q09_trial_impl.cu`, `src/hq500m_q09_batch.cu`: experimental cohort driver.
-- `tests/hq500m_oracle.py`: independent CPU edge generation reference.
-- `tests/hq500m_q08_audit.py`, `tests/hq500m_q09_cohort_audit.py`: experiment result audits.
-- `data/hq500m_genome.json`: original synthetic genome values (not a general executable genome interpreter).
-- `docs/Q08.md`: experimental observations and limitations.
+Endpoints: `GET /health`, `GET /v1/ports`, `POST /v1/step`. Server binds **only** to `127.0.0.1`. It is intentionally unauthenticated; do not reverse-proxy or expose it publicly without your own authentication and access policy.
 
-No GPU binaries, trained checkpoints, private operational paths, server logs or third-party datasets are shipped in this initial source release.
+The `reward` input is in [-1,1] and refers to the **previous** action, not the one the model is currently choosing. Omitted sensors default to 0. Sensor values must be finite numbers between -1 and 1. Motor commands are `forward`, `left`, `right`, `interact`, `retreat`, and `idle`. Your game adapter must handle physics, collisions, permissions and safety limits.
 
-## Scientific limitations
+## Anatomical-style connector guide
 
-- The full 500M graph has **never** been simultaneously activated, materialized or trained.
-- The Q0.8 learning result comes from one deterministically selected synthetic synapse, **not** from a randomized population.
-- Local and inhibitory edges are not covered by the Q0.8 plasticity mechanism.
-- Routing latency and paging fairness may influence outcomes; Q0.9 is intended to explore reliability.
-- Labels such as "Human Quantum" are project names; the implementation does **not** use quantum computing or recreate human consciousness.
+| Role | Input / output ports | Toy region |
+| --- | --- | --- |
+| Vision | `eye_left`, `eye_right` | Thalamus |
+| Hearing | `ear_left`, `ear_right` | Thalamus |
+| Touch | `touch` | Thalamus |
+| Body/spinal ascending input | `spinal_sensory` | Brainstem |
+| Balance | `balance` | Cerebellum |
+| Hunger, danger, smell | `hunger`, `threat`, `smell` | Limbic |
+| Novelty/context | `novelty` | Hippocampus |
+| Motion to game | `forward`, `left`, `right`, `retreat` | Brainstem |
+| Interaction and no-op | `interact`, `idle` | Cortex / basal ganglia |
 
-Original source code in this release is **GNU GPLv3 or later** (`GPL-3.0-or-later`). Copyright (C) 2026 [Garyu-tt](https://github.com/Garyu-tt). See [LICENSE](LICENSE) and [AUTHORS.md](AUTHORS.md). Previously published MIT revisions retain their original permissions.
+**Actual global neuron ID ranges, all 15 inputs, six outputs, bridge destinations and examples:** [EN connector map](docs/PORTS.md) · [Русская инструкция](docs/PORTS_RU.md). You can also inspect the machine-readable map using `python3 -m hq500m ports` or `GET /v1/ports`.
+
+No spinal neurons are actually simulated: the ascending `spinal_sensory` and descending brainstem motor ports are **integration points** that game developers connect to avatar sensors and actions.
+
+## What does this actually simulate?
+
+The original HQ500M deterministic 32-edge address generator is implemented on CPU. Only potential edges whose endpoints are in the currently resident tiny windows participate in the toy LIF-like simulation. To make game interaction legible, **additional named sensor→motor bridges** are connected explicitly; these bridges are **not** the original procedural C5 edges or measured human pathways.
+
+A tiny action-value table and bounded bridge gains can be modified by `reward`; this is a game-learning demonstration, **not** proof of emergent intelligence. State is saved only when `--state-file` is specified (or you call `Brain.save(path)`).
+
+The **historical CUDA implementation** is not needed for the public CPU entrypoint. The old CUDA Q0.8 experiments do not validate the toy game-port mapping; treat them as separate research.
+
+## License
+
+MIT; see [LICENSE](LICENSE). Contributions, alternative adapters, games and experiments are welcome.
