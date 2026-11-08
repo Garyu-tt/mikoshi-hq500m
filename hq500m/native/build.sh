@@ -9,5 +9,5 @@ if ! command -v "$CC" >/dev/null 2>&1; then
     exit 1
 fi
 "$CC" -std=c11 -O3 -Wall -Wextra -Werror -fPIC -shared \
-    -Wl,-z,relro,-z,now -o "$OUT" "$ROOT/c5_batch.c"
+    -Wl,-z,relro,-z,now -o "$OUT" "$ROOT/c5_batch.c" "$ROOT/event_lif.c" -lm
 echo "Built: $OUT"
