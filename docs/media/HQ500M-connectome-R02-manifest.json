@@ -1,0 +1,37 @@
+{
+  "schema": "HQ500M-CONNECTOME-RENDER-R02",
+  "version": "2026-11-08",
+  "rendering_engine": "Three.js/WebGL 3D via Chromium SwiftShader software rasterizer; screenshot is not AI generated",
+  "virtual_neurons": 500000000,
+  "potential_edges_per_neuron": 32,
+  "sampled_source_neurons": 5040,
+  "actual_model_generated_edges": 50400,
+  "sampled_local_edges": 30240,
+  "sampled_projected_edges": 20160,
+  "anatomical_geometry": "HQ500M-Anatomy-WholeBody-R02.glb",
+  "anatomical_glb_sha256": "28e056189a4c84b0d09142b954ad7563473ed1c916eb00ba592df41d50b1da04",
+  "graph_source": "HQ500M-Q08-sampled-edges.bin",
+  "graph_sha256": "875f1a3a7e6dea99db5aec9c27e88fe2d78185c26d554915bf2dd4aa698b8114",
+  "source_algorithm": "Q0.8 deterministic edge mapping from genesis_hq500m_q08.cu",
+  "generator_source_sha256": "dc59ea8018876189c9e16f3f9169a9383a5154fffb4ef8432e901bab0f110d95",
+  "projection": "synthetic seven-region 3D projection; this is not a biologically measured spatial reconstruction",
+  "visual_treatment": "Cubic-like smooth interpolation preserving exact source/destination positions for existing edges; intentionally highlighted genuine sampled edges; software bloom and transparent R02 anatomical lobes",
+  "scene": "front or angled oblique near the R02 brain",
+  "render_size": [
+    1800,
+    1400
+  ],
+  "images": [
+    {
+      "path": "HQ500M-connectome-R02.png",
+      "view": "default",
+      "sha256": "af7f7b3f6f36ac8b94a64d1bd99837027477ba0bed552f1ec20d3fe35b066999"
+    },
+    {
+      "path": "HQ500M-connectome-R02-front.png",
+      "view": "front",
+      "sha256": "833e05a6aca906cb00929879acb8362fd7103bcd4a7a79cd1a9a2e9e86aa7010"
+    }
+  ],
+  "limitations": "Only sampled connectivity is visible. No claim of 500M simultaneously reconstructed cells; no measured human connectome; anatomy is hypothetical procedural R02 geometry."
+}

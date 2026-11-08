@@ -1,0 +1,130 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>HQ500M / CONNECTIVITY R02 — COMPUTED RENDER</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02040a}
+#background{position:fixed;inset:0;background:radial-gradient(ellipse at 51% 47%,#152038 0%,#070d18 43%,#02040a 78%);}
+#glow,#main{position:absolute;inset:0;width:100%;height:100%;display:block;}
+#glow{filter:blur(13px) brightness(1.35) saturate(1.15);opacity:.27;mix-blend-mode:screen;}
+#main{filter:contrast(1.12)}
+#overlay{pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 26%,rgba(0,1,7,.20) 67%,rgba(0,0,2,.8) 100%)}
+#mark{position:fixed;bottom:35px;left:54px;color:#98adc6;letter-spacing:.26em;font:600 12px Arial;opacity:.68}
+#foot{position:fixed;bottom:35px;right:54px;color:#7187a6;letter-spacing:.14em;font:10px Arial;opacity:.65}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head><body><div id="background"></div><canvas id="glow"></canvas><canvas id="main"></canvas><div id="overlay"></div>
+<div id="mark">HQ500M / Q0.8</div><div id="foot">50,400 MODEL-DERIVED EDGES · SYNTHETIC 3D PROJECTION</div>
+<script type="module">
+import * as T from 'three';
+import {GLTFLoader} from './vendor/GLTFLoader.js';
+const qs=new URLSearchParams(location.search);
+if(qs.has('clean')){document.getElementById('mark').style.display='none';document.getElementById('foot').style.display='none'}
+const W=innerWidth,H=innerHeight;
+const renderer=new T.WebGLRenderer({canvas:document.querySelector('#main'),antialias:true,alpha:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+renderer.setSize(W,H,false);renderer.setPixelRatio(1);
+renderer.setClearColor(0x000000,0);
+renderer.outputColorSpace=T.SRGBColorSpace;
+renderer.toneMapping=T.NoToneMapping;
+const scene=new T.Scene();
+const gltf=await new GLTFLoader().loadAsync('./assets/HQ500M-Anatomy-WholeBody-R02.glb');
+const anatomy=gltf.scene;
+const bodyShell = new T.Group();scene.add(bodyShell);
+anatomy.updateMatrixWorld(true);
+// The transparent cortex shells are the *actual* R02 glTF transforms.
+anatomy.traverse(obj=>{
+ if(!obj.isMesh)return;
+ if(obj.name==='Cerebrum.L'||obj.name==='Cerebrum.R'){
+   const surface=new T.Mesh(obj.geometry,new T.MeshBasicMaterial({color:0x1e3b54,transparent:true,opacity:.085,side:T.DoubleSide,depthWrite:false}));
+   surface.matrixAutoUpdate=false;surface.matrix.copy(obj.matrixWorld);
+   bodyShell.add(surface);
+   const shellEdges=new T.LineSegments(new T.WireframeGeometry(obj.geometry),new T.LineBasicMaterial({color:0x467c9c,transparent:true,opacity:.065,depthWrite:false,blending:T.NormalBlending}));
+   shellEdges.matrixAutoUpdate=false;shellEdges.matrix.copy(obj.matrixWorld);
+   bodyShell.add(shellEdges);
+ }
+ if(obj.name==='TransparentHeadSkin'){
+   const head=new T.Mesh(obj.geometry,new T.ShaderMaterial({uniforms:{tint:{value:new T.Color(0x3a7697)}},
+   vertexShader:'varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vec4 p=modelViewMatrix*vec4(position,1.0);vP=normalize(-p.xyz);gl_Position=projectionMatrix*p;}',
+   fragmentShader:'uniform vec3 tint;varying vec3 vN;varying vec3 vP;void main(){float rim=pow(1.-abs(dot(normalize(vN),normalize(vP))),6.);gl_FragColor=vec4(tint,rim*.15);}',
+   transparent:true,depthWrite:false,side:T.BackSide,blending:T.AdditiveBlending}));
+   head.matrixAutoUpdate=false;head.matrix.copy(obj.matrixWorld);
+   bodyShell.add(head);
+ }
+});
+const buffer=await (await fetch('./assets/HQ500M-Q08-sampled-edges.bin')).arrayBuffer();
+const d=new DataView(buffer);if(d.getUint32(0,true)!==0x31475148)throw Error('HQ graph missing or corrupt');
+const nl=d.getUint32(4,true),ng=d.getUint32(8,true),np=d.getUint32(12,true);
+let off=16;
+function read(n){const xyz=new Float32Array(n*3),clr=new Float32Array(n*3);for(let i=0;i<n;i++){xyz[i*3]=d.getFloat32(off,true);xyz[i*3+1]=d.getFloat32(off+4,true);xyz[i*3+2]=d.getFloat32(off+8,true);const r=d.getUint8(off+12),g=d.getUint8(off+13),b=d.getUint8(off+14);const c=new T.Color(r/255,g/255,b/255).convertSRGBToLinear();clr.set([c.r,c.g,c.b],i*3);off+=16}return {xyz,clr}}
+const local=read(nl),global=read(ng),vertices=read(np);
+// Preserve actual model endpoints. Intermediate Bezier curvature is display geometry only, not extra neural connectivity.
+function filament(data,steps,curvature){
+ const count=data.xyz.length/6,POS=new Float32Array(count*steps*6),CLR=new Float32Array(count*steps*6);
+ for(let i=0;i<count;i++){
+  const a=i*6, x0=data.xyz[a],y0=data.xyz[a+1],z0=data.xyz[a+2];
+  const x1=data.xyz[a+3],y1=data.xyz[a+4],z1=data.xyz[a+5];
+  const dx=x1-x0,dy=y1-y0,dz=z1-z0,dist=Math.hypot(dx,dy,dz)+1e-5;
+  const h=(Math.sin(i*12.9898+z0*78.233)*43758.5453)%1;
+  const wav=Math.sin(i*2.39996);
+  const bend=(.08+curvature*dist)*(wav*.65+h*.35);
+  const bx=(dy*.36+dz*.22)*bend;
+  const by=(-dx*.28+dz*.42)*bend;
+  const bz=(dx*.31-dy*.18)*bend;
+  const col0=a, out0=i*steps*6;
+  for(let j=0;j<steps;j++){
+   for(let end=0;end<2;end++){
+    const t=(j+end)/steps, arch=4*t*(1-t), q=out0+(j*2+end)*3;
+    POS[q]=x0+dx*t+bx*arch;
+    POS[q+1]=y0+dy*t+by*arch;
+    POS[q+2]=z0+dz*t+bz*arch;
+    CLR[q]=data.clr[col0];CLR[q+1]=data.clr[col0+1];CLR[q+2]=data.clr[col0+2];
+   }
+  }
+ }
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(POS,3));g.setAttribute('color',new T.BufferAttribute(CLR,3));return g;
+}
+const g0=filament(local,3,.025),g1=filament(global,6,.07);
+const fiber0=new T.LineSegments(g0,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.024,depthWrite:false,blending:T.NormalBlending}));
+const fiber1=new T.LineSegments(g1,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.034,depthWrite:false,blending:T.NormalBlending}));
+scene.add(fiber0,fiber1);
+// Selected edges are from the exact same verified sample, not invented connections.
+function takeEvery(src,steps,stride){
+ const p=src.attributes.position.array,c=src.attributes.color.array;
+ const edgeLen=steps*6,n=Math.floor(p.length/edgeLen),count=Math.ceil(n/stride);
+ const ps=new Float32Array(count*edgeLen),cs=new Float32Array(count*edgeLen);
+ let k=0;
+ for(let i=0;i<n;i+=stride){ps.set(p.subarray(i*edgeLen,(i+1)*edgeLen),k*edgeLen);cs.set(c.subarray(i*edgeLen,(i+1)*edgeLen),k*edgeLen);k++}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(ps.subarray(0,k*edgeLen),3));
+ g.setAttribute('color',new T.BufferAttribute(cs.subarray(0,k*edgeLen),3));
+ return g;
+}
+const highlightsLocal=new T.LineSegments(takeEvery(g0,3,13),new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.38,depthWrite:false,blending:T.AdditiveBlending}));
+const highlightsGlobal=new T.LineSegments(takeEvery(g1,6,9),new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.40,depthWrite:false,blending:T.AdditiveBlending}));
+scene.add(highlightsLocal,highlightsGlobal);
+const pointsGeo=new T.BufferGeometry();
+pointsGeo.setAttribute('position',new T.BufferAttribute(vertices.xyz,3));
+pointsGeo.setAttribute('color',new T.BufferAttribute(vertices.clr,3));
+const pointsShader=new T.ShaderMaterial({vertexColors:true,transparent:true,depthWrite:false,blending:T.AdditiveBlending,
+vertexShader:'varying vec3 vCol;void main(){vCol=color;vec4 p=modelViewMatrix*vec4(position,1.0);gl_Position=projectionMatrix*p;gl_PointSize=clamp(29.0/(-p.z),2.2,8.0);}',
+fragmentShader:'varying vec3 vCol;void main(){vec2 uv=gl_PointCoord-0.5;float d=length(uv);float center=pow(max(0.0,1.0-d*2.0),1.3);float halo=pow(max(0.0,1.0-d*2.0),3.0);gl_FragColor=vec4(vCol*1.7,center*.85+halo*.15);}'});
+scene.add(new T.Points(pointsGeo,pointsShader));
+// Small real anatomical brainstem where HQ's structural GLB places it.
+anatomy.traverse(obj=>{
+ if(obj.name!=='Brainstem'||!obj.isMesh)return;
+ const c=obj.clone();c.geometry=obj.geometry;c.applyMatrix4(obj.matrixWorld);
+ c.position.set(0,0,0);c.quaternion.identity();c.scale.set(1,1,1);
+ c.material=new T.MeshBasicMaterial({color:0x396c8f,transparent:true,opacity:.12,depthWrite:false,side:T.DoubleSide});
+ c.visible=false;scene.add(c);
+});
+const camera=new T.PerspectiveCamera(34,W/H,.1,120);
+camera.position.set(1.85,1.0,2.25);
+camera.lookAt(0,.12,-3.07);
+const tilt=qs.get('angle')||'default';
+if(tilt==='side'){camera.position.set(5.0,1.6,-.8);camera.lookAt(0,.10,-3.1)}
+if(tilt==='front'){camera.position.set(.3,.25,2.15);camera.lookAt(0,.1,-3.1)}
+if(tilt==='close'){camera.position.set(.8,.5,1.0);camera.lookAt(0,.1,-3.1)}
+renderer.render(scene,camera);
+// A separate blurred capture mimics optical bloom without changing computed geometry.
+const bloom=document.getElementById('glow');bloom.width=W;bloom.height=H;
+const bc=bloom.getContext('2d');bc.drawImage(renderer.domElement,0,0);
+window.__HQ_READY=true;window.__HQ_STATS={input:'HQ500M-Q08-sampled-edges.bin',local_edges:nl/2,projected_edges:ng/2,source_nodes:np,anatomy:'HQ500M-Anatomy-WholeBody-R02.glb',resolution:[W,H]};
+console.log('HQ_R02_READY',JSON.stringify(window.__HQ_STATS));
+</script></body></html>
