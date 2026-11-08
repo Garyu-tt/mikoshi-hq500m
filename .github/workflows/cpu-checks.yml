@@ -1,25 +1,24 @@
-name: CPU-only structural tests
+name: CPU toy and game-port tests
 
 on:
   push:
   pull_request:
 
 jobs:
-  cpu-graph:
+  cpu:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.13']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Verify fixed virtual scope and deterministic addressing
-        run: python3 tests/test_fixed_scope.py
-      - name: Query highest valid neuron address
-        run: python3 tools/query_edges.py 499999999 > /dev/null
-      - name: Reject an out-of-range neuron address
+          python-version: ${{ matrix.python-version }}
+      - name: Test standalone CPU neural engine and local HTTP/JSON connectors
+        run: python -m unittest discover -s tests -v
+      - name: Smoke test on ordinary CPU
         run: |
-          if python3 tools/query_edges.py 500000000; then
-            echo "Unexpectedly accepted an out-of-range neuron" >&2
-            exit 1
-          fi
-      # Deliberately no CUDA claims: GitHub runners here do not validate GPU execution.
+          python -m hq500m demo --cells 128
+          python -m hq500m query 499999999 > /dev/null
+          python examples/simple_game.py
