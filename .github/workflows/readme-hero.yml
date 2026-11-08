@@ -1,0 +1,43 @@
+name: README hero stays pinned
+
+on:
+  push:
+    paths:
+      - README.md
+      - .github/workflows/readme-hero.yml
+  pull_request:
+    paths:
+      - README.md
+      - .github/workflows/readme-hero.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify-readme-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require atlas and viewer links immediately below README title
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          readme = Path("README.md").read_text(encoding="utf-8")
+          prefix = "# Mikoshi HQ500M — CPU Playground\n\n<!-- HQ500M_README_HERO_START -->"
+          end_marker = "<!-- HQ500M_README_HERO_END -->"
+          assert readme.startswith(prefix), "README hero must begin immediately after the H1 title"
+          assert readme.count("<!-- HQ500M_README_HERO_START -->") == 1, "Expected exactly one hero start"
+          assert readme.count(end_marker) == 1, "Expected exactly one hero end"
+          end = readme.index(end_marker)
+          hero = readme[:end]
+          assert end < 3000, "Pinned hero should remain at the very top"
+          assert "[![HQ500M Deep Ruby R08 — spatial atlas](docs/images/hq500m-r08-deep-ruby.webp)]" in hero, "Atlas image missing"
+          assert "https://garyu-tt.github.io/mikoshi-hq500m/" in hero, "3D viewer link missing"
+          for path in ("docs/images/hq500m-r08-deep-ruby.webp", "docs/index.html", "docs/CREDITS.md"):
+              assert Path(path).exists(), f"Hero target missing: {path}"
+              assert path in hero, f"Hero link missing: {path}"
+          assert "## " not in hero, "Release/technical heading appeared above the pinned hero"
+          print("README hero is pinned and its local targets exist.")
+          PY
