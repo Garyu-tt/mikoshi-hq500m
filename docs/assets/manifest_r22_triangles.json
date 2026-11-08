@@ -1,0 +1,2617 @@
+{
+  "version": "R22",
+  "kind": "source-derived HRA anatomical triangle stencil",
+  "HRA_reference_sha256": "c97d7d0b9ff0baebbdec5566fa7b08d789195ef965e0bd04cf743a8d683882db",
+  "HST8_existing_sha256": "e8762511a6301532ac216ac8d7c5d81d501bf00f76e46202cc0e14cc5448be63",
+  "source": "HRA/Allen male human brain v1.3, CC BY 4.0",
+  "source_url": "https://3d.nih.gov/entries/3DPX-020960?version=1",
+  "region_count": 283,
+  "vertex_count": 324855,
+  "triangle_count": 656268,
+  "asset": "concatenate the parts listed in parts (one gzip stream)",
+  "asset_sha256": "b264e25912d25922b2b87c850ff37f11f4a6156eefd484518f497e9c1288b1ab",
+  "gzip_bytes": 5006784,
+  "uncompressed_bytes": 5886758,
+  "parts": [
+    {
+      "file": "assets/hra_triangle_stencil_r22.part00",
+      "bytes": 600000,
+      "sha256": "9bee0b02f951b21da53719da2f13dac1113560be8688ba6b36ce0ebb61023e4f"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part01",
+      "bytes": 600000,
+      "sha256": "6b811cde2a19230995bc4c1296821c57e2929eefafdbe1aecf0ea06ed772d1b6"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part02",
+      "bytes": 600000,
+      "sha256": "95f544b1a2da66a34a639a6951131ed9fac0ac4ded97efe31b3ddaed76bbd5ab"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part03",
+      "bytes": 600000,
+      "sha256": "a4366ccedbea053bcf5f9f287ef054cc8512daa1ada6f00853ff1efedb4a1f85"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part04",
+      "bytes": 600000,
+      "sha256": "62143226c8268ca012ed68e251d560bd466b7f9cefc5491319c8fca9c7da32c3"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part05",
+      "bytes": 600000,
+      "sha256": "1ee81a2fdb8b8a2ed37d6bf898b734af59b35e8cb0205f4d07a819ffe6fac72b"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part06",
+      "bytes": 600000,
+      "sha256": "0b68e3034374e960bf3b921c59cc26ee77f3f9e6906f3eeba9c8bd132681db8a"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part07",
+      "bytes": 600000,
+      "sha256": "8a6cc95d9a57d4d5aec06b14b0add53b802ac2677c6dfb1adca6d4c821ef82bc"
+    },
+    {
+      "file": "assets/hra_triangle_stencil_r22.part08",
+      "bytes": 206784,
+      "sha256": "4e461592a87a3ee313a6a1f8f7311ccfba8306a59775b631b5c36a6e293b61e3"
+    }
+  ],
+  "asset_stored_as_single_file": false,
+  "format": "HTR2, four little-endian u32 fields version=1, region_count,vertex_count,triangle_count; all quantized u16 XYZ then all per-region local-index u16 triples; starts/counts in manifest; coordinates match HST8 normalization",
+  "is_displayed_as_original_mesh": false,
+  "requires_materialized_86b_points": false,
+  "per_region_neuron_counts_measured": false,
+  "face_visibility": "derived from 3D triangles and current camera at runtime; synthetic point sampling only",
+  "regions": [
+    {
+      "index": 0,
+      "name": "Allen_olfactory_bulb_L",
+      "vertex_start": 0,
+      "vertex_count": 6,
+      "triangle_start": 0,
+      "triangle_count": 8,
+      "region_type": "other"
+    },
+    {
+      "index": 1,
+      "name": "Allen_anterior_olfactory_nucleus_L",
+      "vertex_start": 6,
+      "vertex_count": 9,
+      "triangle_start": 8,
+      "triangle_count": 14,
+      "region_type": "other"
+    },
+    {
+      "index": 2,
+      "name": "Allen_piriform_region_L",
+      "vertex_start": 15,
+      "vertex_count": 217,
+      "triangle_start": 22,
+      "triangle_count": 492,
+      "region_type": "cortex"
+    },
+    {
+      "index": 3,
+      "name": "Allen_frontal_agranular_insular_cortex_area_Fl_L",
+      "vertex_start": 232,
+      "vertex_count": 46,
+      "triangle_start": 514,
+      "triangle_count": 88,
+      "region_type": "cortex"
+    },
+    {
+      "index": 4,
+      "name": "Allen_temporal_agranular_insular_cortex_area_Tl_L",
+      "vertex_start": 278,
+      "vertex_count": 242,
+      "triangle_start": 602,
+      "triangle_count": 480,
+      "region_type": "cortex"
+    },
+    {
+      "index": 5,
+      "name": "Allen_head_of_caudate_L",
+      "vertex_start": 520,
+      "vertex_count": 1235,
+      "triangle_start": 1082,
+      "triangle_count": 2466,
+      "region_type": "other"
+    },
+    {
+      "index": 6,
+      "name": "Allen_body_of_caudate_L",
+      "vertex_start": 1755,
+      "vertex_count": 856,
+      "triangle_start": 3548,
+      "triangle_count": 1708,
+      "region_type": "other"
+    },
+    {
+      "index": 7,
+      "name": "Allen_tail_of_caudate_L",
+      "vertex_start": 2611,
+      "vertex_count": 307,
+      "triangle_start": 5256,
+      "triangle_count": 610,
+      "region_type": "other"
+    },
+    {
+      "index": 8,
+      "name": "Allen_putamen_L",
+      "vertex_start": 2918,
+      "vertex_count": 1051,
+      "triangle_start": 5866,
+      "triangle_count": 2098,
+      "region_type": "other"
+    },
+    {
+      "index": 9,
+      "name": "Allen_nucleus_accumbens_L",
+      "vertex_start": 3969,
+      "vertex_count": 238,
+      "triangle_start": 7964,
+      "triangle_count": 472,
+      "region_type": "other"
+    },
+    {
+      "index": 10,
+      "name": "Allen_external_segment_of_globus_pallidus_L",
+      "vertex_start": 4207,
+      "vertex_count": 321,
+      "triangle_start": 8436,
+      "triangle_count": 638,
+      "region_type": "other"
+    },
+    {
+      "index": 11,
+      "name": "Allen_internal_segment_of_globus_pallidus_L",
+      "vertex_start": 4528,
+      "vertex_count": 229,
+      "triangle_start": 9074,
+      "triangle_count": 454,
+      "region_type": "other"
+    },
+    {
+      "index": 12,
+      "name": "Allen_claustrum_L",
+      "vertex_start": 4757,
+      "vertex_count": 1595,
+      "triangle_start": 9528,
+      "triangle_count": 3258,
+      "region_type": "other"
+    },
+    {
+      "index": 13,
+      "name": "Allen_basal_forebrain_L",
+      "vertex_start": 6352,
+      "vertex_count": 436,
+      "triangle_start": 12786,
+      "triangle_count": 868,
+      "region_type": "other"
+    },
+    {
+      "index": 14,
+      "name": "Allen_septal_nuclei_L",
+      "vertex_start": 6788,
+      "vertex_count": 451,
+      "triangle_start": 13654,
+      "triangle_count": 902,
+      "region_type": "other"
+    },
+    {
+      "index": 15,
+      "name": "Allen_amygdaloid_complex_L",
+      "vertex_start": 7239,
+      "vertex_count": 337,
+      "triangle_start": 14556,
+      "triangle_count": 680,
+      "region_type": "other"
+    },
+    {
+      "index": 16,
+      "name": "Allen_anterior_amygdaloid_area_L",
+      "vertex_start": 7576,
+      "vertex_count": 85,
+      "triangle_start": 15236,
+      "triangle_count": 166,
+      "region_type": "other"
+    },
+    {
+      "index": 17,
+      "name": "Allen_central_nuclear_group_L",
+      "vertex_start": 7661,
+      "vertex_count": 48,
+      "triangle_start": 15402,
+      "triangle_count": 92,
+      "region_type": "other"
+    },
+    {
+      "index": 18,
+      "name": "Allen_lateral_nucleus_L",
+      "vertex_start": 7709,
+      "vertex_count": 251,
+      "triangle_start": 15494,
+      "triangle_count": 498,
+      "region_type": "other"
+    },
+    {
+      "index": 19,
+      "name": "Allen_basolateral_nucleus_basal_nucleus_L",
+      "vertex_start": 7960,
+      "vertex_count": 214,
+      "triangle_start": 15992,
+      "triangle_count": 424,
+      "region_type": "other"
+    },
+    {
+      "index": 20,
+      "name": "Allen_basomedial_nucleus_accessory_basal_nucleus_L",
+      "vertex_start": 8174,
+      "vertex_count": 77,
+      "triangle_start": 16416,
+      "triangle_count": 150,
+      "region_type": "other"
+    },
+    {
+      "index": 21,
+      "name": "Allen_anterior_cortical_nucleus_L",
+      "vertex_start": 8251,
+      "vertex_count": 92,
+      "triangle_start": 16566,
+      "triangle_count": 180,
+      "region_type": "other"
+    },
+    {
+      "index": 22,
+      "name": "Allen_posterior_cortical_nucleus_L",
+      "vertex_start": 8343,
+      "vertex_count": 53,
+      "triangle_start": 16746,
+      "triangle_count": 102,
+      "region_type": "other"
+    },
+    {
+      "index": 23,
+      "name": "Allen_medial_nucleus_L",
+      "vertex_start": 8396,
+      "vertex_count": 45,
+      "triangle_start": 16848,
+      "triangle_count": 86,
+      "region_type": "other"
+    },
+    {
+      "index": 24,
+      "name": "Allen_amygdalohippocampal_area_L",
+      "vertex_start": 8441,
+      "vertex_count": 55,
+      "triangle_start": 16934,
+      "triangle_count": 106,
+      "region_type": "other"
+    },
+    {
+      "index": 25,
+      "name": "Allen_bed_nucleus_of_stria_terminalis_L",
+      "vertex_start": 8496,
+      "vertex_count": 286,
+      "triangle_start": 17040,
+      "triangle_count": 576,
+      "region_type": "tract"
+    },
+    {
+      "index": 26,
+      "name": "Allen_thalamus_L",
+      "vertex_start": 8782,
+      "vertex_count": 2709,
+      "triangle_start": 17616,
+      "triangle_count": 5702,
+      "region_type": "other"
+    },
+    {
+      "index": 27,
+      "name": "Allen_anterior_nuclear_complex_of_thalamus_L",
+      "vertex_start": 11491,
+      "vertex_count": 124,
+      "triangle_start": 23318,
+      "triangle_count": 244,
+      "region_type": "other"
+    },
+    {
+      "index": 28,
+      "name": "Allen_lateral_dorsal_nucleus_of_thalamus_L",
+      "vertex_start": 11615,
+      "vertex_count": 113,
+      "triangle_start": 23562,
+      "triangle_count": 222,
+      "region_type": "other"
+    },
+    {
+      "index": 29,
+      "name": "Allen_mediodorsal_nucleus_of_thalamus_L",
+      "vertex_start": 11728,
+      "vertex_count": 382,
+      "triangle_start": 23784,
+      "triangle_count": 760,
+      "region_type": "other"
+    },
+    {
+      "index": 30,
+      "name": "Allen_reuniens_nucleus_medioventral_nucleus_of_thalamus_L",
+      "vertex_start": 12110,
+      "vertex_count": 82,
+      "triangle_start": 24544,
+      "triangle_count": 160,
+      "region_type": "other"
+    },
+    {
+      "index": 31,
+      "name": "Allen_lateral_posterior_nucleus_of_thalamus_L",
+      "vertex_start": 12192,
+      "vertex_count": 192,
+      "triangle_start": 24704,
+      "triangle_count": 380,
+      "region_type": "other"
+    },
+    {
+      "index": 32,
+      "name": "Allen_pulvinar_of_thalamus_L",
+      "vertex_start": 12384,
+      "vertex_count": 449,
+      "triangle_start": 25084,
+      "triangle_count": 894,
+      "region_type": "other"
+    },
+    {
+      "index": 33,
+      "name": "Allen_ventral_anterior_nucleus_of_thalamus_L",
+      "vertex_start": 12833,
+      "vertex_count": 409,
+      "triangle_start": 25978,
+      "triangle_count": 820,
+      "region_type": "other"
+    },
+    {
+      "index": 34,
+      "name": "Allen_ventral_lateral_nucleus_of_thalamus_L",
+      "vertex_start": 13242,
+      "vertex_count": 441,
+      "triangle_start": 26798,
+      "triangle_count": 878,
+      "region_type": "other"
+    },
+    {
+      "index": 35,
+      "name": "Allen_ventral_posterior_lateral_nucleus_L",
+      "vertex_start": 13683,
+      "vertex_count": 223,
+      "triangle_start": 27676,
+      "triangle_count": 442,
+      "region_type": "other"
+    },
+    {
+      "index": 36,
+      "name": "Allen_ventral_posterior_medial_nucleus_L",
+      "vertex_start": 13906,
+      "vertex_count": 95,
+      "triangle_start": 28118,
+      "triangle_count": 186,
+      "region_type": "other"
+    },
+    {
+      "index": 37,
+      "name": "Allen_dorsal_lateral_geniculate_nucleus_L",
+      "vertex_start": 14001,
+      "vertex_count": 87,
+      "triangle_start": 28304,
+      "triangle_count": 170,
+      "region_type": "other"
+    },
+    {
+      "index": 38,
+      "name": "Allen_medial_geniculate_nuclei_L",
+      "vertex_start": 14088,
+      "vertex_count": 62,
+      "triangle_start": 28474,
+      "triangle_count": 120,
+      "region_type": "other"
+    },
+    {
+      "index": 39,
+      "name": "Allen_centromedian_nucleus_of_thalamus_L",
+      "vertex_start": 14150,
+      "vertex_count": 125,
+      "triangle_start": 28594,
+      "triangle_count": 246,
+      "region_type": "other"
+    },
+    {
+      "index": 40,
+      "name": "Allen_parafascicular_nucleus_of_thalamus_L",
+      "vertex_start": 14275,
+      "vertex_count": 58,
+      "triangle_start": 28840,
+      "triangle_count": 112,
+      "region_type": "other"
+    },
+    {
+      "index": 41,
+      "name": "Allen_habenular_nuclei_L",
+      "vertex_start": 14333,
+      "vertex_count": 57,
+      "triangle_start": 28952,
+      "triangle_count": 110,
+      "region_type": "other"
+    },
+    {
+      "index": 42,
+      "name": "Allen_pineal_body_L",
+      "vertex_start": 14390,
+      "vertex_count": 51,
+      "triangle_start": 29062,
+      "triangle_count": 98,
+      "region_type": "tract"
+    },
+    {
+      "index": 43,
+      "name": "Allen_zona_incerta_L",
+      "vertex_start": 14441,
+      "vertex_count": 159,
+      "triangle_start": 29160,
+      "triangle_count": 314,
+      "region_type": "other"
+    },
+    {
+      "index": 44,
+      "name": "Allen_supraoptic_region_of_HTH_L",
+      "vertex_start": 14600,
+      "vertex_count": 170,
+      "triangle_start": 29474,
+      "triangle_count": 340,
+      "region_type": "other"
+    },
+    {
+      "index": 45,
+      "name": "Allen_preoptic_region_of_HTH_L",
+      "vertex_start": 14770,
+      "vertex_count": 113,
+      "triangle_start": 29814,
+      "triangle_count": 222,
+      "region_type": "other"
+    },
+    {
+      "index": 46,
+      "name": "Allen_tuberal_region_of_HTH_L",
+      "vertex_start": 14883,
+      "vertex_count": 321,
+      "triangle_start": 30036,
+      "triangle_count": 642,
+      "region_type": "other"
+    },
+    {
+      "index": 47,
+      "name": "Allen_white_matter_of_forebrain_L",
+      "vertex_start": 15204,
+      "vertex_count": 20870,
+      "triangle_start": 30678,
+      "triangle_count": 44758,
+      "region_type": "tract"
+    },
+    {
+      "index": 48,
+      "name": "Allen_anterior_commissure_L",
+      "vertex_start": 36074,
+      "vertex_count": 139,
+      "triangle_start": 75436,
+      "triangle_count": 274,
+      "region_type": "tract"
+    },
+    {
+      "index": 49,
+      "name": "Allen_corpus_callosum_L",
+      "vertex_start": 36213,
+      "vertex_count": 3019,
+      "triangle_start": 75710,
+      "triangle_count": 6034,
+      "region_type": "tract"
+    },
+    {
+      "index": 50,
+      "name": "Allen_fornix_L",
+      "vertex_start": 39232,
+      "vertex_count": 326,
+      "triangle_start": 81744,
+      "triangle_count": 644,
+      "region_type": "tract"
+    },
+    {
+      "index": 51,
+      "name": "Allen_mammillothalamic_tract_L",
+      "vertex_start": 39558,
+      "vertex_count": 64,
+      "triangle_start": 82388,
+      "triangle_count": 124,
+      "region_type": "tract"
+    },
+    {
+      "index": 52,
+      "name": "Allen_optic_tract_L",
+      "vertex_start": 39622,
+      "vertex_count": 140,
+      "triangle_start": 82512,
+      "triangle_count": 276,
+      "region_type": "tract"
+    },
+    {
+      "index": 53,
+      "name": "Allen_anterior_horn_of_lateral_ventricle_L",
+      "vertex_start": 39762,
+      "vertex_count": 1356,
+      "triangle_start": 82788,
+      "triangle_count": 2708,
+      "region_type": "cavity"
+    },
+    {
+      "index": 54,
+      "name": "Allen_body_of_lateral_ventricle_L",
+      "vertex_start": 41118,
+      "vertex_count": 774,
+      "triangle_start": 85496,
+      "triangle_count": 1544,
+      "region_type": "cavity"
+    },
+    {
+      "index": 55,
+      "name": "Allen_posterior_horn_of_lateral_ventricle_L",
+      "vertex_start": 41892,
+      "vertex_count": 211,
+      "triangle_start": 87040,
+      "triangle_count": 418,
+      "region_type": "cavity"
+    },
+    {
+      "index": 56,
+      "name": "Allen_inferior_horn_of_lateral_ventricle_L",
+      "vertex_start": 42103,
+      "vertex_count": 667,
+      "triangle_start": 87458,
+      "triangle_count": 1328,
+      "region_type": "cavity"
+    },
+    {
+      "index": 57,
+      "name": "Allen_third_ventricle_L",
+      "vertex_start": 42770,
+      "vertex_count": 586,
+      "triangle_start": 88786,
+      "triangle_count": 1168,
+      "region_type": "cavity"
+    },
+    {
+      "index": 58,
+      "name": "Allen_cerebellar_vermis_L",
+      "vertex_start": 43356,
+      "vertex_count": 2363,
+      "triangle_start": 89954,
+      "triangle_count": 4732,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 59,
+      "name": "Allen_cerebellar_deep_nuclei_L",
+      "vertex_start": 45719,
+      "vertex_count": 329,
+      "triangle_start": 94686,
+      "triangle_count": 654,
+      "region_type": "other"
+    },
+    {
+      "index": 60,
+      "name": "Allen_white_matter_of_hindbrain_L",
+      "vertex_start": 46048,
+      "vertex_count": 7045,
+      "triangle_start": 95340,
+      "triangle_count": 14264,
+      "region_type": "tract"
+    },
+    {
+      "index": 61,
+      "name": "Allen_olfactory_tract_L",
+      "vertex_start": 53093,
+      "vertex_count": 73,
+      "triangle_start": 109604,
+      "triangle_count": 142,
+      "region_type": "tract"
+    },
+    {
+      "index": 62,
+      "name": "Allen_primary_motor_cortex_L",
+      "vertex_start": 53166,
+      "vertex_count": 5543,
+      "triangle_start": 109746,
+      "triangle_count": 11082,
+      "region_type": "cortex"
+    },
+    {
+      "index": 63,
+      "name": "Allen_superior_frontal_gyrus_L",
+      "vertex_start": 58709,
+      "vertex_count": 10150,
+      "triangle_start": 120828,
+      "triangle_count": 20300,
+      "region_type": "cortex"
+    },
+    {
+      "index": 64,
+      "name": "Allen_middle_frontal_gyrus_L",
+      "vertex_start": 68859,
+      "vertex_count": 6733,
+      "triangle_start": 141128,
+      "triangle_count": 13462,
+      "region_type": "cortex"
+    },
+    {
+      "index": 65,
+      "name": "Allen_inferior_frontal_gyrus_triangular_part_L",
+      "vertex_start": 75592,
+      "vertex_count": 2550,
+      "triangle_start": 154590,
+      "triangle_count": 5096,
+      "region_type": "cortex"
+    },
+    {
+      "index": 66,
+      "name": "Allen_inferior_frontal_gyrus_opercular_part_L",
+      "vertex_start": 78142,
+      "vertex_count": 1489,
+      "triangle_start": 159686,
+      "triangle_count": 2974,
+      "region_type": "cortex"
+    },
+    {
+      "index": 67,
+      "name": "Allen_gyrus_rectus_straight_gyrus_L",
+      "vertex_start": 79631,
+      "vertex_count": 935,
+      "triangle_start": 162660,
+      "triangle_count": 1866,
+      "region_type": "cortex"
+    },
+    {
+      "index": 68,
+      "name": "Allen_medial_orbital_gyrus_L",
+      "vertex_start": 80566,
+      "vertex_count": 1205,
+      "triangle_start": 164526,
+      "triangle_count": 2406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 69,
+      "name": "Allen_anterior_intermediate_orbital_gyrus_L",
+      "vertex_start": 81771,
+      "vertex_count": 583,
+      "triangle_start": 166932,
+      "triangle_count": 1162,
+      "region_type": "cortex"
+    },
+    {
+      "index": 70,
+      "name": "Allen_posterior_intermediate_orbital_gyrus_L",
+      "vertex_start": 82354,
+      "vertex_count": 971,
+      "triangle_start": 168094,
+      "triangle_count": 1938,
+      "region_type": "cortex"
+    },
+    {
+      "index": 71,
+      "name": "Allen_lateral_orbital_gyrus_L",
+      "vertex_start": 83325,
+      "vertex_count": 1495,
+      "triangle_start": 170032,
+      "triangle_count": 2986,
+      "region_type": "cortex"
+    },
+    {
+      "index": 72,
+      "name": "Allen_paracentral_lobule_rostral_part_L",
+      "vertex_start": 84820,
+      "vertex_count": 1543,
+      "triangle_start": 173018,
+      "triangle_count": 3082,
+      "region_type": "cortex"
+    },
+    {
+      "index": 73,
+      "name": "Allen_frontal_operculum_L",
+      "vertex_start": 86363,
+      "vertex_count": 667,
+      "triangle_start": 176100,
+      "triangle_count": 1330,
+      "region_type": "cortex"
+    },
+    {
+      "index": 74,
+      "name": "Allen_postcentral_gyrus_L",
+      "vertex_start": 87030,
+      "vertex_count": 4544,
+      "triangle_start": 177430,
+      "triangle_count": 9084,
+      "region_type": "cortex"
+    },
+    {
+      "index": 75,
+      "name": "Allen_supraparietal_lobule_L",
+      "vertex_start": 91574,
+      "vertex_count": 4637,
+      "triangle_start": 186514,
+      "triangle_count": 9278,
+      "region_type": "cortex"
+    },
+    {
+      "index": 76,
+      "name": "Allen_supramarginal_gyrus_L",
+      "vertex_start": 96211,
+      "vertex_count": 2369,
+      "triangle_start": 195792,
+      "triangle_count": 4734,
+      "region_type": "cortex"
+    },
+    {
+      "index": 77,
+      "name": "Allen_angular_gyrus_L",
+      "vertex_start": 98580,
+      "vertex_count": 3125,
+      "triangle_start": 200526,
+      "triangle_count": 6246,
+      "region_type": "cortex"
+    },
+    {
+      "index": 78,
+      "name": "Allen_precuneus_L",
+      "vertex_start": 101705,
+      "vertex_count": 4684,
+      "triangle_start": 206772,
+      "triangle_count": 9366,
+      "region_type": "cortex"
+    },
+    {
+      "index": 79,
+      "name": "Allen_paracentral_lobule_caudal_part_L",
+      "vertex_start": 106389,
+      "vertex_count": 1012,
+      "triangle_start": 216138,
+      "triangle_count": 2020,
+      "region_type": "cortex"
+    },
+    {
+      "index": 80,
+      "name": "Allen_superior_temporal_gyrus_L",
+      "vertex_start": 107401,
+      "vertex_count": 2100,
+      "triangle_start": 218158,
+      "triangle_count": 4198,
+      "region_type": "cortex"
+    },
+    {
+      "index": 81,
+      "name": "Allen_middle_temporal_gyrus_L",
+      "vertex_start": 109501,
+      "vertex_count": 5158,
+      "triangle_start": 222356,
+      "triangle_count": 10316,
+      "region_type": "cortex"
+    },
+    {
+      "index": 82,
+      "name": "Allen_inferior_temporal_gyrus_L",
+      "vertex_start": 114659,
+      "vertex_count": 3530,
+      "triangle_start": 232672,
+      "triangle_count": 7058,
+      "region_type": "cortex"
+    },
+    {
+      "index": 83,
+      "name": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_L",
+      "vertex_start": 118189,
+      "vertex_count": 2294,
+      "triangle_start": 239730,
+      "triangle_count": 4584,
+      "region_type": "cortex"
+    },
+    {
+      "index": 84,
+      "name": "Allen_transverse_temporal_gyrus_Heschls_gyrus_L",
+      "vertex_start": 120483,
+      "vertex_count": 719,
+      "triangle_start": 244314,
+      "triangle_count": 1434,
+      "region_type": "cortex"
+    },
+    {
+      "index": 85,
+      "name": "Allen_planum_temporale_L",
+      "vertex_start": 121202,
+      "vertex_count": 825,
+      "triangle_start": 245748,
+      "triangle_count": 1646,
+      "region_type": "cortex"
+    },
+    {
+      "index": 86,
+      "name": "Allen_temporal_pole_L",
+      "vertex_start": 122027,
+      "vertex_count": 1287,
+      "triangle_start": 247394,
+      "triangle_count": 2570,
+      "region_type": "cortex"
+    },
+    {
+      "index": 87,
+      "name": "Allen_planum_polare_L",
+      "vertex_start": 123314,
+      "vertex_count": 1170,
+      "triangle_start": 249964,
+      "triangle_count": 2336,
+      "region_type": "cortex"
+    },
+    {
+      "index": 88,
+      "name": "Allen_occipital_pole_L",
+      "vertex_start": 124484,
+      "vertex_count": 759,
+      "triangle_start": 252300,
+      "triangle_count": 1520,
+      "region_type": "cortex"
+    },
+    {
+      "index": 89,
+      "name": "Allen_cuneus_L",
+      "vertex_start": 125243,
+      "vertex_count": 3013,
+      "triangle_start": 253820,
+      "triangle_count": 6032,
+      "region_type": "cortex"
+    },
+    {
+      "index": 90,
+      "name": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_L",
+      "vertex_start": 128256,
+      "vertex_count": 3705,
+      "triangle_start": 259852,
+      "triangle_count": 7406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 91,
+      "name": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_L",
+      "vertex_start": 131961,
+      "vertex_count": 956,
+      "triangle_start": 267258,
+      "triangle_count": 1908,
+      "region_type": "cortex"
+    },
+    {
+      "index": 92,
+      "name": "Allen_inferior_occipital_gyrus_L",
+      "vertex_start": 132917,
+      "vertex_count": 2314,
+      "triangle_start": 269166,
+      "triangle_count": 4628,
+      "region_type": "cortex"
+    },
+    {
+      "index": 93,
+      "name": "Allen_superior_occipital_gyrus_L",
+      "vertex_start": 135231,
+      "vertex_count": 3008,
+      "triangle_start": 273794,
+      "triangle_count": 6032,
+      "region_type": "cortex"
+    },
+    {
+      "index": 94,
+      "name": "Allen_cingulate_gyrus_rostral_anterior_part_L",
+      "vertex_start": 138239,
+      "vertex_count": 1756,
+      "triangle_start": 279826,
+      "triangle_count": 3508,
+      "region_type": "cortex"
+    },
+    {
+      "index": 95,
+      "name": "Allen_cingulate_gyrus_caudal_posterior_part_L",
+      "vertex_start": 139995,
+      "vertex_count": 2143,
+      "triangle_start": 283334,
+      "triangle_count": 4316,
+      "region_type": "cortex"
+    },
+    {
+      "index": 96,
+      "name": "Allen_ingulo_parahippocampal_isthmus_L",
+      "vertex_start": 142138,
+      "vertex_count": 125,
+      "triangle_start": 287650,
+      "triangle_count": 246,
+      "region_type": "cortex"
+    },
+    {
+      "index": 97,
+      "name": "Allen_subcallosal_gyrus_parolfactory_gyrus_L",
+      "vertex_start": 142263,
+      "vertex_count": 205,
+      "triangle_start": 287896,
+      "triangle_count": 406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 98,
+      "name": "Allen_anterior_parahippocampal_gyrus_L",
+      "vertex_start": 142468,
+      "vertex_count": 673,
+      "triangle_start": 288302,
+      "triangle_count": 1342,
+      "region_type": "cortex"
+    },
+    {
+      "index": 99,
+      "name": "Allen_posterior_parahippocampal_gyrus_L",
+      "vertex_start": 143141,
+      "vertex_count": 557,
+      "triangle_start": 289644,
+      "triangle_count": 1110,
+      "region_type": "cortex"
+    },
+    {
+      "index": 100,
+      "name": "Allen_gyrus_ambiens_L",
+      "vertex_start": 143698,
+      "vertex_count": 92,
+      "triangle_start": 290754,
+      "triangle_count": 180,
+      "region_type": "cortex"
+    },
+    {
+      "index": 101,
+      "name": "Allen_long_insular_gyri_L",
+      "vertex_start": 143790,
+      "vertex_count": 611,
+      "triangle_start": 290934,
+      "triangle_count": 1218,
+      "region_type": "cortex"
+    },
+    {
+      "index": 102,
+      "name": "Allen_short_insular_gyri_L",
+      "vertex_start": 144401,
+      "vertex_count": 742,
+      "triangle_start": 292152,
+      "triangle_count": 1480,
+      "region_type": "cortex"
+    },
+    {
+      "index": 103,
+      "name": "Allen_limen_insula_L",
+      "vertex_start": 145143,
+      "vertex_count": 34,
+      "triangle_start": 293632,
+      "triangle_count": 64,
+      "region_type": "cortex"
+    },
+    {
+      "index": 104,
+      "name": "Allen_pretectal_region_L",
+      "vertex_start": 145177,
+      "vertex_count": 30,
+      "triangle_start": 293696,
+      "triangle_count": 56,
+      "region_type": "other"
+    },
+    {
+      "index": 105,
+      "name": "Allen_substantia_nigra_L",
+      "vertex_start": 145207,
+      "vertex_count": 61,
+      "triangle_start": 293752,
+      "triangle_count": 118,
+      "region_type": "other"
+    },
+    {
+      "index": 106,
+      "name": "Allen_superior_colliculus_L",
+      "vertex_start": 145268,
+      "vertex_count": 38,
+      "triangle_start": 293870,
+      "triangle_count": 72,
+      "region_type": "other"
+    },
+    {
+      "index": 107,
+      "name": "Allen_cerebral_peduncle_crus_cerebri_L",
+      "vertex_start": 145306,
+      "vertex_count": 233,
+      "triangle_start": 293942,
+      "triangle_count": 462,
+      "region_type": "tract"
+    },
+    {
+      "index": 108,
+      "name": "Allen_superior_cerebellar_peduncle_brachium_conjunctivum_L",
+      "vertex_start": 145539,
+      "vertex_count": 131,
+      "triangle_start": 294404,
+      "triangle_count": 258,
+      "region_type": "tract"
+    },
+    {
+      "index": 109,
+      "name": "Allen_cerebral_aqueduct_L",
+      "vertex_start": 145670,
+      "vertex_count": 40,
+      "triangle_start": 294662,
+      "triangle_count": 76,
+      "region_type": "cavity"
+    },
+    {
+      "index": 110,
+      "name": "Allen_paravermis_of_cerebellum_L",
+      "vertex_start": 145710,
+      "vertex_count": 1699,
+      "triangle_start": 294738,
+      "triangle_count": 3423,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 111,
+      "name": "Allen_lateral_hemisphere_of_cerebellum_L",
+      "vertex_start": 147409,
+      "vertex_count": 5953,
+      "triangle_start": 298161,
+      "triangle_count": 11928,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 112,
+      "name": "Allen_basilar_part_of_pons_L",
+      "vertex_start": 153362,
+      "vertex_count": 472,
+      "triangle_start": 310089,
+      "triangle_count": 940,
+      "region_type": "other"
+    },
+    {
+      "index": 113,
+      "name": "Allen_pontine_tegmentum_L",
+      "vertex_start": 153834,
+      "vertex_count": 266,
+      "triangle_start": 311029,
+      "triangle_count": 528,
+      "region_type": "other"
+    },
+    {
+      "index": 114,
+      "name": "Allen_pyramidal_part_of_medulla_oblongata_L",
+      "vertex_start": 154100,
+      "vertex_count": 60,
+      "triangle_start": 311557,
+      "triangle_count": 116,
+      "region_type": "other"
+    },
+    {
+      "index": 115,
+      "name": "Allen_tegmentum_of_medulla_oblongata_L",
+      "vertex_start": 154160,
+      "vertex_count": 318,
+      "triangle_start": 311673,
+      "triangle_count": 632,
+      "region_type": "other"
+    },
+    {
+      "index": 116,
+      "name": "Allen_inferior_olive_L",
+      "vertex_start": 154478,
+      "vertex_count": 64,
+      "triangle_start": 312305,
+      "triangle_count": 124,
+      "region_type": "other"
+    },
+    {
+      "index": 117,
+      "name": "Allen_middle_cerebellar_peduncle_L",
+      "vertex_start": 154542,
+      "vertex_count": 168,
+      "triangle_start": 312429,
+      "triangle_count": 332,
+      "region_type": "tract"
+    },
+    {
+      "index": 118,
+      "name": "Allen_fourth_ventricle_L",
+      "vertex_start": 154710,
+      "vertex_count": 215,
+      "triangle_start": 312761,
+      "triangle_count": 426,
+      "region_type": "cavity"
+    },
+    {
+      "index": 119,
+      "name": "Allen_central_canal_of_medulla_oblongata_L",
+      "vertex_start": 154925,
+      "vertex_count": 8,
+      "triangle_start": 313187,
+      "triangle_count": 12,
+      "region_type": "cavity"
+    },
+    {
+      "index": 120,
+      "name": "Allen_midline_nuclear_complex_L",
+      "vertex_start": 154933,
+      "vertex_count": 126,
+      "triangle_start": 313199,
+      "triangle_count": 248,
+      "region_type": "other"
+    },
+    {
+      "index": 121,
+      "name": "Allen_lateral_olfactory_gyrus_L",
+      "vertex_start": 155059,
+      "vertex_count": 67,
+      "triangle_start": 313447,
+      "triangle_count": 130,
+      "region_type": "cortex"
+    },
+    {
+      "index": 122,
+      "name": "Allen_parietal_operculum_L",
+      "vertex_start": 155126,
+      "vertex_count": 619,
+      "triangle_start": 313577,
+      "triangle_count": 1234,
+      "region_type": "cortex"
+    },
+    {
+      "index": 123,
+      "name": "Allen_optic_radiation_L",
+      "vertex_start": 155745,
+      "vertex_count": 44,
+      "triangle_start": 314811,
+      "triangle_count": 84,
+      "region_type": "tract"
+    },
+    {
+      "index": 124,
+      "name": "Allen_posteroventral_putamen_L",
+      "vertex_start": 155789,
+      "vertex_count": 1052,
+      "triangle_start": 314895,
+      "triangle_count": 2100,
+      "region_type": "other"
+    },
+    {
+      "index": 125,
+      "name": "Allen_atrium_of_lateral_ventricle_L",
+      "vertex_start": 156841,
+      "vertex_count": 313,
+      "triangle_start": 316995,
+      "triangle_count": 622,
+      "region_type": "cavity"
+    },
+    {
+      "index": 126,
+      "name": "Allen_paracingulate_gyrus_L",
+      "vertex_start": 157154,
+      "vertex_count": 414,
+      "triangle_start": 317617,
+      "triangle_count": 824,
+      "region_type": "cortex"
+    },
+    {
+      "index": 127,
+      "name": "Allen_rostral_gyrus_L",
+      "vertex_start": 157568,
+      "vertex_count": 582,
+      "triangle_start": 318441,
+      "triangle_count": 1160,
+      "region_type": "cortex"
+    },
+    {
+      "index": 128,
+      "name": "Allen_frontomarginal_gyrus_L",
+      "vertex_start": 158150,
+      "vertex_count": 544,
+      "triangle_start": 319601,
+      "triangle_count": 1084,
+      "region_type": "cortex"
+    },
+    {
+      "index": 129,
+      "name": "Allen_frontal_pole_L",
+      "vertex_start": 158694,
+      "vertex_count": 1060,
+      "triangle_start": 320685,
+      "triangle_count": 2116,
+      "region_type": "cortex"
+    },
+    {
+      "index": 130,
+      "name": "Allen_inferior_cerebellar_peduncle_L",
+      "vertex_start": 159754,
+      "vertex_count": 58,
+      "triangle_start": 322801,
+      "triangle_count": 112,
+      "region_type": "tract"
+    },
+    {
+      "index": 131,
+      "name": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_L",
+      "vertex_start": 159812,
+      "vertex_count": 47,
+      "triangle_start": 322913,
+      "triangle_count": 90,
+      "region_type": "cortex"
+    },
+    {
+      "index": 132,
+      "name": "Allen_head_of_hippocampus_L",
+      "vertex_start": 159859,
+      "vertex_count": 260,
+      "triangle_start": 323003,
+      "triangle_count": 516,
+      "region_type": "other"
+    },
+    {
+      "index": 133,
+      "name": "Allen_body_of_hippocampus_L",
+      "vertex_start": 160119,
+      "vertex_count": 217,
+      "triangle_start": 323519,
+      "triangle_count": 430,
+      "region_type": "other"
+    },
+    {
+      "index": 134,
+      "name": "Allen_tail_of_hippocampus_L",
+      "vertex_start": 160336,
+      "vertex_count": 264,
+      "triangle_start": 323949,
+      "triangle_count": 524,
+      "region_type": "other"
+    },
+    {
+      "index": 135,
+      "name": "Allen_olfactory_bulb_R",
+      "vertex_start": 160600,
+      "vertex_count": 6,
+      "triangle_start": 324473,
+      "triangle_count": 8,
+      "region_type": "other"
+    },
+    {
+      "index": 136,
+      "name": "Allen_anterior_olfactory_nucleus_R",
+      "vertex_start": 160606,
+      "vertex_count": 9,
+      "triangle_start": 324481,
+      "triangle_count": 14,
+      "region_type": "other"
+    },
+    {
+      "index": 137,
+      "name": "Allen_piriform_region_R",
+      "vertex_start": 160615,
+      "vertex_count": 217,
+      "triangle_start": 324495,
+      "triangle_count": 492,
+      "region_type": "cortex"
+    },
+    {
+      "index": 138,
+      "name": "Allen_frontal_agranular_insular_cortex_area_Fl_R",
+      "vertex_start": 160832,
+      "vertex_count": 46,
+      "triangle_start": 324987,
+      "triangle_count": 88,
+      "region_type": "cortex"
+    },
+    {
+      "index": 139,
+      "name": "Allen_temporal_agranular_insular_cortex_area_Tl_R",
+      "vertex_start": 160878,
+      "vertex_count": 242,
+      "triangle_start": 325075,
+      "triangle_count": 480,
+      "region_type": "cortex"
+    },
+    {
+      "index": 140,
+      "name": "Allen_head_of_caudate_R",
+      "vertex_start": 161120,
+      "vertex_count": 1235,
+      "triangle_start": 325555,
+      "triangle_count": 2466,
+      "region_type": "other"
+    },
+    {
+      "index": 141,
+      "name": "Allen_body_of_caudate_R",
+      "vertex_start": 162355,
+      "vertex_count": 856,
+      "triangle_start": 328021,
+      "triangle_count": 1708,
+      "region_type": "other"
+    },
+    {
+      "index": 142,
+      "name": "Allen_tail_of_caudate_R",
+      "vertex_start": 163211,
+      "vertex_count": 307,
+      "triangle_start": 329729,
+      "triangle_count": 610,
+      "region_type": "other"
+    },
+    {
+      "index": 143,
+      "name": "Allen_putamen_R",
+      "vertex_start": 163518,
+      "vertex_count": 1051,
+      "triangle_start": 330339,
+      "triangle_count": 2098,
+      "region_type": "other"
+    },
+    {
+      "index": 144,
+      "name": "Allen_nucleus_accumbens_R",
+      "vertex_start": 164569,
+      "vertex_count": 238,
+      "triangle_start": 332437,
+      "triangle_count": 472,
+      "region_type": "other"
+    },
+    {
+      "index": 145,
+      "name": "Allen_external_segment_of_globus_pallidus_R",
+      "vertex_start": 164807,
+      "vertex_count": 321,
+      "triangle_start": 332909,
+      "triangle_count": 638,
+      "region_type": "other"
+    },
+    {
+      "index": 146,
+      "name": "Allen_internal_segment_of_globus_pallidus_R",
+      "vertex_start": 165128,
+      "vertex_count": 229,
+      "triangle_start": 333547,
+      "triangle_count": 454,
+      "region_type": "other"
+    },
+    {
+      "index": 147,
+      "name": "Allen_claustrum_R",
+      "vertex_start": 165357,
+      "vertex_count": 1595,
+      "triangle_start": 334001,
+      "triangle_count": 3258,
+      "region_type": "other"
+    },
+    {
+      "index": 148,
+      "name": "Allen_basal_forebrain_R",
+      "vertex_start": 166952,
+      "vertex_count": 436,
+      "triangle_start": 337259,
+      "triangle_count": 868,
+      "region_type": "other"
+    },
+    {
+      "index": 149,
+      "name": "Allen_septal_nuclei_R",
+      "vertex_start": 167388,
+      "vertex_count": 451,
+      "triangle_start": 338127,
+      "triangle_count": 902,
+      "region_type": "other"
+    },
+    {
+      "index": 150,
+      "name": "Allen_amygdaloid_complex_R",
+      "vertex_start": 167839,
+      "vertex_count": 337,
+      "triangle_start": 339029,
+      "triangle_count": 680,
+      "region_type": "other"
+    },
+    {
+      "index": 151,
+      "name": "Allen_anterior_amygdaloid_area_R",
+      "vertex_start": 168176,
+      "vertex_count": 85,
+      "triangle_start": 339709,
+      "triangle_count": 166,
+      "region_type": "other"
+    },
+    {
+      "index": 152,
+      "name": "Allen_central_nuclear_group_R",
+      "vertex_start": 168261,
+      "vertex_count": 48,
+      "triangle_start": 339875,
+      "triangle_count": 92,
+      "region_type": "other"
+    },
+    {
+      "index": 153,
+      "name": "Allen_lateral_nucleus_R",
+      "vertex_start": 168309,
+      "vertex_count": 251,
+      "triangle_start": 339967,
+      "triangle_count": 498,
+      "region_type": "other"
+    },
+    {
+      "index": 154,
+      "name": "Allen_basolateral_nucleus_basal_nucleus_R",
+      "vertex_start": 168560,
+      "vertex_count": 214,
+      "triangle_start": 340465,
+      "triangle_count": 424,
+      "region_type": "other"
+    },
+    {
+      "index": 155,
+      "name": "Allen_basomedial_nucleus_accessory_basal_nucleus_R",
+      "vertex_start": 168774,
+      "vertex_count": 77,
+      "triangle_start": 340889,
+      "triangle_count": 150,
+      "region_type": "other"
+    },
+    {
+      "index": 156,
+      "name": "Allen_anterior_cortical_nucleus_R",
+      "vertex_start": 168851,
+      "vertex_count": 92,
+      "triangle_start": 341039,
+      "triangle_count": 180,
+      "region_type": "other"
+    },
+    {
+      "index": 157,
+      "name": "Allen_posterior_cortical_nucleus_R",
+      "vertex_start": 168943,
+      "vertex_count": 53,
+      "triangle_start": 341219,
+      "triangle_count": 102,
+      "region_type": "other"
+    },
+    {
+      "index": 158,
+      "name": "Allen_medial_nucleus_R",
+      "vertex_start": 168996,
+      "vertex_count": 45,
+      "triangle_start": 341321,
+      "triangle_count": 86,
+      "region_type": "other"
+    },
+    {
+      "index": 159,
+      "name": "Allen_amygdalohippocampal_area_R",
+      "vertex_start": 169041,
+      "vertex_count": 55,
+      "triangle_start": 341407,
+      "triangle_count": 106,
+      "region_type": "other"
+    },
+    {
+      "index": 160,
+      "name": "Allen_bed_nucleus_of_stria_terminalis_R",
+      "vertex_start": 169096,
+      "vertex_count": 286,
+      "triangle_start": 341513,
+      "triangle_count": 576,
+      "region_type": "tract"
+    },
+    {
+      "index": 161,
+      "name": "Allen_thalamus_R",
+      "vertex_start": 169382,
+      "vertex_count": 2709,
+      "triangle_start": 342089,
+      "triangle_count": 5702,
+      "region_type": "other"
+    },
+    {
+      "index": 162,
+      "name": "Allen_anterior_nuclear_complex_of_thalamus_R",
+      "vertex_start": 172091,
+      "vertex_count": 124,
+      "triangle_start": 347791,
+      "triangle_count": 244,
+      "region_type": "other"
+    },
+    {
+      "index": 163,
+      "name": "Allen_lateral_dorsal_nucleus_of_thalamus_R",
+      "vertex_start": 172215,
+      "vertex_count": 113,
+      "triangle_start": 348035,
+      "triangle_count": 222,
+      "region_type": "other"
+    },
+    {
+      "index": 164,
+      "name": "Allen_mediodorsal_nucleus_of_thalamus_R",
+      "vertex_start": 172328,
+      "vertex_count": 382,
+      "triangle_start": 348257,
+      "triangle_count": 760,
+      "region_type": "other"
+    },
+    {
+      "index": 165,
+      "name": "Allen_reuniens_nucleus_medioventral_nucleus_of_thalamus_R",
+      "vertex_start": 172710,
+      "vertex_count": 82,
+      "triangle_start": 349017,
+      "triangle_count": 160,
+      "region_type": "other"
+    },
+    {
+      "index": 166,
+      "name": "Allen_lateral_posterior_nucleus_of_thalamus_R",
+      "vertex_start": 172792,
+      "vertex_count": 192,
+      "triangle_start": 349177,
+      "triangle_count": 380,
+      "region_type": "other"
+    },
+    {
+      "index": 167,
+      "name": "Allen_pulvinar_of_thalamus_R",
+      "vertex_start": 172984,
+      "vertex_count": 449,
+      "triangle_start": 349557,
+      "triangle_count": 894,
+      "region_type": "other"
+    },
+    {
+      "index": 168,
+      "name": "Allen_ventral_anterior_nucleus_of_thalamus_R",
+      "vertex_start": 173433,
+      "vertex_count": 409,
+      "triangle_start": 350451,
+      "triangle_count": 820,
+      "region_type": "other"
+    },
+    {
+      "index": 169,
+      "name": "Allen_ventral_lateral_nucleus_of_thalamus_R",
+      "vertex_start": 173842,
+      "vertex_count": 441,
+      "triangle_start": 351271,
+      "triangle_count": 878,
+      "region_type": "other"
+    },
+    {
+      "index": 170,
+      "name": "Allen_ventral_posterior_lateral_nucleus_R",
+      "vertex_start": 174283,
+      "vertex_count": 223,
+      "triangle_start": 352149,
+      "triangle_count": 442,
+      "region_type": "other"
+    },
+    {
+      "index": 171,
+      "name": "Allen_ventral_posterior_medial_nucleus_R",
+      "vertex_start": 174506,
+      "vertex_count": 95,
+      "triangle_start": 352591,
+      "triangle_count": 186,
+      "region_type": "other"
+    },
+    {
+      "index": 172,
+      "name": "Allen_dorsal_lateral_geniculate_nucleus_R",
+      "vertex_start": 174601,
+      "vertex_count": 87,
+      "triangle_start": 352777,
+      "triangle_count": 170,
+      "region_type": "other"
+    },
+    {
+      "index": 173,
+      "name": "Allen_medial_geniculate_nuclei_R",
+      "vertex_start": 174688,
+      "vertex_count": 62,
+      "triangle_start": 352947,
+      "triangle_count": 120,
+      "region_type": "other"
+    },
+    {
+      "index": 174,
+      "name": "Allen_centromedian_nucleus_of_thalamus_R",
+      "vertex_start": 174750,
+      "vertex_count": 125,
+      "triangle_start": 353067,
+      "triangle_count": 246,
+      "region_type": "other"
+    },
+    {
+      "index": 175,
+      "name": "Allen_parafascicular_nucleus_of_thalamus_R",
+      "vertex_start": 174875,
+      "vertex_count": 58,
+      "triangle_start": 353313,
+      "triangle_count": 112,
+      "region_type": "other"
+    },
+    {
+      "index": 176,
+      "name": "Allen_habenular_nuclei_R",
+      "vertex_start": 174933,
+      "vertex_count": 57,
+      "triangle_start": 353425,
+      "triangle_count": 110,
+      "region_type": "other"
+    },
+    {
+      "index": 177,
+      "name": "Allen_pineal_body_R",
+      "vertex_start": 174990,
+      "vertex_count": 51,
+      "triangle_start": 353535,
+      "triangle_count": 98,
+      "region_type": "tract"
+    },
+    {
+      "index": 178,
+      "name": "Allen_zona_incerta_R",
+      "vertex_start": 175041,
+      "vertex_count": 159,
+      "triangle_start": 353633,
+      "triangle_count": 314,
+      "region_type": "other"
+    },
+    {
+      "index": 179,
+      "name": "Allen_supraoptic_region_of_HTH_R",
+      "vertex_start": 175200,
+      "vertex_count": 170,
+      "triangle_start": 353947,
+      "triangle_count": 340,
+      "region_type": "other"
+    },
+    {
+      "index": 180,
+      "name": "Allen_white_matter_of_forebrain_R",
+      "vertex_start": 175370,
+      "vertex_count": 20870,
+      "triangle_start": 354287,
+      "triangle_count": 44758,
+      "region_type": "tract"
+    },
+    {
+      "index": 181,
+      "name": "Allen_anterior_commissure_R",
+      "vertex_start": 196240,
+      "vertex_count": 139,
+      "triangle_start": 399045,
+      "triangle_count": 274,
+      "region_type": "tract"
+    },
+    {
+      "index": 182,
+      "name": "Allen_corpus_callosum_R",
+      "vertex_start": 196379,
+      "vertex_count": 3019,
+      "triangle_start": 399319,
+      "triangle_count": 6034,
+      "region_type": "tract"
+    },
+    {
+      "index": 183,
+      "name": "Allen_fornix_R",
+      "vertex_start": 199398,
+      "vertex_count": 326,
+      "triangle_start": 405353,
+      "triangle_count": 644,
+      "region_type": "tract"
+    },
+    {
+      "index": 184,
+      "name": "Allen_mammillothalamic_tract_R",
+      "vertex_start": 199724,
+      "vertex_count": 64,
+      "triangle_start": 405997,
+      "triangle_count": 124,
+      "region_type": "tract"
+    },
+    {
+      "index": 185,
+      "name": "Allen_optic_tract_R",
+      "vertex_start": 199788,
+      "vertex_count": 140,
+      "triangle_start": 406121,
+      "triangle_count": 276,
+      "region_type": "tract"
+    },
+    {
+      "index": 186,
+      "name": "Allen_anterior_horn_of_lateral_ventricle_R",
+      "vertex_start": 199928,
+      "vertex_count": 1356,
+      "triangle_start": 406397,
+      "triangle_count": 2708,
+      "region_type": "cavity"
+    },
+    {
+      "index": 187,
+      "name": "Allen_body_of_lateral_ventricle_R",
+      "vertex_start": 201284,
+      "vertex_count": 774,
+      "triangle_start": 409105,
+      "triangle_count": 1544,
+      "region_type": "cavity"
+    },
+    {
+      "index": 188,
+      "name": "Allen_posterior_horn_of_lateral_ventricle_R",
+      "vertex_start": 202058,
+      "vertex_count": 211,
+      "triangle_start": 410649,
+      "triangle_count": 418,
+      "region_type": "cavity"
+    },
+    {
+      "index": 189,
+      "name": "Allen_inferior_horn_of_lateral_ventricle_R",
+      "vertex_start": 202269,
+      "vertex_count": 667,
+      "triangle_start": 411067,
+      "triangle_count": 1328,
+      "region_type": "cavity"
+    },
+    {
+      "index": 190,
+      "name": "Allen_third_ventricle_R",
+      "vertex_start": 202936,
+      "vertex_count": 586,
+      "triangle_start": 412395,
+      "triangle_count": 1168,
+      "region_type": "cavity"
+    },
+    {
+      "index": 191,
+      "name": "Allen_cerebellar_vermis_R",
+      "vertex_start": 203522,
+      "vertex_count": 2363,
+      "triangle_start": 413563,
+      "triangle_count": 4732,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 192,
+      "name": "Allen_cerebellar_deep_nuclei_R",
+      "vertex_start": 205885,
+      "vertex_count": 329,
+      "triangle_start": 418295,
+      "triangle_count": 654,
+      "region_type": "other"
+    },
+    {
+      "index": 193,
+      "name": "Allen_white_matter_of_hindbrain_R",
+      "vertex_start": 206214,
+      "vertex_count": 7045,
+      "triangle_start": 418949,
+      "triangle_count": 14264,
+      "region_type": "tract"
+    },
+    {
+      "index": 194,
+      "name": "Allen_olfactory_tract_R",
+      "vertex_start": 213259,
+      "vertex_count": 73,
+      "triangle_start": 433213,
+      "triangle_count": 142,
+      "region_type": "tract"
+    },
+    {
+      "index": 195,
+      "name": "Allen_primary_motor_cortex_R",
+      "vertex_start": 213332,
+      "vertex_count": 5543,
+      "triangle_start": 433355,
+      "triangle_count": 11082,
+      "region_type": "cortex"
+    },
+    {
+      "index": 196,
+      "name": "Allen_superior_frontal_gyrus_R",
+      "vertex_start": 218875,
+      "vertex_count": 10150,
+      "triangle_start": 444437,
+      "triangle_count": 20300,
+      "region_type": "cortex"
+    },
+    {
+      "index": 197,
+      "name": "Allen_middle_frontal_gyrus_R",
+      "vertex_start": 229025,
+      "vertex_count": 6733,
+      "triangle_start": 464737,
+      "triangle_count": 13462,
+      "region_type": "cortex"
+    },
+    {
+      "index": 198,
+      "name": "Allen_inferior_frontal_gyrus_triangular_part_R",
+      "vertex_start": 235758,
+      "vertex_count": 2550,
+      "triangle_start": 478199,
+      "triangle_count": 5096,
+      "region_type": "cortex"
+    },
+    {
+      "index": 199,
+      "name": "Allen_inferior_frontal_gyrus_opercular_part_R",
+      "vertex_start": 238308,
+      "vertex_count": 1489,
+      "triangle_start": 483295,
+      "triangle_count": 2974,
+      "region_type": "cortex"
+    },
+    {
+      "index": 200,
+      "name": "Allen_gyrus_rectus_straight_gyrus_R",
+      "vertex_start": 239797,
+      "vertex_count": 935,
+      "triangle_start": 486269,
+      "triangle_count": 1866,
+      "region_type": "cortex"
+    },
+    {
+      "index": 201,
+      "name": "Allen_medial_orbital_gyrus_R",
+      "vertex_start": 240732,
+      "vertex_count": 1205,
+      "triangle_start": 488135,
+      "triangle_count": 2406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 202,
+      "name": "Allen_anterior_intermediate_orbital_gyrus_R",
+      "vertex_start": 241937,
+      "vertex_count": 583,
+      "triangle_start": 490541,
+      "triangle_count": 1162,
+      "region_type": "cortex"
+    },
+    {
+      "index": 203,
+      "name": "Allen_posterior_intermediate_orbital_gyrus_R",
+      "vertex_start": 242520,
+      "vertex_count": 971,
+      "triangle_start": 491703,
+      "triangle_count": 1938,
+      "region_type": "cortex"
+    },
+    {
+      "index": 204,
+      "name": "Allen_lateral_orbital_gyrus_R",
+      "vertex_start": 243491,
+      "vertex_count": 1495,
+      "triangle_start": 493641,
+      "triangle_count": 2986,
+      "region_type": "cortex"
+    },
+    {
+      "index": 205,
+      "name": "Allen_paracentral_lobule_rostral_part_R",
+      "vertex_start": 244986,
+      "vertex_count": 1543,
+      "triangle_start": 496627,
+      "triangle_count": 3082,
+      "region_type": "cortex"
+    },
+    {
+      "index": 206,
+      "name": "Allen_frontal_operculum_R",
+      "vertex_start": 246529,
+      "vertex_count": 667,
+      "triangle_start": 499709,
+      "triangle_count": 1330,
+      "region_type": "cortex"
+    },
+    {
+      "index": 207,
+      "name": "Allen_postcentral_gyrus_R",
+      "vertex_start": 247196,
+      "vertex_count": 4544,
+      "triangle_start": 501039,
+      "triangle_count": 9084,
+      "region_type": "cortex"
+    },
+    {
+      "index": 208,
+      "name": "Allen_supraparietal_lobule_R",
+      "vertex_start": 251740,
+      "vertex_count": 4637,
+      "triangle_start": 510123,
+      "triangle_count": 9278,
+      "region_type": "cortex"
+    },
+    {
+      "index": 209,
+      "name": "Allen_supramarginal_gyrus_R",
+      "vertex_start": 256377,
+      "vertex_count": 2369,
+      "triangle_start": 519401,
+      "triangle_count": 4734,
+      "region_type": "cortex"
+    },
+    {
+      "index": 210,
+      "name": "Allen_angular_gyrus_R",
+      "vertex_start": 258746,
+      "vertex_count": 3125,
+      "triangle_start": 524135,
+      "triangle_count": 6246,
+      "region_type": "cortex"
+    },
+    {
+      "index": 211,
+      "name": "Allen_precuneus_R",
+      "vertex_start": 261871,
+      "vertex_count": 4684,
+      "triangle_start": 530381,
+      "triangle_count": 9366,
+      "region_type": "cortex"
+    },
+    {
+      "index": 212,
+      "name": "Allen_paracentral_lobule_caudal_part_R",
+      "vertex_start": 266555,
+      "vertex_count": 1012,
+      "triangle_start": 539747,
+      "triangle_count": 2020,
+      "region_type": "cortex"
+    },
+    {
+      "index": 213,
+      "name": "Allen_superior_temporal_gyrus_R",
+      "vertex_start": 267567,
+      "vertex_count": 2100,
+      "triangle_start": 541767,
+      "triangle_count": 4198,
+      "region_type": "cortex"
+    },
+    {
+      "index": 214,
+      "name": "Allen_middle_temporal_gyrus_R",
+      "vertex_start": 269667,
+      "vertex_count": 5158,
+      "triangle_start": 545965,
+      "triangle_count": 10316,
+      "region_type": "cortex"
+    },
+    {
+      "index": 215,
+      "name": "Allen_inferior_temporal_gyrus_R",
+      "vertex_start": 274825,
+      "vertex_count": 3530,
+      "triangle_start": 556281,
+      "triangle_count": 7058,
+      "region_type": "cortex"
+    },
+    {
+      "index": 216,
+      "name": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_R",
+      "vertex_start": 278355,
+      "vertex_count": 2294,
+      "triangle_start": 563339,
+      "triangle_count": 4584,
+      "region_type": "cortex"
+    },
+    {
+      "index": 217,
+      "name": "Allen_transverse_temporal_gyrus_Heschls_gyrus_R",
+      "vertex_start": 280649,
+      "vertex_count": 719,
+      "triangle_start": 567923,
+      "triangle_count": 1434,
+      "region_type": "cortex"
+    },
+    {
+      "index": 218,
+      "name": "Allen_planum_temporale_R",
+      "vertex_start": 281368,
+      "vertex_count": 825,
+      "triangle_start": 569357,
+      "triangle_count": 1646,
+      "region_type": "cortex"
+    },
+    {
+      "index": 219,
+      "name": "Allen_temporal_pole_R",
+      "vertex_start": 282193,
+      "vertex_count": 1287,
+      "triangle_start": 571003,
+      "triangle_count": 2570,
+      "region_type": "cortex"
+    },
+    {
+      "index": 220,
+      "name": "Allen_planum_polare_R",
+      "vertex_start": 283480,
+      "vertex_count": 1170,
+      "triangle_start": 573573,
+      "triangle_count": 2336,
+      "region_type": "cortex"
+    },
+    {
+      "index": 221,
+      "name": "Allen_occipital_pole_R",
+      "vertex_start": 284650,
+      "vertex_count": 759,
+      "triangle_start": 575909,
+      "triangle_count": 1520,
+      "region_type": "cortex"
+    },
+    {
+      "index": 222,
+      "name": "Allen_cuneus_R",
+      "vertex_start": 285409,
+      "vertex_count": 3013,
+      "triangle_start": 577429,
+      "triangle_count": 6032,
+      "region_type": "cortex"
+    },
+    {
+      "index": 223,
+      "name": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_R",
+      "vertex_start": 288422,
+      "vertex_count": 3705,
+      "triangle_start": 583461,
+      "triangle_count": 7406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 224,
+      "name": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_R",
+      "vertex_start": 292127,
+      "vertex_count": 956,
+      "triangle_start": 590867,
+      "triangle_count": 1908,
+      "region_type": "cortex"
+    },
+    {
+      "index": 225,
+      "name": "Allen_inferior_occipital_gyrus_R",
+      "vertex_start": 293083,
+      "vertex_count": 2314,
+      "triangle_start": 592775,
+      "triangle_count": 4628,
+      "region_type": "cortex"
+    },
+    {
+      "index": 226,
+      "name": "Allen_superior_occipital_gyrus_R",
+      "vertex_start": 295397,
+      "vertex_count": 3008,
+      "triangle_start": 597403,
+      "triangle_count": 6032,
+      "region_type": "cortex"
+    },
+    {
+      "index": 227,
+      "name": "Allen_cingulate_gyrus_rostral_anterior_part_R",
+      "vertex_start": 298405,
+      "vertex_count": 1756,
+      "triangle_start": 603435,
+      "triangle_count": 3508,
+      "region_type": "cortex"
+    },
+    {
+      "index": 228,
+      "name": "Allen_cingulate_gyrus_caudal_posterior_part_R",
+      "vertex_start": 300161,
+      "vertex_count": 2143,
+      "triangle_start": 606943,
+      "triangle_count": 4316,
+      "region_type": "cortex"
+    },
+    {
+      "index": 229,
+      "name": "Allen_ingulo_parahippocampal_isthmus_R",
+      "vertex_start": 302304,
+      "vertex_count": 125,
+      "triangle_start": 611259,
+      "triangle_count": 246,
+      "region_type": "cortex"
+    },
+    {
+      "index": 230,
+      "name": "Allen_subcallosal_gyrus_parolfactory_gyrus_R",
+      "vertex_start": 302429,
+      "vertex_count": 205,
+      "triangle_start": 611505,
+      "triangle_count": 406,
+      "region_type": "cortex"
+    },
+    {
+      "index": 231,
+      "name": "Allen_anterior_parahippocampal_gyrus_R",
+      "vertex_start": 302634,
+      "vertex_count": 673,
+      "triangle_start": 611911,
+      "triangle_count": 1342,
+      "region_type": "cortex"
+    },
+    {
+      "index": 232,
+      "name": "Allen_posterior_parahippocampal_gyrus_R",
+      "vertex_start": 303307,
+      "vertex_count": 557,
+      "triangle_start": 613253,
+      "triangle_count": 1110,
+      "region_type": "cortex"
+    },
+    {
+      "index": 233,
+      "name": "Allen_gyrus_ambiens_R",
+      "vertex_start": 303864,
+      "vertex_count": 92,
+      "triangle_start": 614363,
+      "triangle_count": 180,
+      "region_type": "cortex"
+    },
+    {
+      "index": 234,
+      "name": "Allen_long_insular_gyri_R",
+      "vertex_start": 303956,
+      "vertex_count": 611,
+      "triangle_start": 614543,
+      "triangle_count": 1218,
+      "region_type": "cortex"
+    },
+    {
+      "index": 235,
+      "name": "Allen_short_insular_gyri_R",
+      "vertex_start": 304567,
+      "vertex_count": 742,
+      "triangle_start": 615761,
+      "triangle_count": 1480,
+      "region_type": "cortex"
+    },
+    {
+      "index": 236,
+      "name": "Allen_limen_insula_R",
+      "vertex_start": 305309,
+      "vertex_count": 34,
+      "triangle_start": 617241,
+      "triangle_count": 64,
+      "region_type": "cortex"
+    },
+    {
+      "index": 237,
+      "name": "Allen_pretectal_region_R",
+      "vertex_start": 305343,
+      "vertex_count": 30,
+      "triangle_start": 617305,
+      "triangle_count": 56,
+      "region_type": "other"
+    },
+    {
+      "index": 238,
+      "name": "Allen_red_nucleus_R",
+      "vertex_start": 305373,
+      "vertex_count": 52,
+      "triangle_start": 617361,
+      "triangle_count": 100,
+      "region_type": "other"
+    },
+    {
+      "index": 239,
+      "name": "Allen_substantia_nigra_R",
+      "vertex_start": 305425,
+      "vertex_count": 61,
+      "triangle_start": 617461,
+      "triangle_count": 118,
+      "region_type": "other"
+    },
+    {
+      "index": 240,
+      "name": "Allen_superior_colliculus_R",
+      "vertex_start": 305486,
+      "vertex_count": 38,
+      "triangle_start": 617579,
+      "triangle_count": 72,
+      "region_type": "other"
+    },
+    {
+      "index": 241,
+      "name": "Allen_inferior_colliculus_R",
+      "vertex_start": 305524,
+      "vertex_count": 86,
+      "triangle_start": 617651,
+      "triangle_count": 168,
+      "region_type": "other"
+    },
+    {
+      "index": 242,
+      "name": "Allen_cerebral_peduncle_crus_cerebri_R",
+      "vertex_start": 305610,
+      "vertex_count": 233,
+      "triangle_start": 617819,
+      "triangle_count": 462,
+      "region_type": "tract"
+    },
+    {
+      "index": 243,
+      "name": "Allen_superior_cerebellar_peduncle_brachium_conjunctivum_R",
+      "vertex_start": 305843,
+      "vertex_count": 131,
+      "triangle_start": 618281,
+      "triangle_count": 258,
+      "region_type": "tract"
+    },
+    {
+      "index": 244,
+      "name": "Allen_cerebral_aqueduct_R",
+      "vertex_start": 305974,
+      "vertex_count": 40,
+      "triangle_start": 618539,
+      "triangle_count": 76,
+      "region_type": "cavity"
+    },
+    {
+      "index": 245,
+      "name": "Allen_paravermis_of_cerebellum_R",
+      "vertex_start": 306014,
+      "vertex_count": 1699,
+      "triangle_start": 618615,
+      "triangle_count": 3423,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 246,
+      "name": "Allen_lateral_hemisphere_of_cerebellum_R",
+      "vertex_start": 307713,
+      "vertex_count": 5953,
+      "triangle_start": 622038,
+      "triangle_count": 11928,
+      "region_type": "cerebellum"
+    },
+    {
+      "index": 247,
+      "name": "Allen_basilar_part_of_pons_R",
+      "vertex_start": 313666,
+      "vertex_count": 472,
+      "triangle_start": 633966,
+      "triangle_count": 940,
+      "region_type": "other"
+    },
+    {
+      "index": 248,
+      "name": "Allen_pontine_tegmentum_R",
+      "vertex_start": 314138,
+      "vertex_count": 266,
+      "triangle_start": 634906,
+      "triangle_count": 528,
+      "region_type": "other"
+    },
+    {
+      "index": 249,
+      "name": "Allen_pyramidal_part_of_medulla_oblongata_R",
+      "vertex_start": 314404,
+      "vertex_count": 60,
+      "triangle_start": 635434,
+      "triangle_count": 116,
+      "region_type": "other"
+    },
+    {
+      "index": 250,
+      "name": "Allen_tegmentum_of_medulla_oblongata_R",
+      "vertex_start": 314464,
+      "vertex_count": 318,
+      "triangle_start": 635550,
+      "triangle_count": 632,
+      "region_type": "other"
+    },
+    {
+      "index": 251,
+      "name": "Allen_inferior_olive_R",
+      "vertex_start": 314782,
+      "vertex_count": 64,
+      "triangle_start": 636182,
+      "triangle_count": 124,
+      "region_type": "other"
+    },
+    {
+      "index": 252,
+      "name": "Allen_inferior_cerebellar_peduncle_R",
+      "vertex_start": 314846,
+      "vertex_count": 58,
+      "triangle_start": 636306,
+      "triangle_count": 112,
+      "region_type": "tract"
+    },
+    {
+      "index": 253,
+      "name": "Allen_middle_cerebellar_peduncle_R",
+      "vertex_start": 314904,
+      "vertex_count": 168,
+      "triangle_start": 636418,
+      "triangle_count": 332,
+      "region_type": "tract"
+    },
+    {
+      "index": 254,
+      "name": "Allen_fourth_ventricle_R",
+      "vertex_start": 315072,
+      "vertex_count": 215,
+      "triangle_start": 636750,
+      "triangle_count": 426,
+      "region_type": "cavity"
+    },
+    {
+      "index": 255,
+      "name": "Allen_central_canal_of_medulla_oblongata_R",
+      "vertex_start": 315287,
+      "vertex_count": 8,
+      "triangle_start": 637176,
+      "triangle_count": 12,
+      "region_type": "cavity"
+    },
+    {
+      "index": 256,
+      "name": "Allen_midline_nuclear_complex_R",
+      "vertex_start": 315295,
+      "vertex_count": 126,
+      "triangle_start": 637188,
+      "triangle_count": 248,
+      "region_type": "other"
+    },
+    {
+      "index": 257,
+      "name": "Allen_lateral_olfactory_gyrus_R",
+      "vertex_start": 315421,
+      "vertex_count": 67,
+      "triangle_start": 637436,
+      "triangle_count": 130,
+      "region_type": "cortex"
+    },
+    {
+      "index": 258,
+      "name": "Allen_parietal_operculum_R",
+      "vertex_start": 315488,
+      "vertex_count": 619,
+      "triangle_start": 637566,
+      "triangle_count": 1234,
+      "region_type": "cortex"
+    },
+    {
+      "index": 259,
+      "name": "Allen_optic_radiation_R",
+      "vertex_start": 316107,
+      "vertex_count": 44,
+      "triangle_start": 638800,
+      "triangle_count": 84,
+      "region_type": "tract"
+    },
+    {
+      "index": 260,
+      "name": "Allen_posteroventral_putamen_R",
+      "vertex_start": 316151,
+      "vertex_count": 1052,
+      "triangle_start": 638884,
+      "triangle_count": 2100,
+      "region_type": "other"
+    },
+    {
+      "index": 261,
+      "name": "Allen_atrium_of_lateral_ventricle_R",
+      "vertex_start": 317203,
+      "vertex_count": 313,
+      "triangle_start": 640984,
+      "triangle_count": 622,
+      "region_type": "cavity"
+    },
+    {
+      "index": 262,
+      "name": "Allen_paracingulate_gyrus_R",
+      "vertex_start": 317516,
+      "vertex_count": 414,
+      "triangle_start": 641606,
+      "triangle_count": 824,
+      "region_type": "cortex"
+    },
+    {
+      "index": 263,
+      "name": "Allen_rostral_gyrus_R",
+      "vertex_start": 317930,
+      "vertex_count": 582,
+      "triangle_start": 642430,
+      "triangle_count": 1160,
+      "region_type": "cortex"
+    },
+    {
+      "index": 264,
+      "name": "Allen_frontomarginal_gyrus_R",
+      "vertex_start": 318512,
+      "vertex_count": 544,
+      "triangle_start": 643590,
+      "triangle_count": 1084,
+      "region_type": "cortex"
+    },
+    {
+      "index": 265,
+      "name": "Allen_frontal_pole_R",
+      "vertex_start": 319056,
+      "vertex_count": 1060,
+      "triangle_start": 644674,
+      "triangle_count": 2116,
+      "region_type": "cortex"
+    },
+    {
+      "index": 266,
+      "name": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_R",
+      "vertex_start": 320116,
+      "vertex_count": 47,
+      "triangle_start": 646790,
+      "triangle_count": 90,
+      "region_type": "cortex"
+    },
+    {
+      "index": 267,
+      "name": "Allen_hypothalamus_L",
+      "vertex_start": 320163,
+      "vertex_count": 67,
+      "triangle_start": 646880,
+      "triangle_count": 150,
+      "region_type": "other"
+    },
+    {
+      "index": 268,
+      "name": "Allen_hypothalamus_R",
+      "vertex_start": 320230,
+      "vertex_count": 67,
+      "triangle_start": 647030,
+      "triangle_count": 150,
+      "region_type": "other"
+    },
+    {
+      "index": 269,
+      "name": "Allen_subthalamic_nucleus_R",
+      "vertex_start": 320297,
+      "vertex_count": 104,
+      "triangle_start": 647180,
+      "triangle_count": 204,
+      "region_type": "other"
+    },
+    {
+      "index": 270,
+      "name": "Allen_mammillary_region_of_HTH_R",
+      "vertex_start": 320401,
+      "vertex_count": 233,
+      "triangle_start": 647384,
+      "triangle_count": 462,
+      "region_type": "other"
+    },
+    {
+      "index": 271,
+      "name": "Allen_midbrain_tegmentum_R",
+      "vertex_start": 320634,
+      "vertex_count": 358,
+      "triangle_start": 647846,
+      "triangle_count": 724,
+      "region_type": "other"
+    },
+    {
+      "index": 272,
+      "name": "Allen_tuberal_region_of_HTH_R",
+      "vertex_start": 320992,
+      "vertex_count": 321,
+      "triangle_start": 648570,
+      "triangle_count": 642,
+      "region_type": "other"
+    },
+    {
+      "index": 273,
+      "name": "Allen_preoptic_region_of_HTH_R",
+      "vertex_start": 321313,
+      "vertex_count": 113,
+      "triangle_start": 649212,
+      "triangle_count": 222,
+      "region_type": "other"
+    },
+    {
+      "index": 274,
+      "name": "Allen_midbrain_tegmentum_L",
+      "vertex_start": 321426,
+      "vertex_count": 358,
+      "triangle_start": 649434,
+      "triangle_count": 724,
+      "region_type": "other"
+    },
+    {
+      "index": 275,
+      "name": "Allen_red_nucleus_L",
+      "vertex_start": 321784,
+      "vertex_count": 52,
+      "triangle_start": 650158,
+      "triangle_count": 100,
+      "region_type": "other"
+    },
+    {
+      "index": 276,
+      "name": "Allen_inferior_colliculus_L",
+      "vertex_start": 321836,
+      "vertex_count": 86,
+      "triangle_start": 650258,
+      "triangle_count": 168,
+      "region_type": "other"
+    },
+    {
+      "index": 277,
+      "name": "Allen_mammillary_region_of_HTH_L",
+      "vertex_start": 321922,
+      "vertex_count": 233,
+      "triangle_start": 650426,
+      "triangle_count": 462,
+      "region_type": "other"
+    },
+    {
+      "index": 278,
+      "name": "Allen_subthalamic_nucleus_L",
+      "vertex_start": 322155,
+      "vertex_count": 104,
+      "triangle_start": 650888,
+      "triangle_count": 204,
+      "region_type": "other"
+    },
+    {
+      "index": 279,
+      "name": "Allen_head_of_hippocampus_R",
+      "vertex_start": 322259,
+      "vertex_count": 260,
+      "triangle_start": 651092,
+      "triangle_count": 516,
+      "region_type": "other"
+    },
+    {
+      "index": 280,
+      "name": "Allen_body_of_hippocampus_R",
+      "vertex_start": 322519,
+      "vertex_count": 217,
+      "triangle_start": 651608,
+      "triangle_count": 430,
+      "region_type": "other"
+    },
+    {
+      "index": 281,
+      "name": "Allen_tail_of_hippocampus_R",
+      "vertex_start": 322736,
+      "vertex_count": 264,
+      "triangle_start": 652038,
+      "triangle_count": 524,
+      "region_type": "other"
+    },
+    {
+      "index": 282,
+      "name": "VH_M_optic_chiasm",
+      "vertex_start": 323000,
+      "vertex_count": 1855,
+      "triangle_start": 652562,
+      "triangle_count": 3706,
+      "region_type": "tract"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>HQ500M R21 · Local Curved Fibers + Dense Neural Atlas</title>
+<title>HQ500M R22 · Depth-culled Neural Atlas</title>
 <meta name="theme-color" content="#101010">
 <meta name="description" content="Anatomy-stencilled procedural synthetic neuron viewer, with 283 named HRA regions, dynamic target neuron counts and GPU level-of-detail.">
 <style>
@@ -48,12 +48,12 @@ a{color:#ed9eb1}
 <canvas id="scene" aria-label="3D-anatomical procedural neural model"></canvas>
 <header id="heading">
 <h1>MIKOSHI <span>NEURAL ATLAS</span></h1>
-<p>R21 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
+<p>R22 · 283 HRA области как геометрический трафарет. Число нейронов виртуальное, точки на GPU создаются по требованию. Никакая исходная HRA-поверхность не рисуется.</p>
 <div id="status" role="status">Загрузка компактного трафарета…</div>
 </header>
 <aside id="panel">
 <h2>Procedural Neural Atlas</h2>
-<div id="readouts"><div>Виртуальные нейроны<strong id="virtualCount">—</strong></div><div>Показано точек<strong id="gpuCount">—</strong></div></div>
+<div id="readouts"><div>Виртуальные нейроны<strong id="virtualCount">—</strong></div><div>GPU-кандидаты<strong id="gpuCount">—</strong></div></div>
 <span class="mini">Количество нейронов во всём мозге</span>
 <div class="row"><button id="preset500" class="main">500 млн</button><button id="preset86">8,6 млрд</button><button id="preset861">86,1 млрд</button></div>
 <input id="target" inputmode="numeric" type="number" value="500000000" step="1000000" min="1000" max="1000000000000" aria-label="Точное количество виртуальных нейронов" style="margin-top:7px">
@@ -69,6 +69,12 @@ a{color:#ed9eb1}
 <div id="areaInfo" style="margin-top:5px">Внутренние точки скрыты до выбора области.</div>
 <span class="mini">Остальные области</span>
 <select id="background"><option value="dim" selected>Приглушить наружные области</option><option value="hide">Полностью скрыть</option><option value="all">Показывать наружные области</option></select>
+<label class="mini" style="margin-top:10px">
+<input id="occludeBack" type="checkbox" checked style="width:auto;min-height:0;accent-color:#e00018;margin-right:7px">
+Не отображать закрытые нейроны и связи
+</label>
+<div id="occlusionStatus" style="font-size:10px;line-height:1.4;color:#c9b0bb;margin-top:4px">Глубина анатомического шаблона HRA</div>
+<p class="note">Невидимая геометрия служит только маской глубины: задние точки и пересекающие мозг связи отсекаются на GPU. В режиме выбранного нейрона, области или тракта маска автоматически снимается.</p>
 <span class="mini">Локальные схематические волокна</span>
 <div class="row"><button id="linkOff" aria-pressed="true">Без связей</button><button id="linkOn" aria-pressed="false">Локальные связи</button></div>
 <h3>Neural Path Explorer · ID граф</h3>
@@ -99,6 +105,6 @@ a{color:#ed9eb1}
 </aside>
 <button id="togglePanel">Управление мозгом</button>
 <div id="copyright">HRA/Allen v1.3 · CC BY 4.0 · 110 404 V5 пространственных шаблонов и 78 091 точка анатомических поверхностей · синтетический процедурный граф, не измеренный коннектом</div>
-<script src="./procedural_r21.js" defer></script>
+<script src="./procedural_r22.js" defer></script>
 </body>
 </html>

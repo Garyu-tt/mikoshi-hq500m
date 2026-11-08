@@ -15,6 +15,31 @@ The interactive R14 viewer uses **all 1,192,673 original point-cloud positions**
 
 <!-- HQ500M_README_HERO_END -->
 
+## R22: only camera-visible neuron and fiber proxies
+
+[Open the R22 front-surface neural atlas](https://garyu-tt.github.io/mikoshi-hq500m/procedural/).
+
+The browser uses the source HRA/Allen 283-region triangle geometry as
+a compact anatomical sampling stencil instead of repeatedly plotting
+a small collection of point anchors. 656,268 original HRA triangles
+provide dynamically generated display positions. Deeply occluded
+triangles are filtered against the current camera BEFORE generation;
+a non-colored WebGL2 HRA depth pass hides remaining obscured neuron
+and synthetic fiber fragments.
+
+A checkbox toggles occlusion. Selecting a single region, neuron-ID
+path or tract disables whole-brain occlusion for detailed inspection.
+The atlas surface mesh itself is not displayed. Original IDs, synthetic
+graph edges and logical neuron quotas are unchanged.
+
+This is view-dependent *procedural display sampling*, NOT a measured
+86-billion-neuron connectome, reconstructed axons or actual synapses.
+
+[Algorithm, source provenance and limits](docs/R22_VISIBLE_SURFACE_CULLING.md) ·
+[R22 dense front-side preview](docs/images/r22_occluded_dense.png).
+
+
+
 
 ## R21 — Smoother dense brain, no straight-through synthetic fiber web
 

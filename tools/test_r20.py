@@ -14,7 +14,7 @@ def main():
  assert sha(A/'hq500m_exact_fibers_r11.bin.gz')==r11['edge_geometry']['sha256']
  assert len(gzip.decompress((A/'hra_procedural_stencil_r18.bin.gz').read_bytes()))==16+188495*8
  html=(P/'docs/procedural/index.html').read_text()
- assert any(x in html for x in ('procedural_r20.js','procedural_r21.js')) and 'procedural_r19.js' not in html
+ assert any(x in html for x in ('procedural_r20.js','procedural_r21.js','procedural_r22.js')) and 'procedural_r19.js' not in html
  for token in ('id="lodMode"','id="lod"','value="800000"','max="1100000"','id="neuronRunR19"'):
   assert token in html,token
  js=(P/'docs/procedural/procedural_r20.js').read_text()
@@ -25,6 +25,6 @@ def main():
  assert 220000==round(220000*(500000000/500000000)**.22)
  assert 682889==round(220000*(86100000000/500000000)**.22)
  assert (P/'docs/images/r20_dense_861b.png').exists()
- assert any(x in (P/'docs/index.html').read_text() for x in ('R20 · Плотный нейронный мозг','R21 · Локальные нервные связи'))
+ assert any(x in (P/'docs/index.html').read_text() for x in ('R20 · Плотный нейронный мозг','R21 · Локальные нервные связи','R22 · Только видимые нейроны'))
  print('PASS R20: automatic 500M=220000 and 86.1B=682889 points, 1.1M desktop/manual and 120k mobile caps, original HRA/R11/R13 unmodified')
 if __name__=='__main__':main()
