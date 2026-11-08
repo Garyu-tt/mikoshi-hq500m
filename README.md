@@ -1,5 +1,28 @@
 # Mikoshi HQ500M — CPU Playground
 
+## Fusion R03 — faster exact-C5 paging and measured intrinsic activity
+
+**Optional CPU mode, no CUDA requirement.** Fusion R03 reduces repeated
+source-edge calculation and page churn while preserving exact C5 source
+and target IDs, signed weights and previous checkpoint semantics. In a
+repeatable 3-trial 2-tick CPU comparison, the event-handling path ran
+1.43x to 2.16x faster than R02 depending on the workload. A 24-tick
+test starting with 512 directly stimulated cells observed 83-125
+**additional** cells fire via original C5 wiring, with no artificial
+broadcast; each tested cascade then died out after about three ticks.
+This is real propagation, not sustained self-organization or cognition.
+
+~~~sh
+python3 -m hq500m demo --engine paged --max-pages 1024 --ticks 4
+python3 benchmarks/fusion_r03_bench.py --sources 1024 4096 8192 --trials 3
+python3 -m unittest discover -s tests -v
+~~~
+
+[Full Fusion R03 technical notes, performance comparisons and
+limitations](docs/FUSION_R03.md). All 24 local tests passed; the
+default legacy engine remains unchanged. 500M neurons still denote
+**virtual address capacity**, not 500M simultaneously simulated neurons.
+
 ## Fusion R02 — exact-address dynamic CPU neuron paging
 
 A second optional mode, **paged**, now delivers original 24 local and 8
